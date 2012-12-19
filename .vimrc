@@ -64,3 +64,7 @@ else
 
 endif " has("autocmd")
 
+if filereadable(expand('~/.vimrc.local'))
+	source ~/.vimrc.local
+endif
+
