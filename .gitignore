@@ -1,0 +1,14 @@
+# ignore all files
+/*
+# ignore all dot files
+/.*
+
+# DO NOT IGNORE ITEMS
+!/.bash_profile
+!/.bashrc
+!/.vimrc
+!/.vim
+!/.gitignore
+!/.gitconfig
+!/.gitmodules
+
