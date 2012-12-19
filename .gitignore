@@ -7,6 +7,7 @@
 !/.bash_profile
 !/.bashrc
 !/.vimrc
+!/.gvimrc
 !/.vim
 !/.gitignore
 !/.gitconfig
