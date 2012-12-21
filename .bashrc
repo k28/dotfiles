@@ -7,6 +7,8 @@ alias ctags='ctags -f .tags'
 
 export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 
+export LSCOLORS=gxfxcxdxbxegedabagacad
+
 source ~/.git-completion.bash
 
 
