@@ -1,3 +1,7 @@
+" Use Vim settings, rather than Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
 set tabstop=4
 set shiftwidth=4
 set backupdir=/tmp
@@ -29,10 +33,6 @@ vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><C
 
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=';;'
-
-" Use Vim settings, rather than Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
