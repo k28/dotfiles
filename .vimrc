@@ -22,14 +22,29 @@ set ignorecase
 set smartcase
 set hlsearch
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
+" search visual mode words
+vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
 
 " yunk replace word
 nnoremap <silent> ciy ciw<C-r>0<ESC>
 nnoremap <silent> cy   ce<C-r>0<ESC>
 vnoremap <silent> cy   c<C-r>0<ESC>
 
-" search visual mode words
-vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
+" command line emacs key maps
+:cnoremap <C-a> <Home>
+:cnoremap <C-e> <End>
+:cnoremap <C-f> <Right>
+:cnoremap <C-b> <Left>
+:cnoremap <C-w> <S-Right>
+:cnoremap <C-b> <S-Left>
+:cnoremap <C-d> <Del>
+
+" visual mode
+" <, > indent
+vnoremap < <bv
+vnoremap > >bv
+" yank 1line without new line.
+vnoremap v $h
 
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=';;'
@@ -63,6 +78,12 @@ else
   set autoindent		" always set autoindenting on
 
 endif " has("autocmd")
+
+" load plugins
+if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
+	source $VIMRUNTIME/macros/matchit.vim
+	:let b:match_words = "if:endif"
+endif
 
 if filereadable(expand('~/.vimrc.local'))
 	source ~/.vimrc.local
