@@ -13,3 +13,5 @@
 !/.gitconfig
 !/.gitmodules
 
+/.vim/.netrwhist
+

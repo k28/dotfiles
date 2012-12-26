@@ -7,7 +7,7 @@ set shiftwidth=4
 set backupdir=/tmp
 
 set laststatus=2
-set statusline=%F%r%h%=
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
 
 set number
 set wildmenu wildmode=list:full
@@ -48,6 +48,9 @@ vnoremap v $h
 
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=';;'
+
+" clip board
+set clipboard=unnamed
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
