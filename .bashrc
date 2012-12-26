@@ -12,4 +12,7 @@ export LSCOLORS=gxfxcxdxbxegedabagacad
 
 source ~/.git-completion.bash
 
+if [ -f ~/.bashrc.local ]; then
+	source ~/.bashrc.local
+fi
 

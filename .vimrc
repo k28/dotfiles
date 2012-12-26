@@ -49,9 +49,6 @@ vnoremap v $h
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=';;'
 
-" clip board
-set clipboard=unnamed
-
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set history=50		" keep 50 lines of command line history
