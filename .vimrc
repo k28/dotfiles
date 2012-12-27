@@ -12,7 +12,7 @@ set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V
 set number
 set wildmenu wildmode=list:full
 
-set tags=.tags;
+set tags+=.tags;
 
 " syntax highlite
 syntax on
@@ -78,6 +78,9 @@ else
   set autoindent		" always set autoindenting on
 
 endif " has("autocmd")
+
+" file types
+au BufRead,BufNewFile *.mm	set filetype=objc
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))

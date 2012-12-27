@@ -50,7 +50,7 @@ if exists('*s:AlternateFile') | finish | endif
 " Switch from header file to implementation file (and vice versa).
 fun s:AlternateFile()
 	let path = expand('%:p:r').'.'
-	let extensions = expand('%:e') == 'h' ? ['m', 'c', 'cpp'] : ['h']
+	let extensions = expand('%:e') == 'h' ? ['m', 'mm', 'c', 'cpp'] : ['h']
 	if !s:ReadableExtensionIn(path, extensions)
 		  echoh ErrorMsg | echo 'Alternate file not readable.' | echoh None
 	endif
