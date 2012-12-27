@@ -82,6 +82,15 @@ endif " has("autocmd")
 " file types
 au BufRead,BufNewFile *.mm	set filetype=objc
 
+" Vundle Settings
+"filetype off
+"set rtp+=~/.vim/bundle/vundle
+"call vundle#rc()
+"
+" Vundle managed plugins
+"Bundle 'gmarik/vundle'
+"Bundle 'Shougo/unite.vim'
+
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
 	source $VIMRUNTIME/macros/matchit.vim
