@@ -14,4 +14,5 @@
 !/.gitmodules
 
 /.vim/.netrwhist
+/.vim/bundle
 
