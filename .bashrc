@@ -10,7 +10,9 @@ export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
-source ~/.git-completion.bash
+if [ -f ~/.git-completion.bash ]; then
+	source ~/.git-completion.bash
+fi
 
 if [ -f ~/.bashrc.local ]; then
 	source ~/.bashrc.local

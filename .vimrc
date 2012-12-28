@@ -12,10 +12,7 @@ set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V
 set number
 set wildmenu wildmode=list:full
 
-set tags=.tags;
-
-" syntax highlite
-syntax on
+set tags+=.tags;
 
 " search
 set ignorecase
@@ -78,6 +75,21 @@ else
   set autoindent		" always set autoindenting on
 
 endif " has("autocmd")
+
+" file types
+au BufRead,BufNewFile *.mm	set filetype=objc
+
+" Vundle Settings
+filetype off
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+
+" Vundle managed plugins
+Bundle 'gmarik/vundle'
+Bundle 'Shougo/unite.vim'
+
+" syntax highlite
+syntax on
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
