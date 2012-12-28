@@ -14,9 +14,6 @@ set wildmenu wildmode=list:full
 
 set tags+=.tags;
 
-" syntax highlite
-syntax on
-
 " search
 set ignorecase
 set smartcase
@@ -90,6 +87,9 @@ call vundle#rc()
 " Vundle managed plugins
 Bundle 'gmarik/vundle'
 Bundle 'Shougo/unite.vim'
+
+" syntax highlite
+syntax on
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
