@@ -10,7 +10,7 @@
 !/.gvimrc
 !/.vim
 !/.gitignore
-!/.gitconfig
+/.gitconfig
 !/.gitmodules
 
 /.vim/.netrwhist
