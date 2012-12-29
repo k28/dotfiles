@@ -79,7 +79,7 @@ endif " has("autocmd")
 " file types
 au BufRead,BufNewFile *.mm	set filetype=objc
 
-" Vundle Settings
+" Vundle Settings -------------
 filetype off
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
@@ -87,9 +87,30 @@ call vundle#rc()
 " Vundle managed plugins
 Bundle 'gmarik/vundle'
 Bundle 'Shougo/unite.vim'
+Bundle 'thinca/vim-quickrun'
+Bundle 'msanders/snipmate.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'tyru/DumbBuf.vim'
+Bundle 'vim-scripts/sh.vim'
+Bundle 'tpope/vim-surround'
+Bundle 'a.vim'
+Bundle 'cocoa.vim'
+
+" github
+"Bundle 'name/foo.vim'
+" www.vim.org
+"Bundle 'bar.vim'
+
+filetype plugin indent on
+" ----- Vundle Settings End -----
 
 " syntax highlite
 syntax on
+
+" a.vim addition
+let g:alternateExtensions_h = "c,cpp,cxx,cc,CC,m,mm"
+let g:alternateExtensions_m = "h"
+let g:alternateExtensions_mm = "h,hpp"
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
