@@ -19,6 +19,7 @@ set ignorecase
 set smartcase
 set hlsearch
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
+
 " search visual mode words
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
 
@@ -95,11 +96,8 @@ Bundle 'vim-scripts/sh.vim'
 Bundle 'tpope/vim-surround'
 Bundle 'a.vim'
 Bundle 'cocoa.vim'
-
-" github
-"Bundle 'name/foo.vim'
-" www.vim.org
-"Bundle 'bar.vim'
+" github Bundle 'name/foo.vim'
+" www.vim.org Bundle 'bar.vim'
 
 filetype plugin indent on
 " ----- Vundle Settings End -----
