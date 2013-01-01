@@ -34,7 +34,7 @@ vnoremap <silent> cy   c<C-r>0<ESC>
 :cnoremap <C-f> <Right>
 :cnoremap <C-b> <Left>
 :cnoremap <C-w> <S-Right>
-:cnoremap <C-b> <S-Left>
+":cnoremap <C-b> <S-Left>
 :cnoremap <C-d> <Del>
 
 " visual mode
@@ -119,4 +119,16 @@ endif
 if filereadable(expand('~/.vimrc.local'))
 	source ~/.vimrc.local
 endif
+
+" TOhtml options
+let html_no_pre = 1
+let html_use_css = 1
+let html_number_lines = 0
+command! -nargs=0 Ehtml call <SID>Ehtml()
+function! s:Ehtml()
+	let a:myscheme = g:colors_name
+	colorscheme default
+	TOhtml
+	execute "colorscheme " . a:myscheme
+endfunction "Ehtml()
 
