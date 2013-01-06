@@ -110,6 +110,11 @@ let g:alternateExtensions_h = "c,cpp,cxx,cc,CC,m,mm"
 let g:alternateExtensions_m = "h"
 let g:alternateExtensions_mm = "h,hpp"
 
+" vim-quickrun option
+let g:quickrun_config={'*': {'split': ''}}
+set splitbelow
+set splitright
+
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
 	source $VIMRUNTIME/macros/matchit.vim
