@@ -112,7 +112,6 @@ let g:alternateExtensions_mm = "h,hpp"
 
 " vim-quickrun option
 let g:quickrun_config={'*': {'split': ''}}
-set splitbelow
 set splitright
 
 " load plugins
