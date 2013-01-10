@@ -44,9 +44,6 @@ vnoremap > >bv
 " yank 1line without new line.
 vnoremap v $h
 
-" for Dumbbuf plugin
-let g:dumbbuf_hotkey=';;'
-
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set history=50		" keep 50 lines of command line history
@@ -113,6 +110,12 @@ let g:alternateExtensions_mm = "h,hpp"
 " vim-quickrun option
 let g:quickrun_config={'*': {'split': ''}}
 set splitright
+
+" unite.vim settings
+noremap ;; :Unite buffer<CR>
+
+" for Dumbbuf plugin
+let g:dumbbuf_hotkey=''
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
