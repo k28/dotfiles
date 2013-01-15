@@ -114,6 +114,24 @@ set splitright
 " unite.vim settings
 noremap ;; :Unite buffer<CR>
 
+"let s:unite_source = {
+"			\	'name': 'ListMethods',
+"			\}
+"function! s:unite_source.gather_candidatets(args, context)
+"	let path=expand('#:p')
+"	let lines=getbufline('#', 1, '$')
+"	let format='%' . strlen(len(lines)) . 'd:%s'
+"	return map(lines, '{
+"				\ "word": printf(format, v:key + 1, v:val),
+"				\ "source": "lines",
+"				\ "kind": "jump_list",
+"				\ "action__path": path,
+"				\ "action__line": v:key + 1,
+"				\}')
+"endfunction
+"call unite#define_source(s:unite_source)
+"unlet s:unite_source
+
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=''
 
