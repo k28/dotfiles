@@ -86,7 +86,7 @@ endif " has("autocmd")
 au BufRead,BufNewFile *.mm	set filetype=objc
 
 " reload this file
-command ReloadVimrc source $MYVIMRC
+command! ReloadVimrc source $MYVIMRC
 
 " Vundle Settings -------------
 filetype off
