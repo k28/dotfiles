@@ -14,11 +14,19 @@ set wildmenu wildmode=list:full
 
 set tags+=.tags;
 
+" register / marks
+nnoremap <Space>m :<C-u>marks<CR>
+nnoremap <Space>r :<C-u>registers<CR>
+
 " search
 set ignorecase
 set smartcase
 set hlsearch
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
+cnoremap <expr> /
+			\getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> ?
+			\getcmdtype() == '/' ? '\?' : '?'
 
 " search visual mode words
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
@@ -76,6 +84,9 @@ endif " has("autocmd")
 
 " file types
 au BufRead,BufNewFile *.mm	set filetype=objc
+
+" reload this file
+command ReloadVimrc source $MYVIMRC
 
 " Vundle Settings -------------
 filetype off
