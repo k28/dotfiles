@@ -169,3 +169,15 @@ function! s:Ehtml()
 	execute "colorscheme " . a:myscheme
 endfunction "Ehtml()
 
+" Insert Current Data to Last of line
+command! -nargs=0 InsertCurrentDate call <SID>InsertCurrentDate()
+function! s:InsertCurrentDate()
+	execute ":normal A" . strftime("%Y.%m.%d")
+endfunction "InsertCurrentDate
+
+" Locad all current headers
+command! -nargs=0 LoadCurrentHeaders call <SID>LoadCurrentHeaders()
+function! s:LoadCurrentHeaders()
+	execute ":args ./**/*.h"
+endfunction "LoadCurrentHeaders
+
