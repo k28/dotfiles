@@ -11,6 +11,7 @@
 !/.vim
 !/.gitignore
 !/.gitmodules
+!/Makefile
 
 /.vim/.netrwhist
 /.vim/bundle
