@@ -18,5 +18,5 @@ link-dot-file-%: %
 
 unlink-dot-file-%: %
 	@echo "Remove Symlink $(HOME)/$<"
-	@$(RM) $(HOME)/$<
+	@$(RM) -fr $(HOME)/$<
 
