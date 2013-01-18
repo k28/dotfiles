@@ -169,11 +169,20 @@ function! s:Ehtml()
 	execute "colorscheme " . a:myscheme
 endfunction "Ehtml()
 
-" Insert Current Data to Last of line
+" Insert Current Date to Last of line
 command! -nargs=0 InsertCurrentDate call <SID>InsertCurrentDate()
 function! s:InsertCurrentDate()
 	execute ":normal A" . strftime("%Y.%m.%d")
 endfunction "InsertCurrentDate
+
+" Update Current line date to current date
+command! -nargs=0 UpdateCurrentDate call <SID>UpdateCurrentDate()
+function! s:UpdateCurrentDate()
+	let line=getline('.')
+	let newDate=strftime("%Y\\.%m\\.%d")
+	let line = substitute(line, "[0-9][0-9][0-9][0-9]\.[0-9][0-9]\.[0-9][0-9]", newDate, "")
+	call setline('.', line)
+endfunction! "UpdateCurrentDate
 
 " Locad all current headers
 command! -nargs=0 LoadCurrentHeaders call <SID>LoadCurrentHeaders()
