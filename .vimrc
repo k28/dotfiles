@@ -14,6 +14,15 @@ set wildmenu wildmode=list:full
 
 set tags+=.tags;
 
+" Show ZENKAKU
+scriptencoding utf-8
+
+augroup highlightIdegraphicSpace
+	autocmd!
+	autocmd Colorscheme * highlight IdeographicSpace cterm=underline ctermfg=red gui=underline guifg=red
+	autocmd VimEnter,WinEnter,Syntax * match IdeographicSpace /　/
+augroup END
+
 " register / marks
 nnoremap <Space>m :<C-u>marks<CR>
 nnoremap <Space>r :<C-u>registers<CR>
