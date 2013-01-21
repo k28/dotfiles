@@ -3,6 +3,8 @@ DOT_FILES = .bashrc .gvimrc .vim .vimrc
 
 all: bash vim gvim
 
+vimonly: vim gvim
+
 bash: $(foreach f, $(filter .bash%, $(DOT_FILES)), link-dot-file-$(f))
 
 vim: $(foreach f, $(filter .vim%, $(DOT_FILES)), link-dot-file-$(f))
