@@ -100,7 +100,7 @@ command! ReloadVimrc source $MYVIMRC
 " Vundle Settings -------------
 filetype off
 if has("win32") || has("win64")
-	set rtp+=~/vimfiles/vundle.git/
+	set rtp+=~/vimfiles/bundle/vundle.git/
 	call vundle#rc('~/vimfiles/bundle/')
 else
 	set rtp+=~/.vim/bundle/vundle
