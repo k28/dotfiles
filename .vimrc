@@ -99,8 +99,13 @@ command! ReloadVimrc source $MYVIMRC
 
 " Vundle Settings -------------
 filetype off
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+if has("win32") || has("win64")
+	set rtp+=~/vimfiles/vundle.git/
+	call vundle#rc('~/vimfiles/bundle/')
+else
+	set rtp+=~/.vim/bundle/vundle
+	call vundle#rc()
+endif
 
 " Vundle managed plugins
 Bundle 'gmarik/vundle'
