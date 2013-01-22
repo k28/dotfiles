@@ -4,7 +4,11 @@ set nocompatible
 
 set tabstop=4
 set shiftwidth=4
-set backupdir=/tmp
+if has("win32") || has("win64")
+	set nobackup
+else
+	set backupdir=/tmp
+endif
 
 set laststatus=2
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']['.&filetype.']'}%=%l,%c%V%8P
@@ -100,7 +104,7 @@ command! ReloadVimrc source $MYVIMRC
 " Vundle Settings -------------
 filetype off
 if has("win32") || has("win64")
-	set rtp+=~/vimfiles/bundle/vundle.git/
+	set rtp+=~/vimfiles/bundle/vundle/
 	call vundle#rc('~/vimfiles/bundle/')
 else
 	set rtp+=~/.vim/bundle/vundle
