@@ -43,6 +43,7 @@ cnoremap <expr> ?
 
 " search visual mode words
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
+nnoremap <Space>f :SearchCurrentWord<CR>
 
 " yunk replace word
 nnoremap <silent> ciy ciw<C-r>0<ESC>
@@ -94,6 +95,10 @@ else
   set autoindent		" always set autoindenting on
 
 endif " has("autocmd")
+
+" show QuickFix automatically
+au QuickfixCmdPost make,grep,grepadd,vimgrep copen
+au QuickfixCmdPost l* lopen
 
 " file types
 au BufRead,BufNewFile *.mm	set filetype=objc
@@ -209,4 +214,17 @@ command! -nargs=0 LoadCurrentHeaders call <SID>LoadCurrentHeaders()
 function! s:LoadCurrentHeaders()
 	execute ":args ./**/*.h"
 endfunction "LoadCurrentHeaders
+
+" Search Current words
+command! -nargs=* SearchCurrentWord call <SID>SearchCurrentWord()
+function! s:SearchCurrentWord()
+	let wordUnderCursor = expand("<cword>")
+	if executable('ack')
+		execute ":Ack " . wordUnderCursor
+	elseif executable('grep')
+		execute ":grep -I " . wordUnderCursor "./**/*"
+	else
+		echo "command not support"
+	endif
+endfunction "SearchCurrentWord
 
