@@ -18,6 +18,9 @@ set wildmenu wildmode=list:full
 
 set tags+=.tags;
 
+" color scheme
+colorscheme desert
+
 " Show ZENKAKU
 scriptencoding utf-8
 
