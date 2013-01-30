@@ -225,7 +225,7 @@ function! s:SearchCurrentWord()
 	if executable('ack')
 		execute ":Ack " . wordUnderCursor
 	elseif executable('grep')
-		execute ":grep -I " . wordUnderCursor "./**/*"
+		execute ":grep -rI " . wordUnderCursor "./"
 	else
 		echo "command not support"
 	endif
