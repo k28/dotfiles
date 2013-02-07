@@ -105,7 +105,7 @@ command! ReloadVimrc source $MYVIMRC
 filetype off
 if has("win32") || has("win64")
 	set rtp+=~/vimfiles/bundle/vundle/
-	call vundle#rc('~/vimfiles/bundle/')
+	call vundle#rc('~/vimfiles/bundle')
 else
 	set rtp+=~/.vim/bundle/vundle
 	call vundle#rc()
