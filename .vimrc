@@ -18,6 +18,8 @@ set wildmenu wildmode=list:full
 
 set tags+=.tags;
 
+set autoread
+
 " color scheme
 colorscheme desert
 
