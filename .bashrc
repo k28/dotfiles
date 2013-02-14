@@ -10,6 +10,10 @@ alias cd..="cd .."
 alias cd...="cd ../../"
 alias cd.....="cd ../../../"
 alias cd.......="cd ../../../../"
+alias cd.........="cd ../../../../../"
+
+# spell check for cd command.
+shopt -s cdspell
 
 function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
