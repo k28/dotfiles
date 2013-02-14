@@ -5,6 +5,14 @@
 alias ls='ls -G'
 alias ctags='ctags -f .tags'
 
+# cd alias
+alias cd..="cd .."
+alias cd...="cd ../../"
+alias cd.....="cd ../../../"
+alias cd.......="cd ../../../../"
+
+function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
+
 # vi mode for command line
 set -o vi
 # emacs mode for command line
