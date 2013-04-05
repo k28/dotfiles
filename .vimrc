@@ -110,7 +110,7 @@ else
 endif " has("autocmd")
 
 " Do not show the new window when omunicompletion.
-set completeopt-=preview
+" set completeopt-=preview
 
 " show QuickFix automatically
 au QuickfixCmdPost make,grep,grepadd,vimgrep copen
