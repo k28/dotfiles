@@ -109,6 +109,9 @@ else
 
 endif " has("autocmd")
 
+" Do not show the new window when omunicompletion.
+set completeopt-=preview
+
 " show QuickFix automatically
 au QuickfixCmdPost make,grep,grepadd,vimgrep copen
 au QuickfixCmdPost l* lopen
@@ -143,6 +146,15 @@ Bundle 'thinca/vim-qfreplace'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'a.vim'
 Bundle 'cocoa.vim'
+Bundle 'taglist.vim'
+Bundle 'Shougo/neocomplcache.git'
+if has("unix")
+	let s:uname = system("uname")
+	if s:uname == "Darwin\n"
+		Bundle 'tokorom/clang_complete.git'
+		Bundle 'tokorom/clang_complete-getopts-ios.git'
+	endif
+endif
 " github Bundle 'name/foo.vim'
 " www.vim.org Bundle 'bar.vim'
 
@@ -184,6 +196,21 @@ noremap ;; :Unite buffer<CR>
 
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=''
+if !exists('g:neocomplcache_force_omni_patterns')
+	let g:neocomplcache_force_omni_patterns = {}
+endif
+let g:neocomplcache_force_overwrite_completefunc = 1
+let g:neocomplcache_force_omni_patterns.c =
+			\ '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_force_omni_patterns.cpp =
+			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplcache_force_omni_patterns.objc =
+			\ '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_force_omni_patterns.objcpp =
+			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
+let g:clang_complete_include_current_directory_recursively = 1
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
