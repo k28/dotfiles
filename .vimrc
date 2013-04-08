@@ -48,11 +48,13 @@ nnoremap <Space>r :<C-u>registers<CR>
 set ignorecase
 set smartcase
 set hlsearch
-nmap <Esc><Esc> :nohlsearch<CR><Esc>
 cnoremap <expr> /
 			\getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ?
 			\getcmdtype() == '/' ? '\?' : '?'
+
+" nohlsearch, close preview window.
+nmap <Esc><Esc> :nohlsearch<CR><C-w><C-z><Esc>
 
 " search visual mode words
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
