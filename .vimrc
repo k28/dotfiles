@@ -155,6 +155,7 @@ if has("unix")
 	if s:uname == "Darwin\n"
 		Bundle 'tokorom/clang_complete.git'
 		Bundle 'tokorom/clang_complete-getopts-ios.git'
+		Bundle 'guns/ultisnips'
 	endif
 endif
 " github Bundle 'name/foo.vim'
@@ -281,4 +282,11 @@ augroup vimrc-auto-mkdir  " {{{
 		endif
 	endfunction  " }}}
 augroup END  " }}}
+
+" Reload Files
+augroup vimrc-checktime
+	autocmd!
+	autocmd WinEnter * checktime
+augroup END
+
 
