@@ -18,4 +18,3 @@ let g:clang_snippets = 1
 let g:clang_snippets_engine = 'ultisnips'
 
 
-

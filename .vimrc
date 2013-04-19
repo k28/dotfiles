@@ -165,7 +165,9 @@ filetype plugin indent on
 " ----- Vundle Settings End -----
 
 " syntax highlite
-syntax on
+if !exists("g:syntax_on")
+	syntax enable
+endif
 
 " a.vim addition
 let g:alternateExtensions_h = "c,cpp,cxx,cc,CC,m,mm"
