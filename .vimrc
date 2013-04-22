@@ -26,7 +26,12 @@ set wildmenu wildmode=list:full
 
 set tags+=.tags;
 
+" Auto reload settings
 set autoread
+augroup vimrc-checktime
+	autocmd!
+	autocmd VimEnter,WinEnter,TabEnter,Syntax * checktime
+augroup END
 
 " color scheme
 colorscheme desert
@@ -59,6 +64,11 @@ nmap <Esc><Esc> :nohlsearch<CR><C-w><C-z><Esc>
 " search visual mode words
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
 nnoremap <Space>f :SearchCurrentWord<CR>
+
+if filereadable(expand('~/bin/ack'))
+	set grepprg=ack\ -r
+endif
+
 
 " yunk replace word
 nnoremap <silent> ciy ciw<C-r>0<ESC>
