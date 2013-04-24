@@ -23,6 +23,7 @@ set -o vi
 #set -o emacs
 
 export LANG=ja_JP.UTF-8
+#export LANG=C # for make and install VIM
 export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
