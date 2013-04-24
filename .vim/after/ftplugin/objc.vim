@@ -5,7 +5,7 @@
 let g:clang_auto_user_options = 'path, .clang_complete, ios'
 "
 " Disable auto completion, always <c-x> <c-o> to complete
-let g:clang_complete_auto = 1
+let g:clang_complete_auto = 0
 let g:clang_use_library = 1
 let g:clang_periodic_quickfix = 0
 let g:clang_close_preview = 1

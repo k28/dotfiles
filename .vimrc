@@ -24,7 +24,8 @@ set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']['.&filetyp
 set number
 set wildmenu wildmode=list:full
 
-set tags+=.tags;
+"set tags+=.tags;
+set tags+=.tags
 
 " Auto reload settings
 set autoread
@@ -159,6 +160,7 @@ Bundle 'h1mesuke/unite-outline'
 Bundle 'a.vim'
 Bundle 'cocoa.vim'
 Bundle 'taglist.vim'
+Bundle 'vim-scripts/camelcasemotion'
 Bundle 'Shougo/neocomplcache.git'
 if has("unix")
 	let s:uname = system("uname")
@@ -190,6 +192,10 @@ set splitright
 
 " unite.vim settings
 noremap ;; :Unite buffer<CR>
+
+" Camelcase mapping
+" :map <silent> <M-Right> <Plug> CamelCaseMotion_w
+" :map <silent> <M-Left> <Plug> CamelCaseMotion_b
 
 "let s:unite_source = {
 "			\	'name': 'ListMethods',
@@ -282,6 +288,32 @@ function! s:SearchCurrentWord()
 		echo "command not support"
 	endif
 endfunction "SearchCurrentWord
+
+" Find current word header
+command! -nargs=* FindCurrentWordHeader call <SID>FindCurrentWordHeader()
+function! s:FindCurrentWordHeader()
+	let wordUnderCursor = expand("<cword>")
+	let wordUnderCursor = join([wordUnderCursor,".h"],'')
+	execute ":find " . wordUnderCursor
+endfunction "FindCurrentWordHeader
+
+" Append Comment to current selected lines
+command! -nargs=* -range ToggleCommentToCurrentLines :<line1>,<line2>call <SID>ToggleCommentToCurrentLines()
+function! s:ToggleCommentToCurrentLines() range
+	let firstLine = a:firstline
+	if matchs
+	echo a:firstline
+	echo a:lastline
+endfunction
+"command! -nargs=* -range ToggleCommentToCurrentLines call <SID>ToggleCommentToCurrentLines()
+"function! s:ToggleCommentToCurrentLines() range
+"	:let tmp = @@
+"	echo tmp
+"	:silent normal gvy
+"	:let selected = @@
+"	:let @@ = tmp
+"	":echo selected
+"endfunction "ToggleCommentToCurrentLines
 
 " Create Directory if it not exist
 augroup vimrc-auto-mkdir  " {{{
