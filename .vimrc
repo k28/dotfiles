@@ -297,23 +297,48 @@ function! s:FindCurrentWordHeader()
 	execute ":find " . wordUnderCursor
 endfunction "FindCurrentWordHeader
 
+" Return comment string
+command! -nargs=* CommentStr call <SID>CommentStr()
+function! s:CommentStr()
+	" get the current file type
+
+	if &filetype == "vim"
+		return "\""
+	endif
+
+	return "\/\/"
+endfunction "CommentStr
+
 " Append Comment to current selected lines
 command! -nargs=* -range ToggleCommentToCurrentLines :<line1>,<line2>call <SID>ToggleCommentToCurrentLines()
 function! s:ToggleCommentToCurrentLines() range
-	let firstLine = a:firstline
-	if matchs
-	echo a:firstline
-	echo a:lastline
+	let firstLine = getline(a:firstline)
+	let commentStr = s:CommentStr()
+	let commentMatche = "^" . commentStr
+	let retMatch = matchstr(firstLine, commentMatche)
+	if retMatch == ""
+		" Append comment to all line header
+		let index = a:firstline
+		while index <= a:lastline
+			let line = getline(index)
+			let newLine = commentStr . line
+			call setline(index, newLine)
+			let index=index+1
+		endwhile
+	else
+		" Remove all comment from all line header
+		let index = a:firstline
+		while index <= a:lastline
+			let line = getline(index)
+			let comment = matchstr(line, commentMatche)
+			if comment != ""
+				let newLine = substitute(line, commentMatche, "", "")
+				call setline(index, newLine)
+			endif
+			let index=index+1
+		endwhile
+	endif
 endfunction
-"command! -nargs=* -range ToggleCommentToCurrentLines call <SID>ToggleCommentToCurrentLines()
-"function! s:ToggleCommentToCurrentLines() range
-"	:let tmp = @@
-"	echo tmp
-"	:silent normal gvy
-"	:let selected = @@
-"	:let @@ = tmp
-"	":echo selected
-"endfunction "ToggleCommentToCurrentLines
 
 " Create Directory if it not exist
 augroup vimrc-auto-mkdir  " {{{
