@@ -339,6 +339,8 @@ function! s:ToggleCommentToCurrentLines() range
 		endwhile
 	endif
 endfunction
+nnoremap \c :<C-u>ToggleCommentToCurrentLines<Return>
+vnoremap \c :ToggleCommentToCurrentLines<Return>
 
 " Create Directory if it not exist
 augroup vimrc-auto-mkdir  " {{{
