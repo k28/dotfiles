@@ -197,7 +197,7 @@ set splitright
 noremap ;; :Unite buffer<CR>
 
 " EnhCommentify settings
-function EnhCommentifyCallback(ft)
+function! EnhCommentifyCallback(ft)
 	if a:ft == 'objc'
 		let b:ECcommentOpen = '//'
 		let b:ECcommentClose = ''
