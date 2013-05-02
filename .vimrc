@@ -89,6 +89,7 @@ vnoremap <silent> cy   c<C-r>0<ESC>
 " <, > indent
 vnoremap < <bv
 vnoremap > >bv
+
 " yank 1line without new line.
 vnoremap v $h
 
@@ -157,9 +158,11 @@ Bundle 'vim-scripts/sh.vim'
 Bundle 'tpope/vim-surround'
 Bundle 'thinca/vim-qfreplace'
 Bundle 'h1mesuke/unite-outline'
+Bundle 'kien/ctrlp.vim'
 Bundle 'a.vim'
 Bundle 'cocoa.vim'
 Bundle 'taglist.vim'
+Bundle 'EnhCommentify.vim'
 Bundle 'vim-scripts/camelcasemotion'
 Bundle 'Shougo/neocomplcache.git'
 if has("unix")
@@ -192,6 +195,15 @@ set splitright
 
 " unite.vim settings
 noremap ;; :Unite buffer<CR>
+
+" EnhCommentify settings
+function EnhCommentifyCallback(ft)
+	if a:ft == 'objc'
+		let b:ECcommentOpen = '//'
+		let b:ECcommentClose = ''
+	endif
+endfunction
+let g:EnhCommentifyCallbackExists = 'Yes'
 
 " Camelcase mapping
 " :map <silent> <M-Right> <Plug> CamelCaseMotion_w
@@ -233,12 +245,19 @@ let g:clang_complete_auto = 0
 let g:clang_auto_select = 0
 let g:clang_complete_include_current_directory_recursively = 1
 
+" ctrlp settings
+let g:ctrlp_use_migemo = 1
+let g:ctrlp_clear_cache_on_exit = 0   " 終了時キャッシュをクリアしない
+let g:ctrlp_mruf_max            = 500 " MRUの最大記録数
+let g:ctrlp_open_new_file       = 1   " 新規ファイル作成時にタブで開く
+
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
 	source $VIMRUNTIME/macros/matchit.vim
 	:let b:match_words = "if:endif"
 endif
 
+" load local settings
 if filereadable(expand('~/.vimrc.local'))
 	source ~/.vimrc.local
 endif
@@ -297,19 +316,21 @@ function! s:FindCurrentWordHeader()
 	execute ":find " . wordUnderCursor
 endfunction "FindCurrentWordHeader
 
-" Return comment string
+" Return comment string this is not used.
 command! -nargs=* CommentStr call <SID>CommentStr()
 function! s:CommentStr()
 	" get the current file type
 
 	if &filetype == "vim"
 		return "\""
+	elseif &filetype == "perl"
+		return "#"
 	endif
 
 	return "\/\/"
 endfunction "CommentStr
 
-" Append Comment to current selected lines
+" Append Comment to current selected lines, this is not used.
 command! -nargs=* -range ToggleCommentToCurrentLines :<line1>,<line2>call <SID>ToggleCommentToCurrentLines()
 function! s:ToggleCommentToCurrentLines() range
 	let firstLine = getline(a:firstline)
@@ -339,8 +360,8 @@ function! s:ToggleCommentToCurrentLines() range
 		endwhile
 	endif
 endfunction
-nnoremap \c :<C-u>ToggleCommentToCurrentLines<Return>
-vnoremap \c :ToggleCommentToCurrentLines<Return>
+"nnoremap \c :<C-u>ToggleCommentToCurrentLines<Return>
+"vnoremap \c :ToggleCommentToCurrentLines<Return>
 
 " Create Directory if it not exist
 augroup vimrc-auto-mkdir  " {{{
