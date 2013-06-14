@@ -17,4 +17,6 @@ let g:clang_snippets = 1
 " " Snipmate does not work anymore, ultisnips is the recommended plugin
 let g:clang_snippets_engine = 'ultisnips'
 
+setlocal formatoptions-=r
+setlocal formatoptions-=o
 

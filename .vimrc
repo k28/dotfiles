@@ -34,6 +34,12 @@ augroup vimrc-checktime
 	autocmd VimEnter,WinEnter,TabEnter,Syntax * checktime
 augroup END
 
+" formatoptions
+augroup vimrc-formatoptions
+	autocmd!
+	autocmd FileType * setlocal formatoptions-=ro
+augroup END
+
 " color scheme
 colorscheme desert
 
@@ -119,7 +125,7 @@ if has("autocmd")
     \ endif
 else
 
-  set autoindent		" always set autoindenting on
+"set autoindent		" always set autoindenting on
 
 endif " has("autocmd")
 
@@ -247,9 +253,10 @@ let g:clang_complete_include_current_directory_recursively = 1
 
 " ctrlp settings
 let g:ctrlp_use_migemo = 1
-let g:ctrlp_clear_cache_on_exit = 0   " 終了時キャッシュをクリアしない
+let g:ctrlp_clear_cache_on_exit = 1   " 終了時キャッシュをクリアする
 let g:ctrlp_mruf_max            = 500 " MRUの最大記録数
 let g:ctrlp_open_new_file       = 1   " 新規ファイル作成時にタブで開く
+let g:ctrlp_regexp = 1 " regexp mode
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
