@@ -315,6 +315,32 @@ function! s:SearchCurrentWord()
 	endif
 endfunction "SearchCurrentWord
 
+" Search current word caller
+command! -nargs=* SearchCurrentWordCaller call <SID>SearchCurrentWordCaller()
+function! s:SearchCurrentWordCaller()
+	let wordUnderCursor = expand("<cword>")
+	if executable('ack')
+		execute ":Ack " . "'" . "^[^-].*" . wordUnderCursor . ".*;" ."'"
+	elseif executable('grep')
+		echo "Command not support for vimgrep. Please insatall ack."
+	else
+		echo "Command not support. Please install ack."
+	endif
+endfunction "SearchCurrentWord
+
+" Search current method
+command! -nargs=* SearchCurrentMethod call <SID>SearchCurrentWordMethod()
+function! s:SearchCurrentWordMethod()
+	let wordUnderCursor = expand("<cword>")
+	if executable('ack')
+		execute ":Ack " . "'" . "^-\\s?\\(\\w+\\)\\s?" . wordUnderCursor . "'"
+	elseif executable('grep')
+		echo "Command not support for vimgrep. Please insatall ack."
+	else
+		echo "Command not support. Please install ack."
+	endif
+endfunction "SearchCurrentWord
+
 " Find current word header
 command! -nargs=* FindCurrentWordHeader call <SID>FindCurrentWordHeader()
 function! s:FindCurrentWordHeader()
