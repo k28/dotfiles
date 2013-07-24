@@ -178,6 +178,8 @@ if has("unix")
 		Bundle 'tokorom/clang_complete-getopts-ios.git'
 		Bundle 'guns/ultisnips'
 	endif
+" For JavaScript
+Bundle 'teramako/jscomplete-vim'
 endif
 " github Bundle 'name/foo.vim'
 " www.vim.org Bundle 'bar.vim'
@@ -257,6 +259,13 @@ let g:ctrlp_clear_cache_on_exit = 1   " 終了時キャッシュをクリアす�
 let g:ctrlp_mruf_max            = 500 " MRUの最大記録数
 let g:ctrlp_open_new_file       = 1   " 新規ファイル作成時にタブで開く
 let g:ctrlp_regexp = 1 " regexp mode
+
+" neocomplcache plugin
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_min_syntax_length = 3
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
