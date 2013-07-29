@@ -266,6 +266,12 @@ let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_camel_case_completion = 1
 let g:neocomplcache_enable_underbar_completion = 1
 let g:neocomplcache_min_syntax_length = 3
+" for neocomplcache and clang_complete settings
+let g:neocomplcache_force_overwrite_completefunc = 1
+if !exists("g:neocomplcache_force_omni_patterns")
+	let g:neocomplcache_force_omni_patterns = {}
+endif
+let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
@@ -357,6 +363,12 @@ function! s:FindCurrentWordHeader()
 	let wordUnderCursor = join([wordUnderCursor,".h"],'')
 	execute ":find " . wordUnderCursor
 endfunction "FindCurrentWordHeader
+
+command! -nargs=* OpenCurrentFileAsNewTabe call <SID>OpenCurrentFileAsNewTabe()
+function! s:OpenCurrentFileAsNewTabe()
+	let current_file_name = expand("%")
+	execute ":tabnew " . current_file_name
+endfunction
 
 " Return comment string this is not used.
 command! -nargs=* CommentStr call <SID>CommentStr()
