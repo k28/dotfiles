@@ -181,6 +181,9 @@ if has("unix")
 " For JavaScript
 Bundle 'teramako/jscomplete-vim'
 endif
+" For Java
+Bundle 'vim-scripts/javacomplete'
+
 " github Bundle 'name/foo.vim'
 " www.vim.org Bundle 'bar.vim'
 
@@ -272,6 +275,10 @@ if !exists("g:neocomplcache_force_omni_patterns")
 	let g:neocomplcache_force_omni_patterns = {}
 endif
 let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
+
+" for javacomplete
+autocmd FileType java :setlocal omnifunc=javacomplete#Complete
+autocmd FileType java :setlocal completefunc=javacomplete#CompleteParamsInfo
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
