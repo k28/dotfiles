@@ -28,6 +28,15 @@ export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
+function ut2date {
+  /bin/date -u -r $1 +"%Y/%m/%d %H:%M:%S UTC"
+  /bin/date -r $1 +"%Y/%m/%d %H:%M:%S"
+}
+function date2ut {
+  /bin/date -j -f "%Y/%m/%d %H:%M:%S" "$1" +%s
+}
+
+
 if [ -f ~/.git-completion.bash ]; then
 	source ~/.git-completion.bash
 fi

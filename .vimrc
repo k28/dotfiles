@@ -252,9 +252,6 @@ let g:neocomplcache_force_omni_patterns.objc =
 			\ '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplcache_force_omni_patterns.objcpp =
 			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:clang_complete_auto = 0
-let g:clang_auto_select = 0
-let g:clang_complete_include_current_directory_recursively = 1
 
 " ctrlp settings
 let g:ctrlp_use_migemo = 1
