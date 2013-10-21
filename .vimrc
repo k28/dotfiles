@@ -177,6 +177,7 @@ if has("unix")
 		Bundle 'tokorom/clang_complete.git'
 		Bundle 'tokorom/clang_complete-getopts-ios.git'
 		Bundle 'guns/ultisnips'
+		Bundle 'thinca/vim-fontzoom'
 	endif
 " For JavaScript
 Bundle 'teramako/jscomplete-vim'
