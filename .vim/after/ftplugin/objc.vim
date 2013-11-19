@@ -11,7 +11,7 @@ let g:clang_periodic_quickfix = 0
 let g:clang_close_preview = 1
 let g:clang_complete_include_current_directory_recursively = 1
 
-let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode_5.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/'
+"let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode_5.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/'
 
 " For Objective-C, this needs to be active, otherwise multi-parameter
 " methods won't be completed correctly
