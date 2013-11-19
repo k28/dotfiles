@@ -96,6 +96,10 @@ vnoremap <silent> cy   c<C-r>0<ESC>
 vnoremap < <bv
 vnoremap > >bv
 
+" insert mode
+inoremap <silent> <C-a> <Esc>I
+inoremap <silent> <C-e> <Esc>$a
+
 " yank 1line without new line.
 vnoremap v $h
 
@@ -155,6 +159,7 @@ endif
 " Vundle managed plugins
 Bundle 'gmarik/vundle'
 Bundle 'Shougo/unite.vim'
+Bundle 'Shougo/unite-outline'
 Bundle 'Shougo/vimproc'
 Bundle 'thinca/vim-quickrun'
 Bundle 'msanders/snipmate.vim'
@@ -163,7 +168,6 @@ Bundle 'tyru/DumbBuf.vim'
 Bundle 'vim-scripts/sh.vim'
 Bundle 'tpope/vim-surround'
 Bundle 'thinca/vim-qfreplace'
-Bundle 'h1mesuke/unite-outline'
 Bundle 'kien/ctrlp.vim'
 Bundle 'a.vim'
 Bundle 'cocoa.vim'
@@ -171,6 +175,7 @@ Bundle 'taglist.vim'
 Bundle 'EnhCommentify.vim'
 Bundle 'vim-scripts/camelcasemotion'
 Bundle 'Shougo/neocomplcache.git'
+Bundle 'tanabe/ToggleCase-vim'
 if has("unix")
 	let s:uname = system("uname")
 	if s:uname == "Darwin\n"
@@ -264,7 +269,7 @@ let g:ctrlp_regexp = 1 " regexp mode
 " neocomplcache plugin
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_camel_case_completion = 0
 let g:neocomplcache_enable_underbar_completion = 1
 let g:neocomplcache_min_syntax_length = 3
 " for neocomplcache and clang_complete settings

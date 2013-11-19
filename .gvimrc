@@ -9,6 +9,8 @@ if has ('gui_macvim')
 	colorscheme desert
 endif
 
+au BufEnter * execute ":lcd " . expand("%:p:h")
+
 if filereadable(expand('~/.gvimrc.local'))
 	source ~/.gvimrc.local
 endif
