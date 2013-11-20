@@ -7,4 +7,4 @@
 #   the --type-add option.
 
 --ignore-file=match:/\.tags/
-
+--ignore-file=match:/project\.pbxproj/
