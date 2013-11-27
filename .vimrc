@@ -175,6 +175,7 @@ Bundle 'EnhCommentify.vim'
 Bundle 'vim-scripts/camelcasemotion'
 Bundle 'Shougo/neocomplcache.git'
 Bundle 'tanabe/ToggleCase-vim'
+Bundle 'osyo-manga/vim-over'
 if has("unix")
 	let s:uname = system("uname")
 	if s:uname == "Darwin\n"
@@ -187,7 +188,7 @@ if has("unix")
 Bundle 'teramako/jscomplete-vim'
 endif
 " For Java
-Bundle 'vim-scripts/javacomplete'
+" Bundle 'vim-scripts/javacomplete'
 
 " github Bundle 'name/foo.vim'
 " www.vim.org Bundle 'bar.vim'
@@ -221,30 +222,10 @@ function! EnhCommentifyCallback(ft)
 endfunction
 let g:EnhCommentifyCallbackExists = 'Yes'
 
-" Camelcase mapping
-" :map <silent> <M-Right> <Plug> CamelCaseMotion_w
-" :map <silent> <M-Left> <Plug> CamelCaseMotion_b
-
-"let s:unite_source = {
-"			\	'name': 'ListMethods',
-"			\}
-"function! s:unite_source.gather_candidatets(args, context)
-"	let path=expand('#:p')
-"	let lines=getbufline('#', 1, '$')
-"	let format='%' . strlen(len(lines)) . 'd:%s'
-"	return map(lines, '{
-"				\ "word": printf(format, v:key + 1, v:val),
-"				\ "source": "lines",
-"				\ "kind": "jump_list",
-"				\ "action__path": path,
-"				\ "action__line": v:key + 1,
-"				\}')
-"endfunction
-"call unite#define_source(s:unite_source)
-"unlet s:unite_source
-
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=''
+
+" neocomplcache
 if !exists('g:neocomplcache_force_omni_patterns')
 	let g:neocomplcache_force_omni_patterns = {}
 endif
@@ -277,6 +258,16 @@ if !exists("g:neocomplcache_force_omni_patterns")
 	let g:neocomplcache_force_omni_patterns = {}
 endif
 let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
+
+" vim-over {{{
+
+" launch vim-over
+nnoremap <silent> <Leader>m :OverCommandLine<CR>
+
+" replace word under cursor
+nnoremap <silent> <Leader>r :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+
+" }}}
 
 " for javacomplete
 autocmd FileType java :setlocal omnifunc=javacomplete#Complete
