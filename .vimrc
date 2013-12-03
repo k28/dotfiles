@@ -136,7 +136,7 @@ endif " has("autocmd")
 " set completeopt-=preview
 
 " show QuickFix automatically
-au QuickfixCmdPost make,grep,grepadd,vimgrep copen
+au QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
 au QuickfixCmdPost l* lopen
 
 " file types
@@ -460,4 +460,34 @@ command! -bar -bang -nargs=? -complete=file Scouter
 			\        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 command! -bar -bang -nargs=? -complete=file GScouter
 			\        echo Scouter(empty(<q-args>) ? $MYGVIMRC : expand(<q-args>), <bang>0)
+
+" Load current path .localvimrc
+command! -nargs=* LoadLocalVimrc call <SID>LoadLocalVimrc()
+function! s:LoadLocalVimrc()
+	let g:local_vimrc_filename = '.localvimrc'
+	let g:current_path = system("pwd")
+	let g:filename_modifier = ":p:h"
+	let g:current_path = fnamemodify("g:current_path", g:filename_modifier)
+	let g:flag = 1
+
+	while g:flag == 1
+		let g:filepath = g:current_path . "/" . g:local_vimrc_filename
+		if filereadable(fnamemodify(g:filepath, ":p"))
+			exec ":source " . g:filepath
+			let g:flag = 0
+			"echo "Load \"" . g:filepath . "\" success."
+		endif
+
+		let g:filename_modifier = g:filename_modifier . ":h"
+		let g:current_path = fnamemodify("g:current_path", g:filename_modifier)
+		if g:current_path == "/"
+			let g:flag = 0
+		endif
+	endwhile
+endfunction
+
+" call at load
+if has('vim_starting')
+	call s:LoadLocalVimrc()
+endif
 
