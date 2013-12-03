@@ -265,7 +265,7 @@ let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
 nnoremap <silent> <Leader>m :OverCommandLine<CR>
 
 " replace word under cursor
-nnoremap <silent> <Leader>r :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 
 " }}}
 

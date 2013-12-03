@@ -36,6 +36,10 @@ function date2ut {
   /bin/date -j -f "%Y/%m/%d %H:%M:%S" "$1" +%s
 }
 
+# Java home path
+if [ -f /usr/libexec/java_home ]; then
+	export JAVA_HOME=`/usr/libexec/java_home`
+fi
 
 if [ -f ~/.git-completion.bash ]; then
 	source ~/.git-completion.bash
