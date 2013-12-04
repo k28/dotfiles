@@ -145,6 +145,12 @@ au BufRead,BufNewFile *.mm	set filetype=objc
 " reload this file
 command! ReloadVimrc source $MYVIMRC
 
+" netrw.vim
+" always tree style
+let g:netrw_liststyle = 3
+" do not show .files
+"let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+
 " Vundle Settings -------------
 filetype off
 if has("win32") || has("win64")
@@ -490,4 +496,7 @@ endfunction
 if has('vim_starting')
 	call s:LoadLocalVimrc()
 endif
+
+" 今後やりたい事
+" カンマを挟んで前後を入れ替える関数が欲しい
 
