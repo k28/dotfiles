@@ -6,5 +6,6 @@
 #   of text against a Perl regular expression.  This is only for
 #   the --type-add option.
 
+--ignore-dir=.metadata
 --ignore-file=match:/\.tags/
 --ignore-file=match:/project\.pbxproj/
