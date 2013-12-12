@@ -24,8 +24,9 @@ set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']['.&filetyp
 set number
 set wildmenu wildmode=list:full
 
-"set tags+=.tags;
-set tags+=.tags
+" When a tag file name starts with './', the '.' is replaced with the path of the current file.
+" And keep going one directory up all the way to the root folder.
+set tags=./.tags;/
 
 " Auto reload settings
 set autoread
@@ -108,6 +109,9 @@ set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
+
+"Cursor line
+set cursorline
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
