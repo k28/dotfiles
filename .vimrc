@@ -7,6 +7,7 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,
 
 set tabstop=4
 set shiftwidth=4
+set textwidth=0
 if has("win32") || has("win64")
 	set nobackup
 else
@@ -345,7 +346,13 @@ command! -nargs=* SearchCurrentWordCaller call <SID>SearchCurrentWordCaller()
 function! s:SearchCurrentWordCaller()
 	let wordUnderCursor = expand("<cword>")
 	if executable('ack')
-		execute ":Ack " . "'" . "^[^-].*" . wordUnderCursor . ".*;" ."'"
+		if &filetype == "objc"
+			execute ":Ack " . "'" . "^[^-].*" . wordUnderCursor . ".*;" ."'"
+		elseif &filetype == "java"
+			execute ":Ack " . "'(\\.|\s)" . wordUnderCursor . "\\s*\\(.*\\)'"
+		else
+			echo "Command not support for this filetype[" + &filetype + "]"
+		endif
 	elseif executable('grep')
 		echo "Command not support for vimgrep. Please insatall ack."
 	else
@@ -358,7 +365,13 @@ command! -nargs=* SearchCurrentMethod call <SID>SearchCurrentWordMethod()
 function! s:SearchCurrentWordMethod()
 	let wordUnderCursor = expand("<cword>")
 	if executable('ack')
-		execute ":Ack " . "'" . "^-\\s?\\(\\w+\\)\\s?" . wordUnderCursor . "'"
+		if &filetype == "objc"
+			execute ":Ack " . "'" . "^-\\s?\\(\\w+\\)\\s?" . wordUnderCursor . "'"
+		elseif &filetype == "java"
+			execute ":Ack " . "'" . '(private|public|protected)\s+(\w+)\s+' . wordUnderCursor . "\\s*\\(.*\\)'"
+		else
+			echo "Command not support for this filetype[" + &filetype + "]"
+		endif
 	elseif executable('grep')
 		echo "Command not support for vimgrep. Please insatall ack."
 	else
