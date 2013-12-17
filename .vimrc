@@ -349,7 +349,7 @@ function! s:SearchCurrentWordCaller()
 		if &filetype == "objc"
 			execute ":Ack " . "'" . "^[^-].*" . wordUnderCursor . ".*;" ."'"
 		elseif &filetype == "java"
-			execute ":Ack " . "'(\\.|\s)" . wordUnderCursor . "\\s*\\(.*\\)'"
+			execute ":Ack " . "'" . '^(?!.*(private|public|protected)).*' . wordUnderCursor . "\\s*\\(.*\\)'"
 		else
 			echo "Command not support for this filetype[" + &filetype + "]"
 		endif
