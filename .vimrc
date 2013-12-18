@@ -74,15 +74,31 @@ nmap <Esc><Esc> :nohlsearch<CR><C-w><C-z><Esc>
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
 nnoremap <Space>f :SearchCurrentWord<CR>
 
+" close quickfix
+nnoremap <Space>c :<C-u>ccl<CR>
+
 if filereadable(expand('~/bin/ack'))
 	set grepprg=ack\ -r
 endif
 
+" use tags-and-searched easy
+nnoremap t <Nop>
+nnoremap tt <C-]>
+nnoremap tj :<C-u>tag<CR>
+nnoremap tk :<C-u>pop<CR>
+nnoremap tl :<C-u>tags<CR>
 
 " yunk replace word
 nnoremap <silent> ciy ciw<C-r>0<ESC>
 nnoremap <silent> cy   ce<C-r>0<ESC>
 vnoremap <silent> cy   c<C-r>0<ESC>
+
+" exchange ; and :
+noremap ; :
+noremap : ;
+
+" help
+nnoremap <C-h> :<C-u>help<Space>
 
 " command line emacs key maps
 :cnoremap <C-a> <Home>
@@ -281,8 +297,10 @@ nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 " }}}
 
 " for javacomplete
+augroup vimrc-javacomplete
 autocmd FileType java :setlocal omnifunc=javacomplete#Complete
 autocmd FileType java :setlocal completefunc=javacomplete#CompleteParamsInfo
+augroup END
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
@@ -358,7 +376,7 @@ function! s:SearchCurrentWordCaller()
 	else
 		echo "Command not support. Please install ack."
 	endif
-endfunction "SearchCurrentWord
+endfunction "SearchCurrentWordCaller
 
 " Search current method
 command! -nargs=* SearchCurrentMethod call <SID>SearchCurrentWordMethod()
@@ -377,7 +395,7 @@ function! s:SearchCurrentWordMethod()
 	else
 		echo "Command not support. Please install ack."
 	endif
-endfunction "SearchCurrentWord
+endfunction "SearchCurrentMethod
 
 " Find current word header
 command! -nargs=* FindCurrentWordHeader call <SID>FindCurrentWordHeader()
