@@ -68,7 +68,7 @@ cnoremap <expr> ?
 			\getcmdtype() == '/' ? '\?' : '?'
 
 " nohlsearch, close preview window.
-nmap <Esc><Esc> :nohlsearch<CR><C-w><C-z><Esc>
+nnoremap <ESC><ESC> :nohlsearch<CR><C-w><C-z><ESC>
 
 " search visual mode words
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
@@ -82,11 +82,11 @@ if filereadable(expand('~/bin/ack'))
 endif
 
 " use tags-and-searched easy
-nnoremap t <Nop>
-nnoremap tt <C-]>
-nnoremap tj :<C-u>tag<CR>
-nnoremap tk :<C-u>pop<CR>
-nnoremap tl :<C-u>tags<CR>
+"nnoremap t <Nop>
+"nnoremap tt <C-]>
+"nnoremap tj :<C-u>tag<CR>
+"nnoremap tk :<C-u>pop<CR>
+"nnoremap tl :<C-u>tags<CR>
 
 " yunk replace word
 nnoremap <silent> ciy ciw<C-r>0<ESC>
@@ -101,12 +101,12 @@ noremap : ;
 nnoremap <C-h> :<C-u>help<Space>
 
 " command line emacs key maps
-:cnoremap <C-a> <Home>
-:cnoremap <C-e> <End>
-:cnoremap <C-f> <Right>
-:cnoremap <C-b> <Left>
-:cnoremap <C-w> <S-Right>
-":cnoremap <C-b> <S-Left>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
+cnoremap <C-w> <S-Right>
+"cnoremap <C-b> <S-Left>
 
 " visual mode
 " <, > indent
@@ -114,8 +114,8 @@ vnoremap < <bv
 vnoremap > >bv
 
 " insert mode
-inoremap <silent> <C-a> <Esc>I
-inoremap <silent> <C-e> <Esc>$a
+inoremap <silent> <C-a> <ESC>I
+inoremap <silent> <C-e> <ESC>$a
 
 " yank 1line without new line.
 vnoremap v $h
@@ -534,4 +534,5 @@ endif
 
 " 今後やりたい事
 " カンマを挟んで前後を入れ替える関数が欲しい
+" キャメルケースの移動を改善したい
 
