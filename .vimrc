@@ -334,10 +334,16 @@ endfunction "InsertCurrentDate
 " Update Current line date to current date
 command! -nargs=0 UpdateCurrentDate call <SID>UpdateCurrentDate()
 function! s:UpdateCurrentDate()
-	let line=getline('.')
-	let newDate=strftime("%Y\\.%m\\.%d")
-	let line = substitute(line, "[0-9][0-9][0-9][0-9]\.[0-9][0-9]\.[0-9][0-9]", newDate, "")
-	call setline('.', line)
+	let s:line=getline('.')
+	if s:line =~ "[0-9][0-9][0-9][0-9]\\.[0-9][0-9]\\.[0-9][0-9]"
+		let newDate=strftime("%Y\\.%m\\.%d")
+		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]\\.[0-9][0-9]\\.[0-9][0-9]", newDate, "")
+		call setline('.', s:line)
+	elseif s:line =~ "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]"
+		let newDate=strftime("%Y-%m-%d")
+		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]", newDate, "")
+		call setline('.', s:line)
+	endif
 endfunction! "UpdateCurrentDate
 
 " Locad all current headers
