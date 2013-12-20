@@ -77,9 +77,12 @@ nnoremap <Space>f :SearchCurrentWord<CR>
 " close quickfix
 nnoremap <Space>c :<C-u>ccl<CR>
 
-if filereadable(expand('~/bin/ack'))
-	set grepprg=ack\ -r
+" change :grep to ack
+if executable('ack')
+	set grepprg=ack\ -H\ --nocolor\ --nogroup\ --column
 endif
+nnoremap <C-g> :<C-u>grep<Space>''<Left>
+nnoremap <C-i> :<C-u>grep<Space>-i<Space>''<Left>
 
 " use tags-and-searched easy
 "nnoremap t <Nop>
