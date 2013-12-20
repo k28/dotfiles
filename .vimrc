@@ -2,6 +2,8 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" <C-u> this delete all command mode input. eg.) :hogehoge<C-u> -> :
+
 set encoding=utf-8
 set fileencodings=utf-8,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,euc-jp,sjis,cp932,utf-8
 
@@ -55,7 +57,7 @@ augroup highlightIdegraphicSpace
 augroup END
 
 " register / marks
-nnoremap <Space>m :<C-u>marks<CR>
+"nnoremap <Space>m :<C-u>marks<CR>
 nnoremap <Space>r :<C-u>registers<CR>
 
 " search
@@ -538,6 +540,12 @@ function! s:LoadLocalVimrc()
 		endif
 	endwhile
 endfunction
+
+" Show all mapping in Unite.
+command! -nargs=* ShowAllMappingInUnite call <SID>ShowAllMappingInUnite()
+function! s:ShowAllMappingInUnite()
+	exec ":Unite output:map|map!|lmap"
+endfunction!
 
 " call at load
 if has('vim_starting')
