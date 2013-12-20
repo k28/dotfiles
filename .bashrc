@@ -8,9 +8,9 @@ alias ctags='ctags -f .tags'
 # cd alias
 alias cd..="cd .."
 alias cd...="cd ../../"
-alias cd.....="cd ../../../"
-alias cd.......="cd ../../../../"
-alias cd.........="cd ../../../../../"
+alias cd....="cd ../../../"
+alias cd.....="cd ../../../../"
+alias cd......="cd ../../../../../"
 
 # spell check for cd command.
 shopt -s cdspell

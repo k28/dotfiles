@@ -80,9 +80,12 @@ nnoremap <Space>c :<C-u>ccl<CR>
 " change :grep to ack
 if executable('ack')
 	set grepprg=ack\ -H\ --nocolor\ --nogroup\ --column
+	nnoremap <Space>g :<C-u>grep<Space>''<Left>
+	nnoremap <Space>i :<C-u>grep<Space>-i<Space>''<Left>
+else
+	nnoremap <Space>g :<C-u>grep<Space>-Ir<Space>''<Space>*<Left><Left><Left>
+	nnoremap <Space>i :<C-u>grep<Space>-iIr<Space>''<Space>*<Left><Left><Left>
 endif
-nnoremap <C-g> :<C-u>grep<Space>''<Left>
-nnoremap <C-i> :<C-u>grep<Space>-i<Space>''<Left>
 
 " use tags-and-searched easy
 "nnoremap t <Nop>
