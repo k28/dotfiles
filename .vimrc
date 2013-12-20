@@ -59,6 +59,7 @@ augroup END
 " register / marks
 "nnoremap <Space>m :<C-u>marks<CR>
 nnoremap <Space>r :<C-u>registers<CR>
+nnoremap <Space>m :<C-u>SearchCurrentWordCaller<CR>
 
 " search
 set ignorecase
