@@ -1,5 +1,6 @@
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
+
 set nocompatible
 
 " <C-u> this delete all command mode input. eg.) :hogehoge<C-u> -> :
@@ -556,4 +557,6 @@ endif
 " 今後やりたい事
 " カンマを挟んで前後を入れ替える関数が欲しい
 " キャメルケースの移動を改善したい
+"internal-variables 変数の種類について
+
 
