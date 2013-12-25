@@ -367,7 +367,7 @@ command! -nargs=* SearchCurrentWord call <SID>SearchCurrentWord()
 function! s:SearchCurrentWord()
 	let wordUnderCursor = expand("<cword>")
 	if executable('ack')
-		execute ":Ack " . wordUnderCursor
+		execute ':Ack ''\b' . wordUnderCursor . '\b'''
 	elseif executable('grep')
 		execute ":grep -rI " . wordUnderCursor "./"
 	else
@@ -381,7 +381,7 @@ function! s:SearchCurrentWordCaller()
 	let wordUnderCursor = expand("<cword>")
 	if executable('ack')
 		if &filetype == "objc"
-			execute ":Ack " . "'" . "^[^-].*" . wordUnderCursor . ".*;" ."'"
+			execute ":Ack " . "'" . '^(?!.*-).*' . wordUnderCursor . ".*" ."'"
 		elseif &filetype == "java"
 			execute ":Ack " . "'" . '^(?!.*(private|public|protected)).*' . wordUnderCursor . "\\s*\\(.*\\)'"
 		else
