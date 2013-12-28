@@ -116,7 +116,7 @@ cnoremap <C-e> <End>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
 cnoremap <C-w> <S-Right>
-"cnoremap <C-b> <S-Left>
+cnoremap <C-k> <Up>
 
 " visual mode
 " <, > indent
@@ -548,6 +548,75 @@ command! -nargs=* ShowAllMappingInUnite call <SID>ShowAllMappingInUnite()
 function! s:ShowAllMappingInUnite()
 	exec ":Unite output:map|map!|lmap"
 endfunction!
+
+" for vim script test
+command! -nargs=* -range Hogehoge :<line1>,<line2>call <SID>Hogehoge()
+function! s:Hogehoge() range
+	let s:lastLine = a:lastline
+	execute "normal " . a:firstline . "Go\<Esc>"
+	let s:lastLine += 1
+	execute "normal " . a:firstline . "GV"
+	execute "normal " . s:lastLine . "G"
+	echo a:firstline . " and " . a:lastline
+endfunction
+
+" Escape Selected to SyntaxHighlighter
+command! -nargs=* -range EscapeToSyntaxHighlighter :<line1>,<line2>call <SID>EscapeToSyntaxHighlighter()
+function! s:EscapeToSyntaxHighlighter() range
+	let s:firstLine = a:firstline
+	let s:lastLine = a:lastline
+	let brush = s:SyntaxHighlighterBrush()
+	let prefixLine = '<pre class="brush: ' . brush . '; first-line: 1; highlight: [,] title="">'
+
+	let index = s:firstLine
+	while index <= s:lastLine
+		let line = getline(index)
+		let line = substitute(line, '&', '\&amp;', "g")
+		let line = substitute(line, '>', '\&gt;', "g")
+		let line = substitute(line, '<', '\&lt;', "g")
+		let line = substitute(line, '"', '\&quot;', "g")
+
+		if index == s:firstLine
+			execute "normal " . s:firstLine . "Go\<Esc>"
+			let s:lastLine += 1
+			let newLine = [prefixLine, line]
+			call setline(index, newLine)
+		elseif index == s:lastLine
+			let newLine = [line, "</pre>"]
+			execute "normal " . s:lastLine . "Go\<Esc>"
+			call setline(index, newLine)
+		else
+			call setline(index, line)
+		endif
+
+		let index += 1
+	endwhile
+
+	if brush =~ 'unknown'
+		echo "Warnning!! Brush is unknown"
+	endif
+endfunction
+
+" return syntax highlighter brush
+function! s:SyntaxHighlighterBrush()
+	if &filetype == "objc"
+		return "cpp"
+	elseif &filetype == "perl"
+		return "perl"
+	elseif &filetype == "c"
+		return "c"
+	elseif &filetype == "java"
+		return "java"
+	elseif &filetype == "php"
+		return "php"
+	elseif &filetype == "text"
+		return "plain"
+	elseif &filetype == "shell"
+		return "bash"
+	else
+		return "unknown"
+	endif
+endfunction
 
 " call at load
 if has('vim_starting')
