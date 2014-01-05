@@ -623,9 +623,37 @@ if has('vim_starting')
 	call s:LoadLocalVimrc()
 endif
 
+" Unite Source iosframeworks
+let g:unite_source_iosframeworks_frameworks_path =
+			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks"
+
+let s:unite_source = {
+			\'name':'iosframeworks',
+			\}
+let s:unite_source.hooks = {}
+
+function! s:unite_source.hooks.on_init(args, context)
+	let framework_path = g:unite_source_iosframeworks_frameworks_path . "/*/Headers/*.h"
+	let filelist = glob(framework_path)
+	let a:context.source__lines = split(filelist, "\n")
+endfunction
+
+function! s:unite_source.gather_candidates(args, context)
+	return map(a:context.source__lines, '{"word" : fnamemodify(v:val, ":t"),
+										\ "kind" : "jump_list",
+										\ "action__path" : v:val ,
+										\ "action__line" : 0 }')
+endfunction
+
+call unite#define_source(s:unite_source)
+
+unlet s:unite_source
+" ---------------------------------------------------
+
 " 今後やりたい事
 " カンマを挟んで前後を入れ替える関数が欲しい
 " キャメルケースの移動を改善したい
 "internal-variables 変数の種類について
+" カーソールの下のメソッド一覧をみたい, できれば, 候補選択したい
 
 
