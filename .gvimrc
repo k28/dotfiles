@@ -9,6 +9,9 @@ if has ('gui_macvim')
 	colorscheme desert
 endif
 
+" if gvimrc, do not use ctrlp caching
+let g:ctrlp_use_caching = 0
+
 if filereadable(expand('~/.gvimrc.local'))
 	source ~/.gvimrc.local
 endif

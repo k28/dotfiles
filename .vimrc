@@ -669,6 +669,7 @@ unlet s:unite_source
 " キャメルケースの移動を改善したい
 "internal-variables 変数の種類について
 " カーソールの下のメソッド一覧をみたい, できれば, 候補選択したい
+" カーソル下のタグを新しいタブでジャンプして表示したい
 
 
 " load local settings
