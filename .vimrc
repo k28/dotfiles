@@ -618,7 +618,7 @@ if has('vim_starting')
 	call s:LoadLocalVimrc()
 endif
 
-" Unite Source iosframeworks
+" Unite Source iosframeworks {{{
 let g:unite_source_iosframeworks_frameworks_path =
 			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks"
 
@@ -643,7 +643,36 @@ endfunction
 call unite#define_source(s:unite_source)
 
 unlet s:unite_source
-" ---------------------------------------------------
+" }}}
+
+" Unite Source androidSources {{{
+let g:unite_source_androidsources_src_path = ""
+
+let s:unite_source = {
+			\'name':'androidSources',
+			\}
+let s:unite_source.hooks = {}
+
+function! s:unite_source.hooks.on_init(args, context)
+	if g:unite_source_androidsources_src_path == ""
+		g:unite_source_androidsources_src_path = "/tmp"
+	endif
+	let src_path = g:unite_source_androidsources_src_path . "/**/*.java"
+	let filelist = glob(src_path)
+	let a:context.source__lines = split(filelist, "\n")
+endfunction
+
+function! s:unite_source.gather_candidates(args, context)
+	return map(a:context.source__lines, '{"word" : fnamemodify(v:val, ":t"),
+										\ "kind" : "jump_list",
+										\ "action__path" : v:val ,
+										\ "action__line" : 0 }')
+endfunction
+
+call unite#define_source(s:unite_source)
+
+unlet s:unite_source
+" }}}
 
 " 今後やりたい事
 " カンマを挟んで前後を入れ替える関数が欲しい
