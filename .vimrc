@@ -318,11 +318,6 @@ if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
 	:let b:match_words = "if:endif"
 endif
 
-" load local settings
-if filereadable(expand('~/.vimrc.local'))
-	source ~/.vimrc.local
-endif
-
 " TOhtml options
 let html_no_pre = 1
 let html_use_css = 1
@@ -656,4 +651,9 @@ unlet s:unite_source
 "internal-variables 変数の種類について
 " カーソールの下のメソッド一覧をみたい, できれば, 候補選択したい
 
+
+" load local settings
+if filereadable(expand('~/.vimrc.local'))
+	source ~/.vimrc.local
+endif
 
