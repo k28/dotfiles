@@ -109,6 +109,7 @@ noremap : ;
 
 " help
 nnoremap <C-h> :<C-u>help<Space>
+set helplang=en
 
 " command line emacs key maps
 cnoremap <C-a> <Home>
@@ -514,28 +515,17 @@ command! -bar -bang -nargs=? -complete=file GScouter
 			\        echo Scouter(empty(<q-args>) ? $MYGVIMRC : expand(<q-args>), <bang>0)
 
 " Load current path .localvimrc
-command! -nargs=* LoadLocalVimrc call <SID>LoadLocalVimrc()
-function! s:LoadLocalVimrc()
-	let g:local_vimrc_filename = '.localvimrc'
-	let g:current_path = system("pwd")
-	let g:filename_modifier = ":p:h"
-	let g:current_path = fnamemodify("g:current_path", g:filename_modifier)
-	let g:flag = 1
+augroup load-local-vimrc
+	autocmd!
+	autocmd BufNewFile,BufReadPost * call s:LoadLocalVimrc(expand('<afile>:p:h'))
+augroup END
 
-	while g:flag == 1
-		let g:filepath = g:current_path . "/" . g:local_vimrc_filename
-		if filereadable(fnamemodify(g:filepath, ":p"))
-			exec ":source " . g:filepath
-			let g:flag = 0
-			"echo "Load \"" . g:filepath . "\" success."
-		endif
-
-		let g:filename_modifier = g:filename_modifier . ":h"
-		let g:current_path = fnamemodify("g:current_path", g:filename_modifier)
-		if g:current_path == "/"
-			let g:flag = 0
-		endif
-	endwhile
+function! s:LoadLocalVimrc(loc)
+	let s:local_vimrc_filename = '.localvimrc'
+	let files = findfile(s:local_vimrc_filename, escape(a:loc, '').';', -1)
+	for i in reverse(filter(files, 'filereadable(v:val)'))
+		source `=i`
+	endfor
 endfunction
 
 " Show all mapping in Unite.
@@ -615,7 +605,7 @@ endfunction
 
 " call at load
 if has('vim_starting')
-	call s:LoadLocalVimrc()
+	call s:LoadLocalVimrc(expand('<afile>:p:h'))
 endif
 
 " Unite Source iosframeworks {{{
