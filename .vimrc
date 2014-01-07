@@ -424,7 +424,6 @@ function! s:OpenCurrentFileAsNewTabe()
 endfunction
 
 " Return comment string this is not used.
-command! -nargs=* CommentStr call <SID>CommentStr()
 function! s:CommentStr()
 	" get the current file type
 
