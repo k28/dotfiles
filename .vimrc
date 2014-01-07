@@ -116,7 +116,6 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
-cnoremap <C-w> <S-Right>
 cnoremap <C-k> <Up>
 
 " visual mode
@@ -609,6 +608,28 @@ if has('vim_starting')
 	call s:LoadLocalVimrc(expand('<afile>:p:h'))
 endif
 
+" Open junk file." {{{
+command! -nargs=0 JunkFile call s:open_junk_file()
+function! s:open_junk_file()
+	let l:junk_dir = $HOME . '/.vim_junk' . strftime('/%Y/%m')
+	if !isdirectory(l:junk_dir)
+		call mkdir(l:junk_dir, 'p')
+	endif
+
+	let l:filename = input('Junk Code', l:junk_dir . strftime('/%Y-%m-%d-%H%M%S.'))
+	if l:filename != ""
+		execute 'edit' . l:filename
+	endif
+endfunction
+" }}}
+
+" Copy word to Clipboard. " {{{
+command! -nargs=0 CopyWord2Clipboad call s:copy_word_to_clipboard()
+function! s:copy_word_to_clipboard()
+	normal "*yiw
+endfunction
+" }}}
+
 " Unite Source iosframeworks {{{
 let g:unite_source_iosframeworks_frameworks_path =
 			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks"
@@ -636,7 +657,7 @@ call unite#define_source(s:unite_source)
 unlet s:unite_source
 " }}}
 
-" Unite Source androidSources {{{
+" Unite Source androidSources "{{{
 let g:unite_source_androidsources_src_path = ""
 
 let s:unite_source = {
@@ -663,7 +684,7 @@ endfunction
 call unite#define_source(s:unite_source)
 
 unlet s:unite_source
-" }}}
+"}}}
 
 " 今後やりたい事
 " カンマを挟んで前後を入れ替える関数が欲しい
