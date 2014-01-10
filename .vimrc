@@ -349,6 +349,14 @@ function! s:UpdateCurrentDate()
 		let newDate=strftime("%Y-%m-%d")
 		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]", newDate, "")
 		call setline('.', s:line)
+	elseif s:line =~ "[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]"
+		let newDate=strftime("%Y/%m/%d")
+		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]", newDate, "")
+		call setline('.', s:line)
+	elseif s:line =~ "[0-9][0-9][0-9][0-9]年[0-9][0-9]月[0-9][0-9]日"
+		let newDate=strftime("%Y年%m月%d日")
+		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]年[0-9][0-9]月[0-9][0-9]日", newDate, "")
+		call setline('.', s:line)
 	endif
 endfunction! "UpdateCurrentDate
 
