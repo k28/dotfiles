@@ -729,7 +729,7 @@ unlet s:unite_source
 " カーソールの下のメソッド一覧をみたい, できれば, 候補選択したい
 " カーソル下のタグを新しいタブでジャンプして表示したい
 " メソッド内の同じ名称を一括で書き換えられるようにしたい
-
+" statuslineに現在のメソッド名を表示するようにする, Java, Objective-Cでも表示できるようにする
 
 " load local settings
 if filereadable(expand('~/.vimrc.local'))
