@@ -637,6 +637,35 @@ function! s:copy_word_to_clipboard()
 endfunction
 " }}}
 
+" ChangeTabToPipeline. " {{{
+command! -nargs=* -range ChangeTabToPipeline :<line1>,<line2>call s:change_tab_to_pipeline()
+function! s:change_tab_to_pipeline() range
+	let index = a:firstline
+	while index <= a:lastline
+		let s:line = getline(index)
+		let s:line = substitute(s:line, "\t", "|", "g")
+		let s:newLine = "|" . s:line . "|"
+		call setline(index, s:newLine)
+		let index = index + 1
+	endwhile
+endfunction
+" }}}
+
+" ChangePipelineToTab. " {{{
+command! -nargs=* -range ChangePipelineToTab :<line1>,<line2>call s:change_pipeline_to_tab()
+function! s:change_pipeline_to_tab() range
+	let index = a:firstline
+	while index <= a:lastline
+		let s:line = getline(index)
+		let s:line = substitute(s:line, "^|", "", "")
+		let s:line = substitute(s:line, "|$", "", "")
+		let s:line = substitute(s:line, "|", "\t", "g")
+		call setline(index, s:line)
+		let index = index + 1
+	endwhile
+endfunction
+" }}}
+
 " Unite Source iosframeworks {{{
 let g:unite_source_iosframeworks_frameworks_path =
 			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks"
