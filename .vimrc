@@ -24,6 +24,7 @@ endif
 
 set laststatus=2
 let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%{cfi#format("[%s]", "[no function]")}%=%l,%c%V%10P'
+"let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%=%l,%c%V%10P'
 
 set number
 set wildmenu wildmode=list:full
@@ -241,9 +242,6 @@ endif
 
 " github Bundle 'name/foo.vim'
 " www.vim.org Bundle 'bar.vim'
-
-" my plugin
-set runtimepath+=$HOME/.vim/bundle/current-func-info.vim
 
 filetype plugin indent on
 " ----- Vundle Settings End -----
