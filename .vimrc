@@ -23,7 +23,7 @@ else
 endif
 
 set laststatus=2
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']['.&filetype.']'}%=%l,%c%V%8P
+let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%{cfi#format("[%s]", "[no function]")}%=%l,%c%V%10P'
 
 set number
 set wildmenu wildmode=list:full
@@ -97,6 +97,17 @@ endif
 "nnoremap tj :<C-u>tag<CR>
 "nnoremap tk :<C-u>pop<CR>
 "nnoremap tl :<C-u>tags<CR>
+
+" seal arrow
+nnoremap <Up> <NOP>
+nnoremap <Down> <NOP>
+nnoremap <Left> <NOP>
+nnoremap <Right> <NOP>
+
+inoremap <Up> <NOP>
+inoremap <Down> <NOP>
+inoremap <Left> <NOP>
+inoremap <Right> <NOP>
 
 " yunk replace word
 nnoremap <silent> ciy ciw<C-r>0<ESC>
@@ -230,6 +241,9 @@ endif
 
 " github Bundle 'name/foo.vim'
 " www.vim.org Bundle 'bar.vim'
+
+" my plugin
+set runtimepath+=$HOME/.vim/bundle/current-func-info.vim
 
 filetype plugin indent on
 " ----- Vundle Settings End -----
