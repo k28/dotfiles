@@ -556,12 +556,42 @@ endfunction!
 " for vim script test
 command! -nargs=* -range Hogehoge :<line1>,<line2>call <SID>Hogehoge()
 function! s:Hogehoge() range
-	let s:lastLine = a:lastline
-	execute "normal " . a:firstline . "Go\<Esc>"
-	let s:lastLine += 1
-	execute "normal " . a:firstline . "GV"
-	execute "normal " . s:lastLine . "G"
-	echo a:firstline . " and " . a:lastline
+	let funcname = ''
+	let func_name_pattern = '\C' . '\s*-\s*(\s*\w\+\s*)\s*\(\w\+\)\s*'
+	let pattern = '\C' . '\(\w\+\)\s*:\s*('
+
+	let index = a:firstline
+
+	let funcname = get(matchlist(getline(index), func_name_pattern), 1, '')
+	if funcname ==# ''
+		echo "not match"
+		return
+	else
+		echo "****" . funcname
+	endif
+
+	let match_count = match(getline(index), ':') + 1
+	echo "match_count is [" . match_count . "]"
+	while index <= a:lastline
+		let line = getline(index)
+		while 1
+			echo index . ":" . match_count
+			let match_name = get(matchlist(line, pattern, match_count), 1, '')
+			echo index . ": match name is [" . match_name . "]"
+			if match_name ==# ''
+				break
+			else
+				let funcname = funcname . ':' . match_name
+				let match_count = match(line, ':', match_count)
+				echo index . ": match count is [" . match_count . "]"
+				let match_count += 1
+			endif
+		endwhile
+		let index = index + 1
+		let match_count = 0
+	endwhile
+
+	echo funcname
 endfunction
 
 " Escape Selected to SyntaxHighlighter
