@@ -312,18 +312,20 @@ let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
 " vim-over {{{
 
 " launch vim-over
-nnoremap <silent> <Leader>m :OverCommandLine<CR>
+nnoremap <silent> <Leader>m :OverCommandLine<CR>s/
+nnoremap <silent> <Leader>f V[mo]M:OverCommandLine<CR>s/
 
 " replace word under cursor
 nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+vnoremap <silent> <Leader>g :OverCommandLine<CR>s/
 
 " }}}
 
-" for javacomplete
+" for javacomplete {{{
 augroup vimrc-javacomplete
 autocmd FileType java :setlocal omnifunc=javacomplete#Complete
 autocmd FileType java :setlocal completefunc=javacomplete#CompleteParamsInfo
-augroup END
+augroup END "}}}
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
@@ -489,7 +491,7 @@ endfunction
 "nnoremap \c :<C-u>ToggleCommentToCurrentLines<Return>
 "vnoremap \c :ToggleCommentToCurrentLines<Return>
 
-" toggle @(number) to @"number"
+" toggle @(number) to @"number" "{{{
 command! -nargs=* ToggleNSStringNSNumber call <SID>ToggleNSStringNSNumber()
 function! s:ToggleNSStringNSNumber()
 	let s:line = getline('.')
@@ -499,7 +501,7 @@ function! s:ToggleNSStringNSNumber()
 		execute ':s/@(\s*\(-\=[0-9]*\)\s*)/@"\1"/g'
 	endif
 	unlet s:line
-endfunction "ToggleNSStringNSNumber
+endfunction "}}}
 
 " Create Directory if it not exist
 augroup vimrc-auto-mkdir  " {{{
