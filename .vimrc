@@ -132,8 +132,8 @@ cnoremap <C-k> <Up>
 
 " visual mode
 " <, > indent
-vnoremap < <bv
-vnoremap > >bv
+vnoremap < <gv
+vnoremap > >gv
 
 " insert mode
 inoremap <silent> <C-a> <ESC>I
