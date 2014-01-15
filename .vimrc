@@ -100,10 +100,10 @@ endif
 "nnoremap tl :<C-u>tags<CR>
 
 " seal arrow
-nnoremap <Up> <NOP>
-nnoremap <Down> <NOP>
-nnoremap <Left> <NOP>
-nnoremap <Right> <NOP>
+nnoremap <Up> <C-w>+
+nnoremap <Down> <C-w>-
+nnoremap <Left> <C-w><
+nnoremap <Right> <C-w>>
 
 inoremap <Up> <NOP>
 inoremap <Down> <NOP>
