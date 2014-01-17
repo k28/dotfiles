@@ -11,6 +11,8 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,
 set tabstop=4
 set shiftwidth=4
 set textwidth=0
+set expandtab
+
 if has("win32") || has("win64")
 	set nobackup
 else
@@ -43,7 +45,7 @@ augroup END
 " formatoptions
 augroup vimrc-formatoptions
 	autocmd!
-	autocmd FileType * setlocal formatoptions-=ro
+	"autocmd FileType * setlocal formatoptions-=ro
 augroup END
 
 " color scheme
@@ -109,6 +111,7 @@ inoremap <Up> <NOP>
 inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
+inoremap <C-b> <Esc><Esc>bi
 
 " yunk replace word
 nnoremap <silent> ciy ciw<C-r>0<ESC>
@@ -773,7 +776,6 @@ unlet s:unite_source
 " カーソールの下のメソッド一覧をみたい, できれば, 候補選択したい
 " カーソル下のタグを新しいタブでジャンプして表示したい
 " メソッド内の同じ名称を一括で書き換えられるようにしたい
-" statuslineに現在のメソッド名を表示するようにする, Java, Objective-Cでも表示できるようにする
 
 " load local settings
 if filereadable(expand('~/.vimrc.local'))
