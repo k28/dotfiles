@@ -315,8 +315,8 @@ let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
 " vim-over {{{
 
 " launch vim-over
-nnoremap <silent> <Leader>m :OverCommandLine<CR>s/
-nnoremap <silent> <Leader>f V[mo]M:OverCommandLine<CR>s/
+nnoremap <silent> <Leader>f :OverCommandLine<CR>s/
+nnoremap <silent> <Leader>m V[mo]M:OverCommandLine<CR>s/
 
 " replace word under cursor
 nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
@@ -404,7 +404,7 @@ function! s:SearchCurrentWordCaller()
 		if &filetype == "objc"
 			execute ":Ack " . "'" . '^(?!.*-).*' . wordUnderCursor . ".*" ."'"
 		elseif &filetype == "java"
-			execute ":Ack " . "'" . '^(?!.*(private|public|protected)).*' . wordUnderCursor . "\\s*\\(.*\\)'"
+			execute ":Ack " . "'" . '^(?!.*(void|private|public|protected)).*' . wordUnderCursor . "\\s*\\(.*\\)'"
 		else
 			echo "Command not support for this filetype[" + &filetype + "]"
 		endif
