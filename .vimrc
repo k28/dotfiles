@@ -225,7 +225,11 @@ Bundle 'cocoa.vim'
 Bundle 'taglist.vim'
 Bundle 'EnhCommentify.vim'
 Bundle 'vim-scripts/camelcasemotion'
+if executable('lua')
+Bundle 'Shougo/neocomplete.git'
+else
 Bundle 'Shougo/neocomplcache.git'
+endif
 Bundle 'tanabe/ToggleCase-vim'
 Bundle 'osyo-manga/vim-over'
 if has("unix")
@@ -311,6 +315,26 @@ if !exists("g:neocomplcache_force_omni_patterns")
 	let g:neocomplcache_force_omni_patterns = {}
 endif
 let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
+
+" neocomplete
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_camel_case_completion = 0
+let g:neocomplete#min_keyword_length = 3
+" for neocomplcache and clang_complete settings
+let g:neocomplete#force_overwrite_completefunc = 1
+if !exists('g:neocomplete#force_omni_patterns')
+	let g:neocomplete#force_omni_patterns = {}
+endif
+let g:neocomplete#force_overwrite_completefunc = 1
+let g:neocomplete#force_omni_patterns.c =
+			\ '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#force_omni_patterns.cpp =
+			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplete#force_omni_patterns.objc =
+			\ '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#force_omni_patterns.objcpp =
+			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 " vim-over {{{
 
@@ -711,6 +735,13 @@ function! s:change_pipeline_to_tab() range
 		let index = index + 1
 	endwhile
 endfunction
+" }}}
+
+" ChangeCurrentDirectoryToOpenFile {{{
+command! -nargs=* CDCurrentFileDirectory call s:change_current_file_directory()
+function! s:change_current_file_directory()
+    execute 'lcd' fnameescape(expand('%:p:h'))
+endfunction!
 " }}}
 
 " Unite Source iosframeworks {{{
