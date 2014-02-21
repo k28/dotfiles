@@ -12,8 +12,11 @@ endif
 " if gvimrc, do not use ctrlp caching
 let g:ctrlp_use_caching = 0
 
-" MacVimで的スト変換がおかしいのでこれを記述しておく
+" MacVimでテキスト変換がおかしいのでこれを記述しておく
 inoremap <Left> <Left>
+inoremap <Right> <Right>
+inoremap <Up> <Up>
+inoremap <Down> <Down>
 
 if filereadable(expand('~/.gvimrc.local'))
 	source ~/.gvimrc.local

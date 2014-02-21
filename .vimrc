@@ -102,6 +102,7 @@ endif
 "nnoremap tl :<C-u>tags<CR>
 
 " seal arrow
+if !has('gui_macvim')
 nnoremap <Up> <C-w>+
 nnoremap <Down> <C-w>-
 nnoremap <Left> <C-w><
@@ -112,6 +113,7 @@ inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 inoremap <C-b> <Esc><Esc>bi
+endif
 
 " yunk replace word
 nnoremap <silent> ciy ciw<C-r>0<ESC>
@@ -824,7 +826,6 @@ let s:unite_source.hooks = {}
 function! s:unite_source.hooks.on_init(args, context)
     if g:unite_source_junk_file_src_path == ""
 		let g:unite_source_junk_file_src_path = expand('~/.vim_junk')
-        echo g:unite_source_junk_file_src_path
     endif
     let src_path = g:unite_source_junk_file_src_path . "/**/*.txt"
     let filelist = glob(src_path)
@@ -850,7 +851,6 @@ unlet s:unite_source
 " カーソールの下のメソッド一覧をみたい, できれば, 候補選択したい
 " カーソル下のタグを新しいタブでジャンプして表示したい
 " メソッド内の同じ名称を一括で書き換えられるようにしたい
-" Junkfileの先頭１行目のリストを表示して, 選択したらそれを表示するUnite-Sourceの作成
 
 " load local settings
 if filereadable(expand('~/.vimrc.local'))
