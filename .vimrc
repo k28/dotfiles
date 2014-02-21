@@ -781,7 +781,7 @@ let s:unite_source.hooks = {}
 
 function! s:unite_source.hooks.on_init(args, context)
 	if g:unite_source_androidsources_src_path == ""
-		g:unite_source_androidsources_src_path = "/tmp"
+		let g:unite_source_androidsources_src_path = "/tmp"
 	endif
 	let src_path = g:unite_source_androidsources_src_path . "/**/*.java"
 	let filelist = glob(src_path)
@@ -800,6 +800,49 @@ call unite#define_source(s:unite_source)
 unlet s:unite_source
 "}}}
 
+function! s:load_file_firstline(filepath)
+    let filename = fnamemodify(a:filepath, ":t")
+
+    let list = readfile(a:filepath, '', 3)
+    for line in list
+        if  line != '[:graph:]' && strlen(line) > 0
+            return line . " :" . filename
+        endif
+    endfor
+
+    return filename
+endfunction
+
+" Unite Source Junkfile list "{{{
+let g:unite_source_junk_file_src_path = ""
+
+let s:unite_source = {
+			\'name':'junkfile_titlesearch',
+			\}
+let s:unite_source.hooks = {}
+
+function! s:unite_source.hooks.on_init(args, context)
+    if g:unite_source_junk_file_src_path == ""
+		let g:unite_source_junk_file_src_path = expand('~/.vim_junk')
+        echo g:unite_source_junk_file_src_path
+    endif
+    let src_path = g:unite_source_junk_file_src_path . "/**/*.txt"
+    let filelist = glob(src_path)
+    let a:context.source__lines = split(filelist, "\n")
+endfunction
+
+function! s:unite_source.gather_candidates(args, context)
+	return map(a:context.source__lines, '{"word" : s:load_file_firstline(v:val),
+										\ "kind" : "jump_list",
+										\ "action__path" : v:val ,
+										\ "action__line" : 0 }')
+endfunction
+
+call unite#define_source(s:unite_source)
+
+unlet s:unite_source
+"}}}
+
 " 今後やりたい事
 " カンマを挟んで前後を入れ替える関数が欲しい
 " キャメルケースの移動を改善したい
@@ -807,9 +850,11 @@ unlet s:unite_source
 " カーソールの下のメソッド一覧をみたい, できれば, 候補選択したい
 " カーソル下のタグを新しいタブでジャンプして表示したい
 " メソッド内の同じ名称を一括で書き換えられるようにしたい
+" Junkfileの先頭１行目のリストを表示して, 選択したらそれを表示するUnite-Sourceの作成
 
 " load local settings
 if filereadable(expand('~/.vimrc.local'))
 	source ~/.vimrc.local
 endif
+
 
