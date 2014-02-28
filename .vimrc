@@ -225,6 +225,7 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'a.vim'
 Bundle 'cocoa.vim'
 Bundle 'taglist.vim'
+Bundle 'sudo.vim'
 Bundle 'EnhCommentify.vim'
 Bundle 'vim-scripts/camelcasemotion'
 if executable('lua')
@@ -244,7 +245,7 @@ if has("unix")
 		Bundle 'vim-jp/vimdoc-ja'
 	endif
 " For JavaScript
-Bundle 'teramako/jscomplete-vim'
+Bundle 'marijnh/tern_for_vim'
 endif
 " For Java
 " Bundle 'vim-scripts/javacomplete'
