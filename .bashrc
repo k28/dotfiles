@@ -90,79 +90,92 @@ if [ -r /etc/debian_version ]; then
                 color_prompt=yes
             else
                 color_prompt=
-            fi
         fi
+    fi
 
-        if [ "$color_prompt" = yes ]; then
-            PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-        else
-            PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-        fi
-        unset color_prompt force_color_prompt
+    if [ "$color_prompt" = yes ]; then
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    else
+        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    fi
+    unset color_prompt force_color_prompt
 
-        # If this is an xterm set the title to user@host:dir
-        case "$TERM" in
-        xterm*|rxvt*)
-            PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-            ;;
-        *)
-            ;;
-        esac
+    # If this is an xterm set the title to user@host:dir
+    case "$TERM" in
+    xterm*|rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+        ;;
+    *)
+        ;;
+    esac
 
-        # enable color support of ls and also add handy aliases
-        if [ -x /usr/bin/dircolors ]; then
-            test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-            alias ls='ls --color=auto'
-            #alias dir='dir --color=auto'
-            #alias vdir='vdir --color=auto'
+    # enable color support of ls and also add handy aliases
+    if [ -x /usr/bin/dircolors ]; then
+        test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+        alias ls='ls --color=auto'
+        #alias dir='dir --color=auto'
+        #alias vdir='vdir --color=auto'
 
-            alias grep='grep --color=auto'
-            alias fgrep='fgrep --color=auto'
-            alias egrep='egrep --color=auto'
-        fi
+        alias grep='grep --color=auto'
+        alias fgrep='fgrep --color=auto'
+        alias egrep='egrep --color=auto'
+    fi
 
-        # some more ls aliases
-        alias ll='ls -alF'
-        alias la='ls -A'
-        alias l='ls -CF'
+    LS_COLORS="di=36:ex=32:ln=34:bd=33:cd=33:pi=35:so=35"
+    LS_COLORS="$LS_COLORS:*.gz=31:*.Z=31:*.lzh=31:*.zip=31:*.bz2=31"
+    LS_COLORS="$LS_COLORS:*.tar=31:*.tgz=31"
+    LS_COLORS="$LS_COLORS:*.gif=33:*.jpg=33:*.jpeg=33:*.tif=33:*.ps=33"
+    LS_COLORS="$LS_COLORS:*.xpm=33:*.xbm=33:*.xwd=33:*.xcf=33"
+    LS_COLORS="$LS_COLORS:*.avi=33:*.mov=33:*.mpeg=33:*.mpg=33"
+    LS_COLORS="$LS_COLORS:*.mid=33:*.MID=33:*.rcp=33:*.RCP=33:*.mp3=33"
+    LS_COLORS="$LS_COLORS:*.mod=33:*.MOD=33:*.au=33:*.aiff=33:*.wav=33"
+    LS_COLORS="$LS_COLORS:*.htm=35:*.html=35:*.java=35:*.class=32"
+    LS_COLORS="$LS_COLORS:*.c=35:*.h=35:*.C=35:*.c++=35"
+    LS_COLORS="$LS_COLORS:*.tex=35:*~=0"
+    export LS_COLORS
 
-        # Add an "alert" alias for long running commands.  Use like so:
-        #   sleep 10; alert
-        alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+    # some more ls aliases
+    alias ll='ls -alF'
+    alias la='ls -A'
+    alias l='ls -CF'
 
-        # Alias definitions.
-        # You may want to put all your additions into a separate file like
-        # ~/.bash_aliases, instead of adding them here directly.
-        # See /usr/share/doc/bash-doc/examples in the bash-doc package.
+    # Add an "alert" alias for long running commands.  Use like so:
+    #   sleep 10; alert
+    alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-        if [ -f ~/.bash_aliases ]; then
-            . ~/.bash_aliases
-        fi
+    # Alias definitions.
+    # You may want to put all your additions into a separate file like
+    # ~/.bash_aliases, instead of adding them here directly.
+    # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-        # enable programmable completion features (you don't need to enable
-        # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-        # sources /etc/bash.bashrc).
-            if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-                . /etc/bash_completion
-            fi
+    if [ -f ~/.bash_aliases ]; then
+        . ~/.bash_aliases
+    fi
 
-        fi
-        # -------------------
+    # enable programmable completion features (you don't need to enable
+    # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+    # sources /etc/bash.bashrc).
+    if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+        . /etc/bash_completion
+    fi
 
-        # Java home path
-        if [ -f /usr/libexec/java_home ]; then
-            export JAVA_HOME=`/usr/libexec/java_home`
-        fi
+fi
+# -------------------
 
-        if [ -f ~/.git-completion.bash ]; then
-            source ~/.git-completion.bash
-        fi
+# Java home path
+if [ -f /usr/libexec/java_home ]; then
+    export JAVA_HOME=`/usr/libexec/java_home`
+fi
 
-        if [ -f ~/.bashrc.local ]; then
-            source ~/.bashrc.local
-        fi
+if [ -f ~/.git-completion.bash ]; then
+    source ~/.git-completion.bash
+fi
 
-        if [ -d ~/bin ]; then
-            export PATH=~/bin:$PATH
-        fi
+if [ -f ~/.bashrc.local ]; then
+    source ~/.bashrc.local
+fi
+
+if [ -d ~/bin ]; then
+    export PATH=~/bin:$PATH
+fi
 
