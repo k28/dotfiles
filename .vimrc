@@ -243,6 +243,7 @@ if has("unix")
 		Bundle 'guns/ultisnips'
 		Bundle 'thinca/vim-fontzoom'
 		Bundle 'vim-jp/vimdoc-ja'
+    elseif s:uname == "Linux\n"
 	endif
 " For JavaScript
 Bundle 'marijnh/tern_for_vim'
