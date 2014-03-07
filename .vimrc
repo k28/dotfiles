@@ -238,8 +238,8 @@ Bundle 'osyo-manga/vim-over'
 if has("unix")
 	let s:uname = system("uname")
 	if s:uname == "Darwin\n"
-		Bundle 'tokorom/clang_complete.git'
-		Bundle 'tokorom/clang_complete-getopts-ios.git'
+        Bundle 'tokorom/clang_complete.git'
+        Bundle 'tokorom/clang_complete-getopts-ios.git'
 		Bundle 'guns/ultisnips'
 		Bundle 'thinca/vim-fontzoom'
 		Bundle 'vim-jp/vimdoc-ja'
@@ -282,6 +282,8 @@ function! EnhCommentifyCallback(ft)
 	endif
 endfunction
 let g:EnhCommentifyCallbackExists = 'Yes'
+
+let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk'
 
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=''
@@ -328,17 +330,17 @@ let g:neocomplete#min_keyword_length = 3
 " for neocomplcache and clang_complete settings
 let g:neocomplete#force_overwrite_completefunc = 1
 if !exists('g:neocomplete#force_omni_patterns')
-	let g:neocomplete#force_omni_patterns = {}
+    let g:neocomplete#force_omni_patterns = {}
 endif
 let g:neocomplete#force_overwrite_completefunc = 1
 let g:neocomplete#force_omni_patterns.c =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#force_omni_patterns.cpp =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:neocomplete#force_omni_patterns.objc =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#force_omni_patterns.objcpp =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 " vim-over {{{
 
