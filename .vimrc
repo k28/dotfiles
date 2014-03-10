@@ -249,6 +249,15 @@ if has("unix")
 " For JavaScript
 Bundle 'marijnh/tern_for_vim'
 endif
+" for html
+Bundle 'mattn/emmet-vim'
+"Bundle 'open-browser.vim'
+Bundle 'mattn/webapi-vim'
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'taichouchou2/html5.vim'
+Bundle 'pangloss/vim-javascript'
+"Bundle 'kchmck/vim-coffee-script'
+
 " For Java
 " Bundle 'vim-scripts/javacomplete'
 
@@ -343,6 +352,13 @@ let g:neocomplete#force_omni_patterns.objc =
             \ '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#force_omni_patterns.objcpp =
             \ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" html5 {{{
+let g:html5_event_handler_attributes_complete = 1
+let g:html5_rdfa_attributes_complete = 1
+let g:html5_microdata_attributes_complete = 1
+let g:html5_aria_attributes_complete = 1
+" }}}
 
 " vim-over {{{
 
