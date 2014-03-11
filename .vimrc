@@ -25,8 +25,11 @@ else
 endif
 
 set laststatus=2
-let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%{cfi#format("[%s]", "[no function]")}%=%l,%c%V%10P'
-"let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%=%l,%c%V%10P'
+if has("win32") || has("win64")
+    let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%=%l,%c%V%10P'
+else
+    let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%{cfi#format("[%s]", "[no function]")}%=%l,%c%V%10P'
+endif
 
 set number
 set wildmenu wildmode=list:full
@@ -143,6 +146,7 @@ vnoremap > >gv
 " insert mode
 inoremap <silent> <C-a> <ESC>I
 inoremap <silent> <C-e> <ESC>$a
+inoremap <silent> <C-j> <ESC>/([^()]*)<CR>v%g<C-h>
 
 " yank 1line without new line.
 vnoremap v $h
@@ -238,8 +242,8 @@ Bundle 'osyo-manga/vim-over'
 if has("unix")
 	let s:uname = system("uname")
 	if s:uname == "Darwin\n"
-		Bundle 'tokorom/clang_complete.git'
-		Bundle 'tokorom/clang_complete-getopts-ios.git'
+        Bundle 'tokorom/clang_complete.git'
+        Bundle 'tokorom/clang_complete-getopts-ios.git'
 		Bundle 'guns/ultisnips'
 		Bundle 'thinca/vim-fontzoom'
 		Bundle 'vim-jp/vimdoc-ja'
@@ -248,6 +252,15 @@ if has("unix")
 " For JavaScript
 Bundle 'marijnh/tern_for_vim'
 endif
+" for html
+Bundle 'mattn/emmet-vim'
+"Bundle 'open-browser.vim'
+Bundle 'mattn/webapi-vim'
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'taichouchou2/html5.vim'
+Bundle 'pangloss/vim-javascript'
+"Bundle 'kchmck/vim-coffee-script'
+
 " For Java
 " Bundle 'vim-scripts/javacomplete'
 
@@ -282,6 +295,8 @@ function! EnhCommentifyCallback(ft)
 	endif
 endfunction
 let g:EnhCommentifyCallbackExists = 'Yes'
+
+let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk'
 
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=''
@@ -324,21 +339,29 @@ let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case_completion = 0
+let g:neocomplete#disable_auto_complete = 1
 let g:neocomplete#min_keyword_length = 3
 " for neocomplcache and clang_complete settings
 let g:neocomplete#force_overwrite_completefunc = 1
 if !exists('g:neocomplete#force_omni_patterns')
-	let g:neocomplete#force_omni_patterns = {}
+    let g:neocomplete#force_omni_patterns = {}
 endif
 let g:neocomplete#force_overwrite_completefunc = 1
 let g:neocomplete#force_omni_patterns.c =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#force_omni_patterns.cpp =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:neocomplete#force_omni_patterns.objc =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#force_omni_patterns.objcpp =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" html5 {{{
+let g:html5_event_handler_attributes_complete = 1
+let g:html5_rdfa_attributes_complete = 1
+let g:html5_microdata_attributes_complete = 1
+let g:html5_aria_attributes_complete = 1
+" }}}
 
 " vim-over {{{
 
