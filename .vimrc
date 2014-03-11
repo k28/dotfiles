@@ -202,7 +202,7 @@ let g:netrw_liststyle = 3
 " Vundle Settings -------------
 filetype off
 if has("win32") || has("win64")
-	set rtp+=~/vimfiles/bundle/vundle/
+	set rtp+=~/.vim/bundle/vundle/
 	call vundle#rc('~/vimfiles/bundle')
 else
 	set rtp+=~/.vim/bundle/vundle
