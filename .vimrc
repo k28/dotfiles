@@ -28,7 +28,7 @@ set laststatus=2
 if has("win32") || has("win64")
     let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%=%l,%c%V%10P'
 else
-    let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%{cfi#format("[%s]", "[no function]")}%=%l,%c%V%10P'
+    let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%{cfi#format("[%s]", "[no function]")}%=%l,%c%V%10P%{strftime("[%H:%M]")}'
 endif
 
 set number
@@ -773,7 +773,7 @@ endfunction!
 
 " Unite Source iosframeworks {{{
 let g:unite_source_iosframeworks_frameworks_path =
-			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks"
+			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks"
 
 let s:unite_source = {
 			\'name':'iosframeworks',
