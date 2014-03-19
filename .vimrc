@@ -339,7 +339,7 @@ let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case_completion = 0
-let g:neocomplete#disable_auto_complete = 1
+"let g:neocomplete#disable_auto_complete = 1
 let g:neocomplete#min_keyword_length = 3
 " for neocomplcache and clang_complete settings
 let g:neocomplete#force_overwrite_completefunc = 1
