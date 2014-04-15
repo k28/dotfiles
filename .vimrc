@@ -194,6 +194,18 @@ au QuickfixCmdPost l* lopen
 " file types
 au BufRead,BufNewFile *.mm	set filetype=objc
 
+" Edit in Hex mode when the Binary modee
+augroup BinaryXXD
+    autocmd!
+    autocmd BufReadPre *.bin let &binary = 1
+    autocmd BufReadPost * if &binary | silent %!xxd -g 1
+    autocmd BufReadPost * set ft=xxd | endif
+    autocmd BufWritePre * if &binary | %!xxd -r
+    autocmd BufWritePre * endif
+    autocmd BufWritePost * if &binary | silent %!xxd -g 1
+    autocmd BufWritePost * set nomod | endif
+augroup END
+
 " reload this file
 command! ReloadVimrc source $MYVIMRC
 
@@ -339,7 +351,7 @@ let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case_completion = 0
-"let g:neocomplete#disable_auto_complete = 1
+let g:neocomplete#disable_auto_complete = 1
 let g:neocomplete#min_keyword_length = 3
 " for neocomplcache and clang_complete settings
 let g:neocomplete#force_overwrite_completefunc = 1
@@ -370,7 +382,7 @@ nnoremap <silent> <Leader>f :OverCommandLine<CR>s/
 nnoremap <silent> <Leader>m V[mo]M:OverCommandLine<CR>s/
 
 " replace word under cursor
-nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/\<<C-r><C-w>\>//g<Left><Left>
 vnoremap <silent> <Leader>g :OverCommandLine<CR>s/
 
 " }}}
