@@ -2,5 +2,8 @@
 noremap ; :
 noremap : ;
 
+set ignorecase
+set smartcase
+
 " vim:tw=78:ts=8:ft=vim
 

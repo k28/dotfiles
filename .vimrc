@@ -888,6 +888,7 @@ unlet s:unite_source
 " カーソールの下のメソッド一覧をみたい, できれば, 候補選択したい
 " カーソル下のタグを新しいタブでジャンプして表示したい
 " メソッド内の同じ名称を一括で書き換えられるようにしたい
+" カーソル下の単語のヘッダーファイルを開きたい
 
 " load local settings
 if filereadable(expand('~/.vimrc.local'))
