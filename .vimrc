@@ -12,6 +12,7 @@ set tabstop=4
 set shiftwidth=4
 set textwidth=0
 set expandtab
+set foldmethod=marker
 
 if has("win32") || has("win64")
 	set nobackup
@@ -297,7 +298,11 @@ let g:quickrun_config={'*': {'split': ''}}
 set splitright
 
 " unite.vim settings
-noremap ;; :Unite buffer<CR>
+if &filetype == "java"
+    noremap ;; :Unite eclipseSrcFiles<CR>
+else
+    noremap ;; :Unite buffer<CR>
+endif
 
 " EnhCommentify settings
 function! EnhCommentifyCallback(ft)
@@ -832,6 +837,42 @@ function! s:unite_source.gather_candidates(args, context)
 										\ "kind" : "jump_list",
 										\ "action__path" : v:val ,
 										\ "action__line" : 0 }')
+endfunction
+
+call unite#define_source(s:unite_source)
+
+unlet s:unite_source
+"}}}
+
+" Unite Source eclipseSrcFiles" {{{
+let g:unite_source_eclipsesrcfiles_src_path = ""
+
+let s:unite_source = {
+            \ 'name' : 'eclipseSrcFiles',
+            \}
+let s:unite_source.hooks = {}
+
+function! s:unite_source.hooks.on_init(args, context)
+    " Search .project contain folder
+    let src_folder = 'src'
+    let srcdir = finddir(src_folder, './')
+    if srcdir == ''
+        let srcdir = finddir(src_folder, './;')
+    endif
+
+    " Search Java sources
+    if srcdir != ''
+        let src_path = srcdir . "/**/*.java"
+        let filelist = glob(src_path)
+        let a:context.source__lines = split(filelist, "\n")
+    endif
+endfunction
+
+function! s:unite_source.gather_candidates(args, context)
+    return map(a:context.source__lines, '{"word" : fnamemodify(v:val, ":t"),
+                                        \ "kind" : "jump_list",
+                                        \ "action__path" : v:val ,
+                                        \ "action__line" : 0 }')
 endfunction
 
 call unite#define_source(s:unite_source)
