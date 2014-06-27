@@ -25,6 +25,9 @@ else
 	let &backupdir=s:bkdir
 endif
 
+" do not create *.un~
+set noundofile
+
 set laststatus=2
 if has("win32") || has("win64")
     let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%=%l,%c%V%10P'

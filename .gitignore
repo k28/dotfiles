@@ -2,6 +2,7 @@
 /*
 # ignore all dot files
 /.*
+*\.un~
 
 # DO NOT IGNORE ITEMS
 !/.bash_profile
