@@ -218,6 +218,9 @@ command! ReloadVimrc source $MYVIMRC
 let g:netrw_liststyle = 3
 " do not show .files
 "let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+" Set vertical window size to 75%
+let g:netrw_size=75
+
 
 " Vundle Settings -------------
 filetype off
@@ -234,6 +237,7 @@ Bundle 'gmarik/vundle'
 Bundle 'Shougo/unite.vim'
 Bundle 'Shougo/unite-outline'
 Bundle 'Shougo/vimproc'
+Bundle 'Shougo/vimfiler.vim'
 Bundle 'thinca/vim-quickrun'
 Bundle 'msanders/snipmate.vim'
 Bundle 'mileszs/ack.vim'
@@ -318,6 +322,16 @@ endfunction
 let g:EnhCommentifyCallbackExists = 'Yes'
 
 let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk'
+
+" for vimfiler plugin
+command! -nargs=0 OpenVimfilerAsIDE :VimFiler -split -simple -winwidth=35 -no-quit
+
+" for taglist plugin
+let Tlist_Ctags_Cmd = "$HOME/bin/ctags"
+let Tlist_Show_One_File = 1
+let Tlist_Use_Right_Window = 1
+let Tlist_Exit_OnlyWindow = 1
+nnoremap <silent> <leader>l :TlistToggle<CR>
 
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=''
