@@ -117,6 +117,9 @@ inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 inoremap <C-b> <Esc><Esc>bi
+else
+" Leaderを "¥" に変更する
+let mapleader = "¥"
 endif
 
 " yunk replace word
@@ -263,7 +266,8 @@ if has("unix")
     elseif s:uname == "Linux\n"
 	endif
 " For JavaScript
-Bundle 'marijnh/tern_for_vim'
+"Bundle 'marijnh/tern_for_vim'
+" Installした後に npm install する必要がある
 endif
 " for html
 Bundle 'mattn/emmet-vim'
@@ -275,7 +279,7 @@ Bundle 'pangloss/vim-javascript'
 "Bundle 'kchmck/vim-coffee-script'
 
 " For Java
-" Bundle 'vim-scripts/javacomplete'
+Bundle 'vim-scripts/javacomplete'
 
 " github Bundle 'name/foo.vim'
 " www.vim.org Bundle 'bar.vim'
@@ -395,7 +399,7 @@ vnoremap <silent> <Leader>g :OverCommandLine<CR>s/
 " for javacomplete {{{
 augroup vimrc-javacomplete
 autocmd FileType java :setlocal omnifunc=javacomplete#Complete
-autocmd FileType java :setlocal completefunc=javacomplete#CompleteParamsInfo
+"autocmd FileType java :setlocal completefunc=javacomplete#CompleteParamsInfo
 augroup END "}}}
 
 " load plugins
@@ -785,6 +789,19 @@ endfunction
 command! -nargs=* CDCurrentFileDirectory call s:change_current_file_directory()
 function! s:change_current_file_directory()
     execute 'lcd' fnameescape(expand('%:p:h'))
+endfunction!
+" }}}
+
+" GrepFromJunkFiles {{{
+command! -nargs=1 GrepFromJunkFiles call s:grep_from_junkfiles(<f-args>)
+function! s:grep_from_junkfiles(word)
+	if executable('ack')
+		execute ':Ack ''' . a:word . ''' ~/.vim_junk/'
+	elseif executable('grep')
+        execute ":grep -rI " . a:word . "~/.vim_junk/"
+	else
+		echo "command not support"
+	endif
 endfunction!
 " }}}
 
