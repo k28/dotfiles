@@ -225,73 +225,85 @@ let g:netrw_liststyle = 3
 let g:netrw_size=75
 
 
-" Vundle Settings -------------
-filetype off
-if has("win32") || has("win64")
-	set rtp+=~/.vim/bundle/vundle/
-	call vundle#rc('~/vimfiles/bundle')
-else
-	set rtp+=~/.vim/bundle/vundle
-	call vundle#rc()
+" NeoBunle Settings -------------
+"filetype off
+"if has("win32") || has("win64")
+"	set rtp+=~/.vim/bundle/vundle/
+"	call vundle#rc('~/vimfiles/bundle')
+"else
+"	set rtp+=~/.vim/bundle/vundle
+"	call vundle#rc()
+"endif
+
+if has('vim_starting')
+    set nocompatible               " Be iMproved
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+NeoBundleFetch 'Shougo/neobundle.vim'
+
 " Vundle managed plugins
-Bundle 'gmarik/vundle'
-Bundle 'Shougo/unite.vim'
-Bundle 'Shougo/unite-outline'
-Bundle 'Shougo/vimproc'
-Bundle 'Shougo/vimfiler.vim'
-Bundle 'thinca/vim-quickrun'
-Bundle 'msanders/snipmate.vim'
-Bundle 'mileszs/ack.vim'
-Bundle 'tyru/DumbBuf.vim'
-Bundle 'vim-scripts/sh.vim'
-Bundle 'tpope/vim-surround'
-Bundle 'thinca/vim-qfreplace'
-Bundle 'kien/ctrlp.vim'
-Bundle 'a.vim'
-Bundle 'cocoa.vim'
-Bundle 'taglist.vim'
-Bundle 'sudo.vim'
-Bundle 'EnhCommentify.vim'
-Bundle 'vim-scripts/camelcasemotion'
+NeoBundle 'gmarik/vundle'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite-outline'
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/vimfiler.vim'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'msanders/snipmate.vim'
+NeoBundle 'mileszs/ack.vim'
+NeoBundle 'tyru/DumbBuf.vim'
+NeoBundle 'vim-scripts/sh.vim'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'thinca/vim-qfreplace'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'a.vim'
+NeoBundle 'cocoa.vim'
+NeoBundle 'taglist.vim'
+NeoBundle 'sudo.vim'
+NeoBundle 'EnhCommentify.vim'
+NeoBundle 'vim-scripts/camelcasemotion'
 if executable('lua')
-Bundle 'Shougo/neocomplete.git'
+NeoBundle 'Shougo/neocomplete.git'
 else
-Bundle 'Shougo/neocomplcache.git'
+NeoBundle 'Shougo/neocomplcache.git'
 endif
-Bundle 'tanabe/ToggleCase-vim'
-Bundle 'osyo-manga/vim-over'
+NeoBundle 'tanabe/ToggleCase-vim'
+NeoBundle 'osyo-manga/vim-over'
 if has("unix")
 	let s:uname = system("uname")
 	if s:uname == "Darwin\n"
-        Bundle 'tokorom/clang_complete.git'
-        Bundle 'tokorom/clang_complete-getopts-ios.git'
-		Bundle 'guns/ultisnips'
-		Bundle 'thinca/vim-fontzoom'
-		Bundle 'vim-jp/vimdoc-ja'
+        NeoBundle 'tokorom/clang_complete.git'
+        NeoBundle 'tokorom/clang_complete-getopts-ios.git'
+		NeoBundle 'guns/ultisnips'
+		NeoBundle 'thinca/vim-fontzoom'
+		NeoBundle 'vim-jp/vimdoc-ja'
     elseif s:uname == "Linux\n"
 	endif
 " For JavaScript
-"Bundle 'marijnh/tern_for_vim'
+"NeoBundle 'marijnh/tern_for_vim'
 " Installした後に npm install する必要がある
 endif
 " for html
-Bundle 'mattn/emmet-vim'
-"Bundle 'open-browser.vim'
-Bundle 'mattn/webapi-vim'
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'taichouchou2/html5.vim'
-Bundle 'pangloss/vim-javascript'
-"Bundle 'kchmck/vim-coffee-script'
+NeoBundle 'mattn/emmet-vim'
+"NeoBundle 'open-browser.vim'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'taichouchou2/html5.vim'
+NeoBundle 'pangloss/vim-javascript'
+"NeoBundle 'kchmck/vim-coffee-script'
 
 " For Java
-Bundle 'vim-scripts/javacomplete'
+NeoBundle 'vim-scripts/javacomplete'
 
-" github Bundle 'name/foo.vim'
-" www.vim.org Bundle 'bar.vim'
+" github NeoBundle 'name/foo.vim'
+" www.vim.org NeoBundle 'bar.vim'
 
+call neobundle#end()
 filetype plugin indent on
+NeoBundleCheck
+
 " ----- Vundle Settings End -----
 
 " syntax highlite
