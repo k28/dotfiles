@@ -6,6 +6,7 @@ if has ('gui_macvim')
 	set guifont=Monaco:h11
 	set background=light
 	colorscheme desert
+    set textwidth=0;
 endif
 
 " if gvimrc, do not use ctrlp caching
@@ -16,6 +17,9 @@ inoremap <Left> <Left>
 inoremap <Right> <Right>
 inoremap <Up> <Up>
 inoremap <Down> <Down>
+
+inoremap ¥ \
+inoremap \ ¥
 
 if filereadable(expand('~/.gvimrc.local'))
 	source ~/.gvimrc.local

@@ -295,7 +295,14 @@ NeoBundle 'pangloss/vim-javascript'
 "NeoBundle 'kchmck/vim-coffee-script'
 
 " For Java
-NeoBundle 'vim-scripts/javacomplete'
+"NeoBundle 'vim-scripts/javacomplete'
+NeoBundle 'yuratomo/java-api-complete'
+NeoBundle 'yuratomo/java-api-javax'
+NeoBundle 'yuratomo/java-api-org'
+NeoBundle 'yuratomo/java-api-sun'
+NeoBundle 'yuratomo/java-api-servlet2.3'
+NeoBundle 'yuratomo/java-api-android'
+NeoBundle 'yuratomo/java-api-junit'
 
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
@@ -417,6 +424,7 @@ let g:html5_aria_attributes_complete = 1
 
 " launch vim-over
 nnoremap <silent> <Leader>f :OverCommandLine<CR>s/
+nnoremap <silent> <Leader>s :OverCommandLine<CR>%s/
 nnoremap <silent> <Leader>m V[mo]M:OverCommandLine<CR>s/
 
 " replace word under cursor
@@ -426,10 +434,29 @@ vnoremap <silent> <Leader>g :OverCommandLine<CR>s/
 " }}}
 
 " for javacomplete {{{
-augroup vimrc-javacomplete
-autocmd FileType java :setlocal omnifunc=javacomplete#Complete
-"autocmd FileType java :setlocal completefunc=javacomplete#CompleteParamsInfo
-augroup END "}}}
+"augroup vimrc-javacomplete
+"    autocmd!
+"    autocmd FileType java :setlocal omnifunc=javacomplete#Complete
+"    autocmd FileType java :setlocal completefunc=javacomplete#CompleteParamsInfo
+"augroup END "}}}
+
+" for java-api-complete {{{
+augroup java-api-complete
+    autocmd!
+    autocmd FileType java :setlocal omnifunc=javaapi#complete
+    " autocmd FileType java :JavaApiLoadFromTag "これやると遅くなる
+    autocmd CompleteDone *.java echo "kita kita"
+    autocmd CompleteDone *.java call javaapi#showRef()
+augroup END
+let g:javaapi#delay_dirs = [
+  \ 'java-api-javax',
+  \ 'java-api-org',
+  \ 'java-api-sun',
+  \ 'java-api-servlet2.3',
+  \ 'java-api-android',
+  \ ]
+
+" }}}
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
@@ -659,7 +686,7 @@ function! s:ShowAllMappingInUnite()
 	exec ":Unite output:map|map!|lmap"
 endfunction!
 
-" for vim script test
+" for vim script test " {{{
 command! -nargs=* -range Hogehoge :<line1>,<line2>call <SID>Hogehoge()
 function! s:Hogehoge() range
 	let funcname = ''
@@ -699,8 +726,9 @@ function! s:Hogehoge() range
 
 	echo funcname
 endfunction
+" }}}
 
-" Escape Selected to SyntaxHighlighter
+" Escape Selected to SyntaxHighlighter " {{{
 command! -nargs=* -range EscapeToSyntaxHighlighter :<line1>,<line2>call <SID>EscapeToSyntaxHighlighter()
 function! s:EscapeToSyntaxHighlighter() range
 	let s:firstLine = a:firstline
@@ -736,8 +764,9 @@ function! s:EscapeToSyntaxHighlighter() range
 		echo "Warnning!! Brush is unknown"
 	endif
 endfunction
+" }}}
 
-" return syntax highlighter brush
+" return syntax highlighter brush " {{{
 function! s:SyntaxHighlighterBrush()
 	if &filetype == "objc"
 		return "cpp"
@@ -757,6 +786,7 @@ function! s:SyntaxHighlighterBrush()
 		return "unknown"
 	endif
 endfunction
+" }}}
 
 " call at load
 if has('vim_starting')
@@ -953,7 +983,7 @@ function! s:unite_source.hooks.on_init(args, context)
     endif
     let src_path = g:unite_source_junk_file_src_path . "/**/*.txt"
     let filelist = glob(src_path)
-    let a:context.source__lines = split(filelist, "\n")
+    let a:context.source__lines = reverse(split(filelist, "\n"))
 endfunction
 
 function! s:unite_source.gather_candidates(args, context)
