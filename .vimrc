@@ -153,7 +153,13 @@ vnoremap > >gv
 " insert mode
 inoremap <silent> <C-a> <ESC>I
 inoremap <silent> <C-e> <ESC>$a
+inoremap <silent> <C-f> <ESC>la
 inoremap <silent> <C-j> <ESC>/([^()]*)<CR>v%g<C-h>
+inoremap {} {}<Left>
+inoremap [] []<Left>
+" inoremap () ()<Left> "使いづらいのでこれは無効にする
+inoremap "" ""<Left>
+inoremap <> <><Left>
 
 " yank 1line without new line.
 vnoremap v $h
@@ -257,6 +263,7 @@ NeoBundle 'Shougo/vimproc', {
       \    },
       \ }
 NeoBundle 'Shougo/vimfiler.vim'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'msanders/snipmate.vim'
 NeoBundle 'mileszs/ack.vim'
@@ -311,6 +318,9 @@ NeoBundle 'yuratomo/java-api-servlet2.3'
 NeoBundle 'yuratomo/java-api-android'
 NeoBundle 'yuratomo/java-api-junit'
 
+" Evernote
+NeoBundle 'kakkyz81/evervim'
+
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
 
@@ -335,11 +345,18 @@ let g:quickrun_config={'*': {'split': ''}}
 set splitright
 
 " unite.vim settings
-if &filetype == "java"
-    noremap ;; :Unite eclipseSrcFiles<CR>
-else
-    noremap ;; :Unite buffer<CR>
-endif
+noremap <silent> ;; :OpenFileSearch()
+"noremap ;; :Unite buffer<CR>
+"noremap ;; :Unite -start-insert eclipseSrcFiles<CR>
+command! -nargs=0 OpenFileSearch call <SID>OpenFileSearch()
+function! s:OpenFileSearch()
+    if &filetype == "java"
+        echo "kita kita"
+        call :Unite -start-insert eclipseSrcFiles<CR>
+    else
+        call :Unite buffer<CR>
+    endif
+endfunction "Ehtml()
 
 " EnhCommentify settings
 function! EnhCommentifyCallback(ft)
@@ -959,6 +976,33 @@ function! s:unite_source.gather_candidates(args, context)
 endfunction
 
 call unite#define_source(s:unite_source)
+
+unlet s:unite_source
+"}}}
+
+" Unite Source change_link_directory" {{{
+let g:unite_source_link_directory_path = "$HOME/link"
+
+let s:unite_source = {
+            \ 'name' : 'change_link_directory',
+            \}
+let s:unite_source.hooks = {}
+
+function! s:unite_source.hooks.on_init(args, context)
+        let src_path = g:unite_source_link_directory_path . "/*"
+        let filelist = glob(src_path)
+        let a:context.source__lines = split(filelist, "\n")
+endfunction
+
+function! s:unite_source.gather_candidates(args, context)
+    return map(a:context.source__lines, '{"word" : fnamemodify(v:val, ":t"),
+                                        \ "kind" : "cdable",
+                                        \ "action__directory" : v:val ,}')
+endfunction
+
+call unite#define_source(s:unite_source)
+call unite#custom#default_action('source/change_link_directory/cdable' ,'lcd')
+call unite#custom#alias('source/change_link_directory/narrow', 'cdable', 'lcd')
 
 unlet s:unite_source
 "}}}

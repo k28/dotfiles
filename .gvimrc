@@ -20,6 +20,8 @@ inoremap <Down> <Down>
 
 inoremap ¥ \
 inoremap \ ¥
+cnoremap ¥ \
+cnoremap \ ¥
 
 if filereadable(expand('~/.gvimrc.local'))
 	source ~/.gvimrc.local
