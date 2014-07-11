@@ -345,7 +345,7 @@ let g:quickrun_config={'*': {'split': ''}}
 set splitright
 
 " unite.vim settings
-noremap <silent> ;; :OpenFileSearch()
+"noremap <silent> ;; :OpenFileSearch()
 "noremap ;; :Unite buffer<CR>
 "noremap ;; :Unite -start-insert eclipseSrcFiles<CR>
 command! -nargs=0 OpenFileSearch call <SID>OpenFileSearch()
