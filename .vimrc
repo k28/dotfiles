@@ -264,6 +264,7 @@ NeoBundle 'Shougo/vimproc', {
       \ }
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'msanders/snipmate.vim'
 NeoBundle 'mileszs/ack.vim'
@@ -317,6 +318,7 @@ NeoBundle 'yuratomo/java-api-sun'
 NeoBundle 'yuratomo/java-api-servlet2.3'
 NeoBundle 'yuratomo/java-api-android'
 NeoBundle 'yuratomo/java-api-junit'
+NeoBundle 'vim-scripts/TagHighlight'
 
 " Evernote
 NeoBundle 'kakkyz81/evervim'
@@ -334,6 +336,10 @@ NeoBundleCheck
 if !exists("g:syntax_on")
 	syntax enable
 endif
+
+let java_highlight_all = 1
+let java_highlight_functions = "style"
+let java_allow_cpp_keywords = 1
 
 " a.vim addition
 let g:alternateExtensions_h = "c,cpp,cxx,cc,CC,m,mm"
@@ -481,6 +487,9 @@ let g:javaapi#delay_dirs = [
   \ ]
 
 " }}}
+
+" unite settings " {{{
+"}}}
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
