@@ -8,4 +8,6 @@
 
 --ignore-dir=.metadata
 --ignore-file=match:/\.tags/
+--ignore-file=match:/tags/
+--ignore-file=match:/.*\.taghl/
 --ignore-file=match:/project\.pbxproj/

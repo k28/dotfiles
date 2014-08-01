@@ -841,6 +841,21 @@ function! s:open_junk_file()
 endfunction
 " }}}
 
+" Open daily report file." {{{
+command! -nargs=0 DailyReport call s:open_daily_report()
+function! s:open_daily_report()
+	let l:daily_dir = $HOME . '/.vim_daily' . strftime('/%Y/%m')
+	if !isdirectory(l:daily_dir)
+		call mkdir(l:daily_dir, 'p')
+	endif
+
+	let l:filename = l:daily_dir . strftime('/%Y-%m-%d.txt')
+	if l:filename != ""
+		execute 'edit' . l:filename
+	endif
+endfunction
+" }}}
+
 " Copy word to Clipboard. " {{{
 command! -nargs=0 CopyWord2Clipboad call s:copy_word_to_clipboard()
 function! s:copy_word_to_clipboard()
@@ -1042,6 +1057,35 @@ function! s:unite_source.hooks.on_init(args, context)
 		let g:unite_source_junk_file_src_path = expand('~/.vim_junk')
     endif
     let src_path = g:unite_source_junk_file_src_path . "/**/*.txt"
+    let filelist = glob(src_path)
+    let a:context.source__lines = reverse(split(filelist, "\n"))
+endfunction
+
+function! s:unite_source.gather_candidates(args, context)
+	return map(a:context.source__lines, '{"word" : s:load_file_firstline(v:val),
+										\ "kind" : "jump_list",
+										\ "action__path" : v:val ,
+										\ "action__line" : 0 }')
+endfunction
+
+call unite#define_source(s:unite_source)
+
+unlet s:unite_source
+"}}}
+
+" Unite Source DailyReport list "{{{
+let g:unite_source_daily_report_src_path = ""
+
+let s:unite_source = {
+			\'name':'dailt_report_title_search',
+			\}
+let s:unite_source.hooks = {}
+
+function! s:unite_source.hooks.on_init(args, context)
+    if g:unite_source_daily_report_src_path == ""
+		let g:unite_source_daily_report_src_path = expand('~/.vim_daily')
+    endif
+    let src_path = g:unite_source_daily_report_src_path . "/**/*.txt"
     let filelist = glob(src_path)
     let a:context.source__lines = reverse(split(filelist, "\n"))
 endfunction
