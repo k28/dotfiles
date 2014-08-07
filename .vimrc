@@ -357,7 +357,6 @@ set splitright
 command! -nargs=0 OpenFileSearch call <SID>OpenFileSearch()
 function! s:OpenFileSearch()
     if &filetype == "java"
-        echo "kita kita"
         call :Unite -start-insert eclipseSrcFiles<CR>
     else
         call :Unite buffer<CR>
@@ -475,7 +474,6 @@ augroup java-api-complete
     autocmd!
     autocmd FileType java :setlocal omnifunc=javaapi#complete
     " autocmd FileType java :JavaApiLoadFromTag "これやると遅くなる
-    autocmd CompleteDone *.java echo "kita kita"
     autocmd CompleteDone *.java call javaapi#showRef()
 augroup END
 let g:javaapi#delay_dirs = [
