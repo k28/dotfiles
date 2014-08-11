@@ -1075,7 +1075,7 @@ unlet s:unite_source
 let g:unite_source_daily_report_src_path = ""
 
 let s:unite_source = {
-			\'name':'dailt_report_title_search',
+			\'name':'daily_report_title_search',
 			\}
 let s:unite_source.hooks = {}
 
