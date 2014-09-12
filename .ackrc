@@ -11,3 +11,4 @@
 --ignore-file=match:/tags/
 --ignore-file=match:/.*\.taghl/
 --ignore-file=match:/project\.pbxproj/
+--ignore-file=match:/\/\..*/

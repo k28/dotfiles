@@ -291,7 +291,7 @@ if has("unix")
 	if s:uname == "Darwin\n"
         NeoBundle 'tokorom/clang_complete.git'
         NeoBundle 'tokorom/clang_complete-getopts-ios.git'
-		NeoBundle 'guns/ultisnips'
+		NeoBundle 'SirVer/ultisnips'
 		NeoBundle 'thinca/vim-fontzoom'
 		NeoBundle 'vim-jp/vimdoc-ja'
     elseif s:uname == "Linux\n"
@@ -372,7 +372,8 @@ function! EnhCommentifyCallback(ft)
 endfunction
 let g:EnhCommentifyCallbackExists = 'Yes'
 
-let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk'
+let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.0.sdk'
+let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib'
 
 " for vimfiler plugin
 command! -nargs=0 OpenVimfilerAsIDE :VimFiler -split -simple -winwidth=35 -no-quit
