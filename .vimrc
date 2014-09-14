@@ -159,7 +159,7 @@ inoremap {} {}<Left>
 inoremap [] []<Left>
 " inoremap () ()<Left> "使いづらいのでこれは無効にする
 inoremap "" ""<Left>
-inoremap <> <><Left>
+" inoremap <> <><Left> "使いづらいので無効にする
 
 " yank 1line without new line.
 vnoremap v $h
@@ -855,6 +855,21 @@ function! s:open_daily_report()
 endfunction
 " }}}
 
+" Open Astronomical observation " {{{
+command! -nargs=0 AstronomicalObservationReport call s:open_astronomical_observation()
+function! s:open_astronomical_observation()
+	let l:astronomical_dir = $HOME . '/.vim_astronomical_observation' . strftime('/%Y/%m')
+	if !isdirectory(l:astronomical_dir)
+		call mkdir(l:astronomical_dir, 'p')
+	endif
+
+	let l:filename = input('Astronomical Obseb.', l:astronomical_dir . strftime('/%Y-%m-%d.txt'))
+	if l:filename != ""
+		execute 'edit' . l:filename
+	endif
+endfunction
+" }}}
+
 " Copy word to Clipboard. " {{{
 command! -nargs=0 CopyWord2Clipboad call s:copy_word_to_clipboard()
 function! s:copy_word_to_clipboard()
@@ -1085,6 +1100,35 @@ function! s:unite_source.hooks.on_init(args, context)
 		let g:unite_source_daily_report_src_path = expand('~/.vim_daily')
     endif
     let src_path = g:unite_source_daily_report_src_path . "/**/*.txt"
+    let filelist = glob(src_path)
+    let a:context.source__lines = reverse(split(filelist, "\n"))
+endfunction
+
+function! s:unite_source.gather_candidates(args, context)
+	return map(a:context.source__lines, '{"word" : s:load_file_firstline(v:val),
+										\ "kind" : "jump_list",
+										\ "action__path" : v:val ,
+										\ "action__line" : 0 }')
+endfunction
+
+call unite#define_source(s:unite_source)
+
+unlet s:unite_source
+"}}}
+
+" Unite Source Astronomical Observation list "{{{
+let g:unite_source_astronomical_observation_src_path= ""
+
+let s:unite_source = {
+			\'name':'astronomical_observation_report_search',
+			\}
+let s:unite_source.hooks = {}
+
+function! s:unite_source.hooks.on_init(args, context)
+    if g:unite_source_astronomical_observation_src_path == ""
+		let g:unite_source_astronomical_observation_src_path = expand('~/.vim_astronomical_observation')
+    endif
+    let src_path = g:unite_source_astronomical_observation_src_path . "/**/*.txt"
     let filelist = glob(src_path)
     let a:context.source__lines = reverse(split(filelist, "\n"))
 endfunction
