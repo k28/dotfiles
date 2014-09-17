@@ -38,6 +38,9 @@ function date2ut {
   /bin/date -j -f "%Y/%m/%d %H:%M:%S" "$1" +%s
 }
 
+# Disallow Python create .pyc file
+export PYTHONDONTWRITEBYTECODE=1
+
 # From Ubuntu
 
 if [ -r /etc/debian_version ]; then
