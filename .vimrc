@@ -131,8 +131,8 @@ nnoremap <silent> cy   ce<C-r>0<ESC>
 vnoremap <silent> cy   c<C-r>0<ESC>
 
 " exchange ; and :
-noremap ; :
-noremap : ;
+nnoremap ; :
+nnoremap : ;
 
 " help
 nnoremap <C-h> :<C-u>help<Space>
@@ -319,9 +319,6 @@ NeoBundle 'yuratomo/java-api-servlet2.3'
 NeoBundle 'yuratomo/java-api-android'
 NeoBundle 'yuratomo/java-api-junit'
 NeoBundle 'vim-scripts/TagHighlight'
-
-" Evernote
-NeoBundle 'kakkyz81/evervim'
 
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
