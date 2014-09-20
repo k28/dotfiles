@@ -305,7 +305,7 @@ NeoBundle 'mattn/emmet-vim'
 "NeoBundle 'open-browser.vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'taichouchou2/html5.vim'
+NeoBundle 'othree/html5.vim'
 NeoBundle 'pangloss/vim-javascript'
 "NeoBundle 'kchmck/vim-coffee-script'
 
@@ -486,6 +486,12 @@ let g:javaapi#delay_dirs = [
 
 " unite settings " {{{
 "}}}
+
+" evervim {{{
+nnoremap <silent> <Space>el :<C-u>EvervimNotebookList<CR>
+nnoremap <silent> <Space>ecr :<C-u>EvervimCreateNote<CR>
+nnoremap <silent> <Space>es :EvervimSearchByQuery<Space>''<Left>
+" }}}
 
 " load plugins
 if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
