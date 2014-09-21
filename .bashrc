@@ -182,3 +182,14 @@ if [ -d ~/bin ]; then
     export PATH=~/bin:$PATH
 fi
 
+nXCodeToolChainsPath='/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin'
+if [ -d $nXCodeToolChainsPath ]; then
+    export PATH=$PATH:"$nXCodeToolChainsPath"
+fi
+
+nXCodeSDK10_10Path='/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk'
+if [ -d $nXCodeSDK10_10Path ]; then
+    alias swift='swift -target x86_64-apple-macosx10.9 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk'
+fi
+
+

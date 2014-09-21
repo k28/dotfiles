@@ -294,6 +294,8 @@ if has("unix")
 		NeoBundle 'SirVer/ultisnips'
 		NeoBundle 'thinca/vim-fontzoom'
 		NeoBundle 'vim-jp/vimdoc-ja'
+		"NeoBundle 'Keithbsmiley/swift.vim'
+		NeoBundle 'toyamarinyon/vim-swift'
     elseif s:uname == "Linux\n"
 	endif
 " For JavaScript
@@ -1147,6 +1149,80 @@ call unite#define_source(s:unite_source)
 
 unlet s:unite_source
 "}}}
+
+" swift playground test {{{
+" copy MacOSX10.10 SDK from XCode6-Beta7
+" append swift command path to $PATH
+let g:swift_output_buffer_name="swift_result"
+let g:swift_target="x86_64-apple-macosx10.9"
+let g:swift_sdk_path="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs//MacOSX10.10.sdk"
+command! Swift :silent call Swift()
+function! Swift()
+    if &filetype != "swift"
+        echo "This does not support file other than Swift."
+        return
+    endif
+
+    if (!executable("swift"))
+        echo "error: swift command is not executable, please check $PATH"
+        return
+    endif
+
+    let s:current_file_path = shellescape(expand("%:p"))
+    if (exists("g:swift_output_buffer_name"))
+        if(bufexists(g:swift_output_buffer_name) > 0)
+            let a:bufexists_flag = 1
+        else
+            let a:bufexists_flag = 0
+        endif
+    else
+        let a:bufexists_flag = 0
+    endif
+
+    if (a:bufexists_flag)
+        call Swift_SingletonBuffer(g:swift_output_buffer_nr, 1)
+    else
+        " Crerate new Scratch buffer
+        vnew `=g:swift_output_buffer_name`
+        let g:swift_output_buffer_nr = bufnr("%")
+        setlocal nonumber
+        setlocal buftype=nowrite
+        setlocal noswapfile
+        setlocal bufhidden=wipe
+        setlocal nocursorline
+    endif
+
+    execute "%delete"
+    let a:position = getpos(".")
+    setlocal write
+    let s:swift_exec_command = Swift_SwiftExecuteCommand(s:current_file_path)
+    execute("r!" . s:swift_exec_command)
+    setlocal readonly
+
+endfunction
+
+" return swift execute command
+function! Swift_SwiftExecuteCommand(input_file_path)
+    return "swift -target " . g:swift_target . " -sdk " . g:swift_sdk_path . " < " . a:input_file_path
+endfunction
+
+function! Swift_SingletonBuffer(bufnur, split)
+    let winlist = Swift_FindWindowsByBufnur(a:bufnur)
+    if empty(winlist)
+        if a:split
+            split
+        endif
+        exe "b " . bufnur
+    else
+        exe winlist[0] . "wincmd w"
+    endif
+endfunction
+
+function! Swift_FindWindowsByBufnur(bufnur)
+    return filter(range(1, winnr("$")), 'winbufnr(v:val)==' . a:bufnur)
+endfunction
+
+" }}}
 
 " 今後やりたい事
 " カンマを挟んで前後を入れ替える関数が欲しい
