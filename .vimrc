@@ -296,6 +296,7 @@ if has("unix")
 		NeoBundle 'vim-jp/vimdoc-ja'
 		"NeoBundle 'Keithbsmiley/swift.vim'
 		NeoBundle 'toyamarinyon/vim-swift'
+        NeoBundle 'thinca/vim-ref'
     elseif s:uname == "Linux\n"
 	endif
 " For JavaScript
