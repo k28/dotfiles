@@ -133,6 +133,8 @@ vnoremap <silent> cy   c<C-r>0<ESC>
 " exchange ; and :
 nnoremap ; :
 nnoremap : ;
+vnoremap ; :
+vnoremap : ;
 
 " help
 nnoremap <C-h> :<C-u>help<Space>
@@ -289,9 +291,10 @@ NeoBundle 'osyo-manga/vim-over'
 if has("unix")
 	let s:uname = system("uname")
 	if s:uname == "Darwin\n"
-        NeoBundle 'tokorom/clang_complete.git'
+        NeoBundle 'Rip-Rip/clang_complete.git'
         NeoBundle 'tokorom/clang_complete-getopts-ios.git'
 		NeoBundle 'SirVer/ultisnips'
+		"NeoBundle 'Shougo/neosnippet.vim'
 		NeoBundle 'thinca/vim-fontzoom'
 		NeoBundle 'vim-jp/vimdoc-ja'
 		"NeoBundle 'Keithbsmiley/swift.vim'
@@ -428,7 +431,7 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_camel_case_completion = 0
 let g:neocomplete#disable_auto_complete = 1
 let g:neocomplete#min_keyword_length = 3
-" for neocomplcache and clang_complete settings
+" for neocomplete and clang_complete settings
 let g:neocomplete#force_overwrite_completefunc = 1
 if !exists('g:neocomplete#force_omni_patterns')
     let g:neocomplete#force_omni_patterns = {}
@@ -442,6 +445,12 @@ let g:neocomplete#force_omni_patterns.objc =
             \ '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#force_omni_patterns.objcpp =
             \ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:clang_complete_auto = 0
+let g:clang_complete_select = 0
+let g:clang_use_library = 1
+
+let g:clang_snippets = 1
+let g:clang_snippets_engine = 'ultisnips'
 
 " html5 {{{
 let g:html5_event_handler_attributes_complete = 1
@@ -934,7 +943,7 @@ endfunction!
 
 " Unite Source iosframeworks {{{
 let g:unite_source_iosframeworks_frameworks_path =
-			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks"
+			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks"
 
 let s:unite_source = {
 			\'name':'iosframeworks',
