@@ -34,6 +34,8 @@ if has("win32") || has("win64")
 else
     let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%{cfi#format("[%s]", "[no function]")}%=%l,%c%V%10P%{strftime("[%H:%M]")}'
 endif
+" 関数名を取ってくる処理が関数の外の場合に遅いのでやめる
+let &statusline = '%<%f %m%r%h%w[%{(&fenc!=""?&fenc:&enc)}][%{&ff}]%y%=%l,%c%V%10P%{strftime("[%H:%M]")}'
 
 set number
 set wildmenu wildmode=list:full
@@ -576,7 +578,7 @@ command! -nargs=* SearchCurrentWordCaller call <SID>SearchCurrentWordCaller()
 function! s:SearchCurrentWordCaller()
 	let wordUnderCursor = expand("<cword>")
 	if executable('ack')
-		if &filetype == "objc"
+		if &filetype == "objc" || &filetype == "objcpp"
 			execute ":Ack " . "'" . '^(?!.*-).*' . wordUnderCursor . ".*" ."'"
 		elseif &filetype == "java"
 			execute ":Ack " . "'" . '^(?!.*(void|private|public|protected)).*' . wordUnderCursor . "\\s*\\(.*\\)'"
