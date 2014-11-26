@@ -356,17 +356,19 @@ let g:quickrun_config={'*': {'split': ''}}
 set splitright
 
 " unite.vim settings
-"noremap <silent> ;; :OpenFileSearch()
+nnoremap <silent> ;; :OpenFileSearchCom<CR>
 "noremap ;; :Unite buffer<CR>
 "noremap ;; :Unite -start-insert eclipseSrcFiles<CR>
-command! -nargs=0 OpenFileSearch call <SID>OpenFileSearch()
+command! -nargs=* OpenFileSearchCom call <SID>OpenFileSearch()
 function! s:OpenFileSearch()
     if &filetype == "java"
-        call :Unite -start-insert eclipseSrcFiles<CR>
+        :Unite -start-insert eclipseSrcFiles
+    elseif &filetype == "objc" || &filetype == "objcpp"
+        :Unite -start-insert cocoaSrcFiles
     else
-        call :Unite buffer<CR>
+        :Unite buffer
     endif
-endfunction "Ehtml()
+endfunction
 
 " EnhCommentify settings
 function! EnhCommentifyCallback(ft)
@@ -1035,6 +1037,51 @@ call unite#define_source(s:unite_source)
 unlet s:unite_source
 "}}}
 
+" Unite Source cocoaSrcFiles" {{{
+let g:unite_source_cocoasecfiles_src_path = ""
+
+let s:unite_source = {
+            \ 'name' : 'cocoaSrcFiles',
+            \}
+let s:unite_source.hooks = {}
+
+function! s:unite_source.hooks.on_init(args, context)
+    " Search .project contain folder
+    let src_folder = '*\.xcodeproj'
+    let currentPath = fnamemodify(expand('%:p'), ":p:h")
+    while 1
+        let fileList = glob(currentPath . "/*\.xcodeproj")
+        if fileList != ''
+            break
+        endif
+        let currentPath = fnamemodify(currentPath, ":h")
+        if currentPath == '/'
+            break
+        endif
+    endwhile
+
+    echo currentPath
+
+    " Search cocoa sources
+    if currentPath != ''
+        let src_path = "\"`find \"" . currentPath . "\" -name \"*.m\" -o -name \"*.h\" -o -name \"*.mm\"`\""
+        let filelist = glob(src_path)
+        let a:context.source__lines = split(filelist, "\n")
+    endif
+endfunction
+
+function! s:unite_source.gather_candidates(args, context)
+    return map(a:context.source__lines, '{"word" : fnamemodify(v:val, ":t"),
+                                        \ "kind" : "jump_list",
+                                        \ "action__path" : v:val ,
+                                        \ "action__line" : 0 }')
+endfunction
+
+call unite#define_source(s:unite_source)
+
+unlet s:unite_source
+"}}}
+"
 " Unite Source change_link_directory" {{{
 let g:unite_source_link_directory_path = "$HOME/link"
 
