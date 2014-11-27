@@ -581,7 +581,8 @@ function! s:SearchCurrentWordCaller()
 	let wordUnderCursor = expand("<cword>")
 	if executable('ack')
 		if &filetype == "objc" || &filetype == "objcpp"
-			execute ":Ack " . "'" . '^(?!.*-).*' . wordUnderCursor . ".*" ."'"
+            let xcode_project_path = <SID>XCodeProjectDir()
+			execute ":Ack " . "'" . '^(?!.*-).*' . wordUnderCursor . ".*" ."'" . ' ' . xcode_project_path
 		elseif &filetype == "java"
 			execute ":Ack " . "'" . '^(?!.*(void|private|public|protected)).*' . wordUnderCursor . "\\s*\\(.*\\)'"
 		else
@@ -1047,20 +1048,7 @@ let s:unite_source.hooks = {}
 
 function! s:unite_source.hooks.on_init(args, context)
     " Search .project contain folder
-    let src_folder = '*\.xcodeproj'
-    let currentPath = fnamemodify(expand('%:p'), ":p:h")
-    while 1
-        let fileList = glob(currentPath . "/*\.xcodeproj")
-        if fileList != ''
-            break
-        endif
-        let currentPath = fnamemodify(currentPath, ":h")
-        if currentPath == '/'
-            break
-        endif
-    endwhile
-
-    echo currentPath
+    let currentPath = <SID>XCodeProjectDir()
 
     " Search cocoa sources
     if currentPath != ''
@@ -1282,6 +1270,28 @@ function! Swift_FindWindowsByBufnur(bufnur)
 endfunction
 
 " }}}
+
+" Search current file XCode project path {{{
+function! s:XCodeProjectDir()
+    let currentPath = fnamemodify(expand('%:p'), ":p:h")
+    while 1
+        let fileList = glob(currentPath . "/*\.xcodeproj")
+        if fileList != ''
+            break
+        endif
+        let currentPath = fnamemodify(currentPath, ":h")
+        if currentPath == '/'
+            break
+        endif
+    endwhile
+
+    if currentPath == '/'
+        let currentPath = fnamemodify(expand('%:p'), ":p:h")
+    endif
+
+    return currentPath
+endfunction
+"}}}
 
 " 今後やりたい事
 " カンマを挟んで前後を入れ替える関数が欲しい
