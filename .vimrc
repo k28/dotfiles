@@ -1157,7 +1157,7 @@ function! s:unite_source.hooks.on_init(args, context)
 endfunction
 
 function! s:unite_source.gather_candidates(args, context)
-	return map(a:context.source__lines, '{"word" : s:load_file_firstline(v:val),
+	return map(a:context.source__lines, '{"word" : fnamemodify(v:val, ":t"),
 										\ "kind" : "jump_list",
 										\ "action__path" : v:val ,
 										\ "action__line" : 0 }')
