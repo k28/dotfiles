@@ -313,7 +313,7 @@ NeoBundle 'mattn/emmet-vim'
 "NeoBundle 'open-browser.vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'othree/html5.vim'
+"NeoBundle 'othree/html5.vim' " https://github.com/vim-jp/issues/issues/584のためよばない
 NeoBundle 'pangloss/vim-javascript'
 "NeoBundle 'kchmck/vim-coffee-script'
 
@@ -327,6 +327,9 @@ NeoBundle 'yuratomo/java-api-servlet2.3'
 NeoBundle 'yuratomo/java-api-android'
 NeoBundle 'yuratomo/java-api-junit'
 NeoBundle 'vim-scripts/TagHighlight'
+
+" for vimscript-help
+NeoBundle 'mattn/learn-vimscript.git'
 
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
@@ -456,11 +459,19 @@ let g:clang_use_library = 1
 let g:clang_snippets = 1
 let g:clang_snippets_engine = 'ultisnips'
 
+" php {{{
+let php_sql_query = 1
+let php_baselib = 1
+let php_htmlInStrings = 1
+let php_noShortTags = 1
+let php_parent_error_close = 1
+" }}}
+
 " html5 {{{
-let g:html5_event_handler_attributes_complete = 1
-let g:html5_rdfa_attributes_complete = 1
-let g:html5_microdata_attributes_complete = 1
-let g:html5_aria_attributes_complete = 1
+"let g:html5_event_handler_attributes_complete = 1
+"let g:html5_rdfa_attributes_complete = 1
+"let g:html5_microdata_attributes_complete = 1
+"let g:html5_aria_attributes_complete = 1
 " }}}
 
 " vim-over {{{
