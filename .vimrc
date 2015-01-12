@@ -164,6 +164,8 @@ inoremap [] []<Left>
 " inoremap () ()<Left> "使いづらいのでこれは無効にする
 inoremap "" ""<Left>
 " inoremap <> <><Left> "使いづらいので無効にする
+inoremap <C-c> /*  */<Left><Left><Left>
+
 
 " yank 1line without new line.
 vnoremap v $h
