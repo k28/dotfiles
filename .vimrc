@@ -142,6 +142,9 @@ vnoremap : ;
 nnoremap <C-h> :<C-u>help<Space>
 set helplang=en
 
+" crags
+nnoremap <C-]> g<C-]>
+
 " command line emacs key maps
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
