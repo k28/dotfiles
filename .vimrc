@@ -336,6 +336,9 @@ NeoBundle 'vim-scripts/TagHighlight'
 " for vimscript-help
 NeoBundle 'mattn/learn-vimscript.git'
 
+" for PHP
+NeoBundle 'joonty/vdebug'
+
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
 
