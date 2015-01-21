@@ -339,6 +339,11 @@ NeoBundle 'mattn/learn-vimscript.git'
 " for PHP
 NeoBundle 'joonty/vdebug'
 
+" for Markdown
+NeoBundle 'tpope/vim-markdown'
+NeoBundle 'h1mesuke/vim-alignta'
+NeoBundle 'kannokanno/previm'
+
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
 
@@ -466,6 +471,10 @@ let g:clang_use_library = 1
 
 let g:clang_snippets = 1
 let g:clang_snippets_engine = 'ultisnips'
+
+" previm
+" TODO 環境によってブラウザをかえる必要がある
+let g:previm_open_cmd = 'open -a "Google Chrome"'
 
 " php {{{
 let php_sql_query = 1
