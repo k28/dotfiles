@@ -215,6 +215,7 @@ au QuickfixCmdPost l* lopen
 
 " file types
 au BufRead,BufNewFile *.mm	set filetype=objc
+au BufRead,BufNewFile *.md set filetype=markdown
 
 " Edit in Hex mode when the Binary modee
 augroup BinaryXXD
@@ -344,6 +345,7 @@ NeoBundle 'tpope/vim-markdown'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kannokanno/previm'
 
+NeoBundle 'k28/evervim'
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
 
@@ -1150,7 +1152,7 @@ function! s:unite_source.hooks.on_init(args, context)
     if g:unite_source_junk_file_src_path == ""
 		let g:unite_source_junk_file_src_path = expand('~/.vim_junk')
     endif
-    let src_path = g:unite_source_junk_file_src_path . "/**/*.txt"
+    let src_path = g:unite_source_junk_file_src_path . "/**/*.???"
     let filelist = glob(src_path)
     let a:context.source__lines = reverse(split(filelist, "\n"))
 endfunction
@@ -1229,7 +1231,7 @@ unlet s:unite_source
 " copy MacOSX10.10 SDK from XCode6-Beta7
 " append swift command path to $PATH
 let g:swift_output_buffer_name="swift_result"
-let g:swift_target="x86_64-apple-macosx10.9"
+let g:swift_target="x86_64-apple-macosx10.10"
 let g:swift_sdk_path="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs//MacOSX10.10.sdk"
 command! Swift :silent call Swift()
 function! Swift()
