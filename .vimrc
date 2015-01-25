@@ -353,6 +353,7 @@ NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kannokanno/previm'
 
 NeoBundle 'k28/evervim'
+NeoBundle 'glidenote/memolist.vim'
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
 
@@ -484,6 +485,11 @@ let g:clang_snippets_engine = 'ultisnips'
 " previm
 " TODO 環境によってブラウザをかえる必要がある
 let g:previm_open_cmd = 'open -a "Google Chrome"'
+
+" memolist
+let g:memolist_memo_suffix = 'md'
+let g:memolist_path = '~/Dropbox/Documents/memo/posts'
+let g:memolist_templete_dir_path = '~/Dropbox/Documents/memo'
 
 " php {{{
 let php_sql_query = 1
