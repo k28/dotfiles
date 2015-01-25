@@ -7,6 +7,7 @@ if has ('gui_macvim')
 	set background=light
 	colorscheme desert
     set textwidth=0;
+    set imdisable;
 endif
 
 " if gvimrc, do not use ctrlp caching

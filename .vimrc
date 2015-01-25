@@ -23,6 +23,13 @@ else
 	endif
 
 	let &backupdir=s:bkdir
+    " Create swap file at tmp directory,
+    let s:swap_tmp_dir = join([$HOME, '/.vim_swap'], "")
+    if !isdirectory(s:swap_tmp_dir)
+        call mkdir(s:swap_tmp_dir, "p")
+    endif
+    "set directory=expand(s:swap_tmp_dir),~/tmp//,/var/tmp//,/tmp//,.
+    execute ":set directory=" . s:swap_tmp_dir . "//,~/tmp,/var/tmp,/tmp//,."
 endif
 
 " do not create *.un~
