@@ -21,6 +21,8 @@ inoremap <Down> <Down>
 
 inoremap ¥ \
 inoremap \ ¥
+vnoremap ¥ \
+vnoremap \ ¥
 cnoremap ¥ \
 cnoremap \ ¥
 

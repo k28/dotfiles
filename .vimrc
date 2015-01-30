@@ -491,6 +491,11 @@ let g:memolist_memo_suffix = 'md'
 let g:memolist_path = '~/Dropbox/Documents/memo/posts'
 let g:memolist_templete_dir_path = '~/Dropbox/Documents/memo'
 
+command! -nargs=* MemoListTitleSearch call <SID>MemoListTitleSearch()
+function! s:MemoListTitleSearch()
+    execute ":CtrlP " . g:memolist_path
+endfunction
+
 " php {{{
 let php_sql_query = 1
 let php_baselib = 1
@@ -515,7 +520,8 @@ nnoremap <silent> <Leader>m V[mo]M:OverCommandLine<CR>s/
 
 " replace word under cursor
 nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/\<<C-r><C-w>\>//g<Left><Left>
-vnoremap <silent> <Leader>g y:OverCommandLine<CR>%s/<C-r>"//g<Left><Left>
+"vnoremap <silent> <Leader>g y:OverCommandLine<CR>%s/<C-r>"//g<Left><Left>
+vnoremap <silent> <Leader>g :OverCommandLine<CR>s/\</g<Left><Left><Left>
 
 " }}}
 
