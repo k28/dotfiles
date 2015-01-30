@@ -913,6 +913,7 @@ endfunction
 command! -nargs=0 DailyReport call s:open_daily_report()
 function! s:open_daily_report()
 	let l:daily_dir = $HOME . '/.vim_daily' . strftime('/%Y/%m')
+
 	if !isdirectory(l:daily_dir)
 		call mkdir(l:daily_dir, 'p')
 	endif
@@ -921,6 +922,16 @@ function! s:open_daily_report()
 	if l:filename != ""
 		execute 'edit' . l:filename
 	endif
+
+    if ( filereadable(l:filename) )
+        return
+    endif
+
+    let l:daily_templete_file = $HOME . "/.vim_daily/templete.txt"
+    if filereadable( l:daily_templete_file )
+        execute ':read ' l:daily_templete_file
+        execute ':%s/{{__date__}}/' . strftime('%Y-%m-%d') . '/g'
+    endif
 endfunction
 " }}}
 
