@@ -1182,9 +1182,15 @@ function! s:unite_source.hooks.on_init(args, context)
     if g:unite_source_junk_file_src_path == ""
 		let g:unite_source_junk_file_src_path = expand('~/.vim_junk')
     endif
+    let src_path = g:unite_source_junk_file_src_path . "/**/*.md"
+    let filelist = glob(src_path)
+    let search_file_list = reverse(split(filelist, "\n"))
+
     let src_path = g:unite_source_junk_file_src_path . "/**/*.???"
     let filelist = glob(src_path)
-    let a:context.source__lines = reverse(split(filelist, "\n"))
+    let search_file_list += reverse(split(filelist, "\n"))
+
+    let a:context.source__lines = search_file_list
 endfunction
 
 function! s:unite_source.gather_candidates(args, context)
