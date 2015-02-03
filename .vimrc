@@ -1359,6 +1359,31 @@ function! s:XCodeProjectDir()
 endfunction
 "}}}
 
+" Insert Table Header Line {{{
+command! -nargs=* InsertTableHeaderLine call <SID>InsertTableHeaderLine()
+function! s:InsertTableHeaderLine()
+    let upper_line_str = getline(a:firstline - 1)
+    " change multi-byte string to "++"
+    let upper_line_str = substitute(upper_line_str, "[^[:alnum:] \|]", "++", "g")
+    " echo upper_line_str
+    let upper_line_num = strlen(upper_line_str)
+    
+    let index = 0
+    let new_line = ""
+    while index < upper_line_num
+        let index_str = upper_line_str[index]
+        if index_str == "|"
+            let new_line = new_line . "|"
+        else
+            let new_line = new_line . "-"
+        endif
+        let index += 1
+    endwhile
+    " echo new_line
+    call setline(a:firstline, new_line)
+endfunction
+" }}}
+
 " 今後やりたい事
 " カンマを挟んで前後を入れ替える関数が欲しい
 " キャメルケースの移動を改善したい
