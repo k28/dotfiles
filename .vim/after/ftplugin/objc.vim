@@ -2,7 +2,7 @@
 
 " --- clang_complete settings ---
 
-let g:clang_auto_user_options = 'path, .clang_complete, ios'
+let g:clang_auto_user_options = 'path, .clang_complete'
 "
 " Disable auto completion, always <c-x> <c-o> to complete
 let g:clang_complete_auto = 0

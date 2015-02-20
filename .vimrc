@@ -307,7 +307,7 @@ if has("unix")
 	let s:uname = system("uname")
 	if s:uname == "Darwin\n"
         NeoBundle 'Rip-Rip/clang_complete.git'
-        NeoBundle 'tokorom/clang_complete-getopts-ios.git'
+        "NeoBundle 'tokorom/clang_complete-getopts-ios.git'
 		NeoBundle 'SirVer/ultisnips'
 		"NeoBundle 'Shougo/neosnippet.vim'
 		NeoBundle 'thinca/vim-fontzoom'
@@ -405,7 +405,7 @@ function! EnhCommentifyCallback(ft)
 endfunction
 let g:EnhCommentifyCallbackExists = 'Yes'
 
-let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.0.sdk'
+let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.1.sdk'
 let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib'
 
 " for vimfiler plugin
