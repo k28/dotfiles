@@ -3,11 +3,12 @@ if has ('gui_macvim')
 	set lines=90 columns=130
 	set guioptions-=T "disable GUI Toolbar
 	set showtabline=2
-	set guifont=Monaco:h11
+	set guifont=Monaco:h13
 	set background=light
 	colorscheme desert
-    set textwidth=0;
-    set imdisable;
+    set textwidth=0
+    set imdisable
+    set noimdisableactivate
 endif
 
 " if gvimrc, do not use ctrlp caching
