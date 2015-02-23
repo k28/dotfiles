@@ -49,7 +49,7 @@ set wildmenu wildmode=list:full
 
 " When a tag file name starts with './', the '.' is replaced with the path of the current file.
 " And keep going one directory up all the way to the root folder.
-set tags=./.tags;/
+set tags=./.tags;
 
 " Auto reload settings
 set autoread
@@ -417,7 +417,8 @@ let Tlist_Show_One_File = 1
 let Tlist_Use_Right_Window = 1
 let Tlist_Exit_OnlyWindow = 1
 nnoremap <silent> <leader>l :TlistToggle<CR>
-
+let tlist_objc_settings = 'objc;P:protocols;i:interfaces;I:implementations;M:instance methods;C:implementation methods;Z:protocol methods'
+ 
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=''
 
@@ -481,6 +482,9 @@ let g:clang_use_library = 1
 
 let g:clang_snippets = 1
 let g:clang_snippets_engine = 'ultisnips'
+" clang_completeで追加されたジャンプ機能が不完全なので,無効にするために,他のキーを割り当てる
+let g:clang_jumpto_declaration_key = '<C-1>'
+let g:clang_jumpto_back_key = '<C-2>'
 
 " previm
 " TODO 環境によってブラウザをかえる必要がある
@@ -1008,7 +1012,7 @@ endfunction!
 
 " Unite Source iosframeworks {{{
 let g:unite_source_iosframeworks_frameworks_path =
-			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks"
+			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks"
 
 let s:unite_source = {
 			\'name':'iosframeworks',
