@@ -162,6 +162,14 @@ if [ -r /etc/debian_version ]; then
         . /etc/bash_completion
     fi
 
+else # not Debian
+    HISTCONTROL=ignoreboth
+    HISTSIZE=1000
+    HISTFILESIZE=2000
+    HISTIGNORE=ls:sl
+
+    # Change man pager to vim
+    export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
 fi
 # -------------------
 
