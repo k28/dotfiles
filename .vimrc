@@ -440,6 +440,7 @@ let g:ctrlp_use_migemo = 1
 let g:ctrlp_clear_cache_on_exit = 1   " 終了時キャッシュをクリアする
 let g:ctrlp_mruf_max            = 500 " MRUの最大記録数
 let g:ctrlp_open_new_file       = 1   " 新規ファイル作成時にタブで開く
+let g:ctrlp_switch_buffer       = 0   " すでに開かれている時にもその場所で開く
 let g:ctrlp_regexp = 1 " regexp mode
 
 " neocomplcache plugin
@@ -775,7 +776,7 @@ augroup END
 
 function! s:LoadLocalVimrc(loc)
 	let s:local_vimrc_filename = '.localvimrc'
-	let files = findfile(s:local_vimrc_filename, escape(a:loc, '').';', -1)
+    let files = findfile(s:local_vimrc_filename, escape(a:loc, '').';', -1)
 	for i in reverse(filter(files, 'filereadable(v:val)'))
 		source `=i`
 	endfor
@@ -1142,6 +1143,11 @@ function! s:unite_source.hooks.on_init(args, context)
         let src_path = g:unite_source_link_directory_path . "/*"
         let filelist = glob(src_path)
         let a:context.source__lines = split(filelist, "\n")
+endfunction
+
+function! s:unite_source.hooks.on_close(args, context)
+        " load .localvimrc
+        call s:LoadLocalVimrc(expand('%:p:h'))
 endfunction
 
 function! s:unite_source.gather_candidates(args, context)
