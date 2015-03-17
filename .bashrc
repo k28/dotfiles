@@ -170,6 +170,9 @@ else # not Debian
 
     # Change man pager to vim
     export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
+
+    # stop Ctrl-S to stty stop
+    stty stop undef
 fi
 # -------------------
 
