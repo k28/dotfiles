@@ -519,10 +519,10 @@ let php_parent_error_close = 1
 " vim-over {{{
 
 " launch vim-over
-" [c]hange + [l]ine, [f]ile, [m]ethod
-nnoremap <silent> <Leader>cl :OverCommandLine<CR>s/
-nnoremap <silent> <Leader>cf :OverCommandLine<CR>%s/
-nnoremap <silent> <Leader>cm V[mo]M:OverCommandLine<CR>s/
+" [s]ubstitute + [l]ine, [f]ile, [m]ethod
+nnoremap <silent> <Leader>sl :OverCommandLine<CR>s/
+nnoremap <silent> <Leader>sf :OverCommandLine<CR>%s/
+nnoremap <silent> <Leader>sm V[mo]M:OverCommandLine<CR>s/
 
 " replace word under cursor
 nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/\<<C-r><C-w>\>//g<Left><Left>
