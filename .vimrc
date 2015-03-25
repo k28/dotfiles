@@ -527,7 +527,7 @@ nnoremap <silent> <Leader>sm V[mo]M:OverCommandLine<CR>s/
 " replace word under cursor
 nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/\<<C-r><C-w>\>//g<Left><Left>
 "vnoremap <silent> <Leader>g y:OverCommandLine<CR>%s/<C-r>"//g<Left><Left>
-vnoremap <silent> <Leader>g :OverCommandLine<CR>s/\</g<Left><Left><Left>
+vnoremap <silent> <Leader>g :OverCommandLine<CR>s//g<Left><Left>
 
 " }}}
 
