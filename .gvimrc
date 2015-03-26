@@ -11,6 +11,9 @@ if has ('gui_macvim')
     set noimdisableactivate
 endif
 
+if has("win32") || has("win64")
+    set guioptions+=a
+endif
 " if gvimrc, do not use ctrlp caching
 let g:ctrlp_use_caching = 0
 
