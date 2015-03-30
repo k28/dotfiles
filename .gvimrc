@@ -12,7 +12,7 @@ if has ('gui_macvim')
 endif
 
 if has("win32") || has("win64")
-    set clipboard+=unnamed
+    set guioptions+=a
 endif
 " if gvimrc, do not use ctrlp caching
 let g:ctrlp_use_caching = 0
