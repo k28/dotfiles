@@ -1,7 +1,7 @@
 #DOT_FILES = .bash_profile .bashrc .gvimrc .vim .vimrc
-DOT_FILES = .bashrc .gvimrc .vim .vimrc .ackrc .vrapperrc .xvimrc
+DOT_FILES = .bashrc .gvimrc .vim .vimrc .ackrc .vrapperrc .xvimrc .inputrc
 
-all: bash vim gvim ack vrapperrc xvimrc
+all: bash vim gvim ack vrapperrc xvimrc inputrc
 
 vimonly: vim gvim vrapperrc xvimrc
 
@@ -18,6 +18,8 @@ vrapperrc: $(foreach f, $(filter .vrapperrc, $(DOT_FILES)), link-dot-file-$(f))
 xvimrc: $(foreach f, $(filter .xvimrc, $(DOT_FILES)), link-dot-file-$(f))
 
 ack: $(foreach f, $(filter .ack%, $(DOT_FILES)), link-dot-file-$(f))
+
+inputrc: $(foreach f, $(filter .inputrc, $(DOT_FILES)), link-dot-file-$(f))
 
 .PHONY: clean
 clean: $(foreach f, $(DOT_FILES), unlink-dot-file-$(f))
