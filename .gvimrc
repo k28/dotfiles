@@ -11,9 +11,16 @@ if has ('gui_macvim')
     set noimdisableactivate
 endif
 
+if has("win32") || has("win64")
+    set guioptions+=a
+endif
 " if gvimrc, do not use ctrlp caching
 let g:ctrlp_use_caching = 0
 
+nnoremap <Up> <C-w>+
+nnoremap <Down> <C-w>-
+nnoremap <Left> <C-w><
+nnoremap <Right> <C-w>>
 " MacVimでテキスト変換がおかしいのでこれを記述しておく
 inoremap <Left> <Left>
 inoremap <Right> <Right>
@@ -22,10 +29,14 @@ inoremap <Down> <Down>
 
 inoremap ¥ \
 inoremap \ ¥
+nnoremap ¥ \
+nnoremap \ ¥
 vnoremap ¥ \
 vnoremap \ ¥
 cnoremap ¥ \
 cnoremap \ ¥
+
+nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/¥<<C-r><C-w>¥>//g<Left><Left>
 
 if filereadable(expand('~/.gvimrc.local'))
 	source ~/.gvimrc.local
