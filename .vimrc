@@ -356,6 +356,15 @@ NeoBundle 'k28/evervim'
 NeoBundle 'glidenote/memolist.vim'
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
+" C# settings
+if has("win32") || has("win64")
+    NeoBundle 'nosami/Omnisharp', {
+                \       'autoload' : {'filetypes' : ['cs']},
+                \       'build' : {
+                \           'windows' : 'MSBuild.exe server/OmuniSharp.sln /p:Platform="Any CPU"',
+                \       }
+                \   }
+endif
 
 call neobundle#end()
 filetype plugin indent on
