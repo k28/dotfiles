@@ -174,7 +174,7 @@ inoremap [] []<Left>
 " inoremap () ()<Left> "使いづらいのでこれは無効にする
 inoremap "" ""<Left>
 " inoremap <> <><Left> "使いづらいので無効にする
-inoremap <C-c> /*  */<Left><Left><Left>
+"inoremap <C-c> /*  */<Left><Left><Left>
 
 
 " yank 1line without new line.
@@ -340,6 +340,11 @@ NeoBundle 'yuratomo/java-api-servlet2.3'
 NeoBundle 'yuratomo/java-api-android'
 NeoBundle 'yuratomo/java-api-junit'
 NeoBundle 'vim-scripts/TagHighlight'
+NeoBundle 'kamichidu/vim-unite-javaimport', {
+            \ 'depends' :[
+            \ 'kamichidu/vim-javaclasspath',
+            \],
+            \}
 
 " for vimscript-help
 NeoBundle 'mattn/learn-vimscript.git'
@@ -414,7 +419,7 @@ function! EnhCommentifyCallback(ft)
 endfunction
 let g:EnhCommentifyCallbackExists = 'Yes'
 
-let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.1.sdk'
+let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.2.sdk/'
 let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib'
 
 " for vimfiler plugin
@@ -562,6 +567,16 @@ let g:javaapi#delay_dirs = [
   \ 'java-api-android',
   \ ]
 
+" }}}
+
+" for jcommenter {{{
+augroup jcommenter
+    autocmd!
+    if filereadable(expand('$VIMRUNTIME/macros/jcommenter.vim'))
+        autocmd FileType java source $VIMRUNTIME/macros/jcommenter.vim
+        autocmd FileType java nnoremap <C-c> :call JCommentWriter()<CR>
+    endif
+augroup END
 " }}}
 
 " unite settings " {{{
@@ -1412,6 +1427,8 @@ endfunction
 " カーソル下のタグを新しいタブでジャンプして表示したい
 " メソッド内の同じ名称を一括で書き換えられるようにしたい
 " カーソル下の単語のヘッダーファイルを開きたい
+" SearchCurrentWordCallerでワンライナーでcallしている部分が引っかからない
+" daily_reportで次の日, 前の日を一発で開きたい
 
 " load local settings
 if filereadable(expand('~/.vimrc.local'))
