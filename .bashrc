@@ -169,7 +169,8 @@ else # not Debian
     HISTIGNORE=ls:sl
 
     # Change man pager to vim
-    export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
+    # Vim open the man page in No Name buffer. It is not possible to grep in the No Name buffer.
+    # export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
 
     # stop Ctrl-S to stty stop
     stty stop undef
