@@ -331,14 +331,7 @@ NeoBundle 'pangloss/vim-javascript'
 "NeoBundle 'kchmck/vim-coffee-script'
 
 " For Java
-"NeoBundle 'vim-scripts/javacomplete'
-NeoBundle 'yuratomo/java-api-complete'
-NeoBundle 'yuratomo/java-api-javax'
-NeoBundle 'yuratomo/java-api-org'
-NeoBundle 'yuratomo/java-api-sun'
-NeoBundle 'yuratomo/java-api-servlet2.3'
-NeoBundle 'yuratomo/java-api-android'
-NeoBundle 'yuratomo/java-api-junit'
+NeoBundle 'artur-shaik/vim-javacomplete2'
 NeoBundle 'vim-scripts/TagHighlight'
 NeoBundle 'kamichidu/vim-unite-javaimport', {
             \ 'depends' :[
@@ -555,9 +548,7 @@ vnoremap <silent> <Leader>g :OverCommandLine<CR>s//g<Left><Left>
 " for java-api-complete {{{
 augroup java-api-complete
     autocmd!
-    autocmd FileType java :setlocal omnifunc=javaapi#complete
-    " autocmd FileType java :JavaApiLoadFromTag "これやると遅くなる
-    autocmd CompleteDone *.java call javaapi#showRef()
+    autocmd FileType java :setlocal omnifunc=javacomplete#Complete
 augroup END
 let g:javaapi#delay_dirs = [
   \ 'java-api-javax',
