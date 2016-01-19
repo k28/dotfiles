@@ -312,7 +312,7 @@ if has("unix")
 		"NeoBundle 'Shougo/neosnippet.vim'
 		NeoBundle 'thinca/vim-fontzoom'
 		NeoBundle 'vim-jp/vimdoc-ja'
-		"NeoBundle 'Keithbsmiley/swift.vim'
+		NeoBundle 'keith/swift.vim'
 		NeoBundle 'toyamarinyon/vim-swift'
         NeoBundle 'thinca/vim-ref'
     elseif s:uname == "Linux\n"
@@ -1302,8 +1302,8 @@ unlet s:unite_source
 " copy MacOSX10.10 SDK from XCode6-Beta7
 " append swift command path to $PATH
 let g:swift_output_buffer_name="swift_result"
-let g:swift_target="x86_64-apple-macosx10.10"
-let g:swift_sdk_path="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs//MacOSX10.10.sdk"
+let g:swift_target="x86_64-apple-macosx10.11"
+let g:swift_sdk_path="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs//MacOSX10.11.sdk"
 command! Swift :silent call Swift()
 function! Swift()
     if &filetype != "swift"
