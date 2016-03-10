@@ -3,6 +3,7 @@
 # User specific aliases and functions
 
 alias ls='ls -G'
+alias l='ls -G'
 alias ctags='ctags -f .tags'
 
 # cd alias
