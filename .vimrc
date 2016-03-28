@@ -350,6 +350,10 @@ NeoBundle 'tpope/vim-markdown'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kannokanno/previm'
 
+" for SQL
+NeoBundle 'vim-scripts/SQLUtilities'
+NeoBundle 'vim-scripts/Align'
+
 NeoBundle 'k28/evervim'
 NeoBundle 'glidenote/memolist.vim'
 " github NeoBundle 'name/foo.vim'
@@ -1407,6 +1411,20 @@ function! s:InsertTableHeaderLine()
     endwhile
     " echo new_line
     call setline(a:firstline, new_line)
+endfunction
+" }}}
+
+" Convert VB Database parameters to MySQL Set format {{{
+function! ConvertVBDBParamToMySQLFormat()
+    " VBのDB実行時のパラメータをMySQLで追加可能なフォーマットに整形する
+    " fairing format
+    execute ':%s/〔\([^〕]\+\)〕/=''\1'';/g'
+    " delete empty
+    execute ':v/\S/d'
+    " delete top spave
+    execute ':%s/^ \+//'
+    " insert top set=
+    execute ':%s/^/set /'
 endfunction
 " }}}
 
