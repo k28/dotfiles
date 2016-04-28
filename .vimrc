@@ -498,6 +498,9 @@ let g:clang_snippets_engine = 'ultisnips'
 let g:clang_jumpto_declaration_key = '<C-1>'
 let g:clang_jumpto_back_key = '<C-2>'
 
+" SQLUTILITIES
+let g:sqlutil_load_default_maps = 0
+
 " previm
 " TODO 環境によってブラウザをかえる必要がある
 let g:previm_open_cmd = 'open -a "Google Chrome"'
