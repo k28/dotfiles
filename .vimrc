@@ -7,13 +7,26 @@ set nocompatible
 
 set encoding=utf-8
 set fileencodings=utf-8,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,euc-jp,sjis,cp932,utf-8
-
 set tabstop=4
 set shiftwidth=4
 set textwidth=0
 set expandtab
 set foldmethod=marker
 
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+set history=50		" keep 50 lines of command line history
+set ruler		    " show the cursor position all the time
+set showcmd		    " display incomplete commands
+set incsearch		" do incremental searching
+set cursorline
+
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
+
+" Backup mode.
 if has("win32") || has("win64")
 	set nobackup
 else
@@ -180,21 +193,6 @@ inoremap "" ""<Left>
 " yank 1line without new line.
 vnoremap v $h
 
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
-
-"Cursor line
-set cursorline
-
-" In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
-  set mouse=a
-endif
-
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
 
@@ -221,7 +219,7 @@ au QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
 au QuickfixCmdPost l* lopen
 
 " file types
-au BufRead,BufNewFile *.mm	set filetype=objc
+au BufRead,BufNewFile *.mm set filetype=objc
 au BufRead,BufNewFile *.md set filetype=markdown
 
 " Edit in Hex mode when the Binary modee
@@ -239,16 +237,586 @@ augroup END
 " reload this file
 command! ReloadVimrc source $MYVIMRC
 
-" netrw.vim
-" always tree style
-let g:netrw_liststyle = 3
-" do not show .files
-"let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-" Set vertical window size to 75%
-let g:netrw_size=75
+" Self defined functions {{{
+
+" Insert Current Date to Last of line
+command! -nargs=0 InsertCurrentDate call <SID>InsertCurrentDate()
+function! s:InsertCurrentDate()
+	execute ":normal A" . strftime("%Y.%m.%d")
+endfunction "InsertCurrentDate
+
+" Update Current line date to current date
+command! -nargs=0 UpdateCurrentDate call <SID>UpdateCurrentDate()
+function! s:UpdateCurrentDate()
+	let s:line=getline('.')
+	if s:line =~ "[0-9][0-9][0-9][0-9]\\.[0-9][0-9]\\.[0-9][0-9]"
+		let newDate=strftime("%Y\\.%m\\.%d")
+		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]\\.[0-9][0-9]\\.[0-9][0-9]", newDate, "")
+		call setline('.', s:line)
+	elseif s:line =~ "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]"
+		let newDate=strftime("%Y-%m-%d")
+		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]", newDate, "")
+		call setline('.', s:line)
+	elseif s:line =~ "[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]"
+		let newDate=strftime("%Y/%m/%d")
+		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]", newDate, "")
+		call setline('.', s:line)
+	elseif s:line =~ "[0-9][0-9][0-9][0-9]年[0-9][0-9]月[0-9][0-9]日"
+		let newDate=strftime("%Y年%m月%d日")
+		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]年[0-9][0-9]月[0-9][0-9]日", newDate, "")
+		call setline('.', s:line)
+	endif
+endfunction! "UpdateCurrentDate
+
+" Locad all current headers
+command! -nargs=0 LoadCurrentHeaders call <SID>LoadCurrentHeaders()
+function! s:LoadCurrentHeaders()
+	execute ":args ./**/*.h"
+endfunction "LoadCurrentHeaders
+
+" Search Current words
+command! -nargs=* SearchCurrentWord call <SID>SearchCurrentWord()
+function! s:SearchCurrentWord()
+	let wordUnderCursor = expand("<cword>")
+	if executable('ack')
+		execute ':Ack ''\b' . wordUnderCursor . '\b'''
+	elseif executable('grep')
+		execute ":grep -rI " . wordUnderCursor "./"
+	else
+		echo "command not support"
+	endif
+endfunction "SearchCurrentWord
+
+" Search current word caller
+command! -nargs=* SearchCurrentWordCaller call <SID>SearchCurrentWordCaller()
+function! s:SearchCurrentWordCaller()
+	let wordUnderCursor = expand("<cword>")
+	if executable('ack')
+		if &filetype == "objc" || &filetype == "objcpp"
+            let xcode_project_path = <SID>XCodeProjectDir()
+			execute ":Ack " . "'" . '^(?!.*-).*' . wordUnderCursor . ".*" ."'" . ' ' . xcode_project_path
+		elseif &filetype == "java"
+			execute ":Ack " . "'" . '^(?!.*(void|private|public|protected)).*' . wordUnderCursor . "\\s*\\(.*\\)'"
+		else
+			echo "Command not support for this filetype[" + &filetype + "]"
+		endif
+	elseif executable('grep')
+		echo "Command not support for vimgrep. Please insatall ack."
+	else
+		echo "Command not support. Please install ack."
+	endif
+endfunction "SearchCurrentWordCaller
+
+" Search current method
+command! -nargs=* SearchCurrentMethod call <SID>SearchCurrentWordMethod()
+function! s:SearchCurrentWordMethod()
+	let wordUnderCursor = expand("<cword>")
+	if executable('ack')
+		if &filetype == "objc"
+			execute ":Ack " . "'" . "^-\\s?\\(\\w+\\)\\s?" . wordUnderCursor . "'"
+		elseif &filetype == "java"
+			execute ":Ack " . "'" . '(private|public|protected)\s+(\w+)\s+' . wordUnderCursor . "\\s*\\(.*\\)'"
+		else
+			echo "Command not support for this filetype[" + &filetype + "]"
+		endif
+	elseif executable('grep')
+		echo "Command not support for vimgrep. Please insatall ack."
+	else
+		echo "Command not support. Please install ack."
+	endif
+endfunction "SearchCurrentMethod
+
+" Find current word header
+command! -nargs=* FindCurrentWordHeader call <SID>FindCurrentWordHeader()
+function! s:FindCurrentWordHeader()
+	let wordUnderCursor = expand("<cword>")
+	let wordUnderCursor = join([wordUnderCursor,".h"],'')
+	execute ":find " . wordUnderCursor
+endfunction "FindCurrentWordHeader
+
+command! -nargs=* OpenCurrentFileAsNewTabe call <SID>OpenCurrentFileAsNewTabe()
+function! s:OpenCurrentFileAsNewTabe()
+	let current_file_name = expand("%")
+	execute ":tabnew " . current_file_name
+endfunction
+
+" Return comment string this is not used.
+function! s:CommentStr()
+	" get the current file type
+
+	if &filetype == "vim"
+		return "\""
+	elseif &filetype == "perl"
+		return "#"
+	endif
+
+	return "\/\/"
+endfunction "CommentStr
+
+" Append Comment to current selected lines, this is not used.
+command! -nargs=* -range ToggleCommentToCurrentLines :<line1>,<line2>call <SID>ToggleCommentToCurrentLines()
+function! s:ToggleCommentToCurrentLines() range
+	let firstLine = getline(a:firstline)
+	let commentStr = s:CommentStr()
+	let commentMatche = "^" . commentStr
+	let retMatch = matchstr(firstLine, commentMatche)
+	if retMatch == ""
+		" Append comment to all line header
+		let index = a:firstline
+		while index <= a:lastline
+			let line = getline(index)
+			let newLine = commentStr . line
+			call setline(index, newLine)
+			let index=index+1
+		endwhile
+	else
+		" Remove all comment from all line header
+		let index = a:firstline
+		while index <= a:lastline
+			let line = getline(index)
+			let comment = matchstr(line, commentMatche)
+			if comment != ""
+				let newLine = substitute(line, commentMatche, "", "")
+				call setline(index, newLine)
+			endif
+			let index=index+1
+		endwhile
+	endif
+endfunction
+"nnoremap \c :<C-u>ToggleCommentToCurrentLines<Return>
+"vnoremap \c :ToggleCommentToCurrentLines<Return>
+
+" toggle @(number) to @"number" "{{{
+command! -nargs=* ToggleNSStringNSNumber call <SID>ToggleNSStringNSNumber()
+function! s:ToggleNSStringNSNumber()
+	let s:line = getline('.')
+	if s:line =~ '@"\s*-\=[0-9]*\s*"'
+		execute ':s/@"\s*\(-\=[0-9]*\)\s*"/@(\1)/g'
+	elseif s:line =~ '@(\s*-\=[0-9]*\s*)'
+		execute ':s/@(\s*\(-\=[0-9]*\)\s*)/@"\1"/g'
+	endif
+	unlet s:line
+endfunction "}}}
+
+" Scouter
+function! Scouter(file, ...)
+	let pat = '^\s*$\|^\s*"'
+	let lines = readfile(a:file)
+	if !a:0 || !a:1
+		let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
+	endif
+	return len(filter(lines,'v:val !~ pat'))
+endfunction
+command! -bar -bang -nargs=? -complete=file Scouter
+			\        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
+command! -bar -bang -nargs=? -complete=file GScouter
+			\        echo Scouter(empty(<q-args>) ? $MYGVIMRC : expand(<q-args>), <bang>0)
+
+function! s:LoadLocalVimrc(loc)
+	let s:local_vimrc_filename = '.localvimrc'
+    let files = findfile(s:local_vimrc_filename, escape(a:loc, '').';', -1)
+	for i in reverse(filter(files, 'filereadable(v:val)'))
+		source `=i`
+	endfor
+endfunction
+
+" Escape Selected to SyntaxHighlighter " {{{
+command! -nargs=* -range EscapeToSyntaxHighlighter :<line1>,<line2>call <SID>EscapeToSyntaxHighlighter()
+function! s:EscapeToSyntaxHighlighter() range
+	let s:firstLine = a:firstline
+	let s:lastLine = a:lastline
+	let brush = s:SyntaxHighlighterBrush()
+	let prefixLine = '<pre class="brush: ' . brush . '; first-line: 1; highlight: [,] title="">'
+
+	let index = s:firstLine
+	while index <= s:lastLine
+		let line = getline(index)
+		let line = substitute(line, '&', '\&amp;', "g")
+		let line = substitute(line, '>', '\&gt;', "g")
+		let line = substitute(line, '<', '\&lt;', "g")
+		let line = substitute(line, '"', '\&quot;', "g")
+
+		if index == s:firstLine
+			execute "normal " . s:firstLine . "Go\<Esc>"
+			let s:lastLine += 1
+			let newLine = [prefixLine, line]
+			call setline(index, newLine)
+		elseif index == s:lastLine
+			let newLine = [line, "</pre>"]
+			execute "normal " . s:lastLine . "Go\<Esc>"
+			call setline(index, newLine)
+		else
+			call setline(index, line)
+		endif
+
+		let index += 1
+	endwhile
+
+	if brush =~ 'unknown'
+		echo "Warnning!! Brush is unknown"
+	endif
+endfunction
+" }}}
+
+" return syntax highlighter brush " {{{
+function! s:SyntaxHighlighterBrush()
+	if &filetype == "objc"
+		return "cpp"
+	elseif &filetype == "perl"
+		return "perl"
+	elseif &filetype == "c"
+		return "c"
+	elseif &filetype == "java"
+		return "java"
+	elseif &filetype == "php"
+		return "php"
+	elseif &filetype == "text"
+		return "plain"
+	elseif &filetype == "shell"
+		return "bash"
+	else
+		return "unknown"
+	endif
+endfunction
+" }}}
+
+" for vim script test " {{{
+command! -nargs=* -range Hogehoge :<line1>,<line2>call <SID>Hogehoge()
+function! s:Hogehoge() range
+	let funcname = ''
+	let func_name_pattern = '\C' . '\s*-\s*(\s*\w\+\s*)\s*\(\w\+\)\s*'
+	let pattern = '\C' . '\(\w\+\)\s*:\s*('
+
+	let index = a:firstline
+
+	let funcname = get(matchlist(getline(index), func_name_pattern), 1, '')
+	if funcname ==# ''
+		echo "not match"
+		return
+	else
+		echo "****" . funcname
+	endif
+
+	let match_count = match(getline(index), ':') + 1
+	echo "match_count is [" . match_count . "]"
+	while index <= a:lastline
+		let line = getline(index)
+		while 1
+			echo index . ":" . match_count
+			let match_name = get(matchlist(line, pattern, match_count), 1, '')
+			echo index . ": match name is [" . match_name . "]"
+			if match_name ==# ''
+				break
+			else
+				let funcname = funcname . ':' . match_name
+				let match_count = match(line, ':', match_count)
+				echo index . ": match count is [" . match_count . "]"
+				let match_count += 1
+			endif
+		endwhile
+		let index = index + 1
+		let match_count = 0
+	endwhile
+
+	echo funcname
+endfunction
+" }}}
+
+" Open junk file." {{{
+command! -nargs=0 JunkFile call s:open_junk_file()
+function! s:open_junk_file()
+	let l:junk_dir = $HOME . '/.vim_junk' . strftime('/%Y/%m')
+	if !isdirectory(l:junk_dir)
+		call mkdir(l:junk_dir, 'p')
+	endif
+
+	let l:filename = input('Junk Code', l:junk_dir . strftime('/%Y-%m-%d-%H%M%S.'))
+	if l:filename != ""
+		execute 'edit' . l:filename
+	endif
+endfunction
+" }}}
+
+" Open daily report file." {{{
+command! -nargs=0 DailyReport call s:open_daily_report()
+function! s:open_daily_report()
+	let l:daily_dir = $HOME . '/.vim_daily' . strftime('/%Y/%m')
+
+	if !isdirectory(l:daily_dir)
+		call mkdir(l:daily_dir, 'p')
+	endif
+
+	let l:filename = l:daily_dir . strftime('/%Y-%m-%d.txt')
+	if l:filename != ""
+		execute 'edit' . l:filename
+	endif
+
+    if ( filereadable(l:filename) )
+        return
+    endif
+
+    let l:daily_templete_file = $HOME . "/.vim_daily/templete.txt"
+    if filereadable( l:daily_templete_file )
+        execute ':read ' l:daily_templete_file
+        execute ':%s/{{__date__}}/' . strftime('%Y-%m-%d') . '/g'
+    endif
+endfunction
+" }}}
+
+" Open Astronomical observation " {{{
+command! -nargs=0 AstronomicalObservationReport call s:open_astronomical_observation()
+function! s:open_astronomical_observation()
+	let l:astronomical_dir = $HOME . '/.vim_astronomical_observation' . strftime('/%Y/%m')
+	if !isdirectory(l:astronomical_dir)
+		call mkdir(l:astronomical_dir, 'p')
+	endif
+
+	let l:filename = input('Astronomical Obseb.', l:astronomical_dir . strftime('/%Y-%m-%d.txt'))
+	if l:filename != ""
+		execute 'edit' . l:filename
+	endif
+endfunction
+" }}}
+
+" Copy word to Clipboard. " {{{
+command! -nargs=0 CopyWord2Clipboad call s:copy_word_to_clipboard()
+function! s:copy_word_to_clipboard()
+	normal "*yiw
+endfunction
+" }}}
+
+" ChangeTabToPipeline. " {{{
+command! -nargs=* -range ChangeTabToPipeline :<line1>,<line2>call s:change_tab_to_pipeline()
+function! s:change_tab_to_pipeline() range
+	let index = a:firstline
+	while index <= a:lastline
+		let s:line = getline(index)
+		let s:line = substitute(s:line, "\t", "|", "g")
+		let s:newLine = "|" . s:line . "|"
+		call setline(index, s:newLine)
+		let index = index + 1
+	endwhile
+endfunction
+" }}}
+
+" ChangePipelineToTab. " {{{
+command! -nargs=* -range ChangePipelineToTab :<line1>,<line2>call s:change_pipeline_to_tab()
+function! s:change_pipeline_to_tab() range
+	let index = a:firstline
+	while index <= a:lastline
+		let s:line = getline(index)
+		let s:line = substitute(s:line, "^|", "", "")
+		let s:line = substitute(s:line, "|$", "", "")
+		let s:line = substitute(s:line, "|", "\t", "g")
+		call setline(index, s:line)
+		let index = index + 1
+	endwhile
+endfunction
+" }}}
+
+" ChangeCurrentDirectoryToOpenFile {{{
+command! -nargs=* CDCurrentFileDirectory call s:change_current_file_directory()
+function! s:change_current_file_directory()
+    execute 'lcd' fnameescape(expand('%:p:h'))
+endfunction!
+" }}}
+
+" GrepFromJunkFiles {{{
+command! -nargs=1 GrepFromJunkFiles call s:grep_from_junkfiles(<f-args>)
+function! s:grep_from_junkfiles(word)
+	if executable('ack')
+		execute ':Ack ''' . a:word . ''' ~/.vim_junk/'
+	elseif executable('grep')
+        execute ":grep -rI " . a:word . "~/.vim_junk/"
+	else
+		echo "command not support"
+	endif
+endfunction!
+" }}}
+
+function! s:load_file_firstline(filepath)
+    let filename = fnamemodify(a:filepath, ":t")
+
+    let list = readfile(a:filepath, '', 3)
+    for line in list
+        if  line != '[:graph:]' && strlen(line) > 0
+            return line . " :" . filename
+        endif
+    endfor
+
+    return filename
+endfunction
+
+" swift playground test {{{
+" copy MacOSX10.10 SDK from XCode6-Beta7
+" append swift command path to $PATH
+let g:swift_output_buffer_name="swift_result"
+let g:swift_target="x86_64-apple-macosx10.11"
+let g:swift_sdk_path="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs//MacOSX10.11.sdk"
+command! Swift :silent call Swift()
+function! Swift()
+    if &filetype != "swift"
+        echo "This does not support file other than Swift."
+        return
+    endif
+
+    if (!executable("swift"))
+        echo "error: swift command is not executable, please check $PATH"
+        return
+    endif
+
+    let s:current_file_path = shellescape(expand("%:p"))
+    if (exists("g:swift_output_buffer_name"))
+        if(bufexists(g:swift_output_buffer_name) > 0)
+            let a:bufexists_flag = 1
+        else
+            let a:bufexists_flag = 0
+        endif
+    else
+        let a:bufexists_flag = 0
+    endif
+
+    if (a:bufexists_flag)
+        call Swift_SingletonBuffer(g:swift_output_buffer_nr, 1)
+    else
+        " Crerate new Scratch buffer
+        vnew `=g:swift_output_buffer_name`
+        let g:swift_output_buffer_nr = bufnr("%")
+        setlocal nonumber
+        setlocal buftype=nowrite
+        setlocal noswapfile
+        setlocal bufhidden=wipe
+        setlocal nocursorline
+    endif
+
+    execute "%delete"
+    let a:position = getpos(".")
+    setlocal write
+    let s:swift_exec_command = Swift_SwiftExecuteCommand(s:current_file_path)
+    execute("r!" . s:swift_exec_command)
+    setlocal readonly
+
+endfunction
+
+" return swift execute command
+function! Swift_SwiftExecuteCommand(input_file_path)
+    return "swift -target " . g:swift_target . " -sdk " . g:swift_sdk_path . " < " . a:input_file_path
+endfunction
+
+function! Swift_SingletonBuffer(bufnur, split)
+    let winlist = Swift_FindWindowsByBufnur(a:bufnur)
+    if empty(winlist)
+        if a:split
+            split
+        endif
+        exe "b " . bufnur
+    else
+        exe winlist[0] . "wincmd w"
+    endif
+endfunction
+
+function! Swift_FindWindowsByBufnur(bufnur)
+    return filter(range(1, winnr("$")), 'winbufnr(v:val)==' . a:bufnur)
+endfunction
+
+" }}}
+
+" Search current file XCode project path {{{
+function! s:XCodeProjectDir()
+    let currentPath = fnamemodify(expand('%:p'), ":p:h")
+    while 1
+        let fileList = glob(currentPath . "/*\.xcodeproj")
+        if fileList != ''
+            break
+        endif
+        let currentPath = fnamemodify(currentPath, ":h")
+        if currentPath == '/'
+            break
+        endif
+    endwhile
+
+    if currentPath == '/'
+        let currentPath = fnamemodify(expand('%:p'), ":p:h")
+    endif
+
+    return currentPath
+endfunction
+"}}}
+
+" Insert Table Header Line {{{
+command! -nargs=* InsertTableHeaderLine call <SID>InsertTableHeaderLine()
+function! s:InsertTableHeaderLine()
+    let upper_line_str = getline(a:firstline - 1)
+    " change multi-byte string to "++"
+    let upper_line_str = substitute(upper_line_str, "[^[:alnum:] \|]", "++", "g")
+    " echo upper_line_str
+    let upper_line_num = strlen(upper_line_str)
+    
+    let index = 0
+    let new_line = ""
+    while index < upper_line_num
+        let index_str = upper_line_str[index]
+        if index_str == "|"
+            let new_line = new_line . "|"
+        else
+            let new_line = new_line . "-"
+        endif
+        let index += 1
+    endwhile
+    " echo new_line
+    call setline(a:firstline, new_line)
+endfunction
+" }}}
+
+" Convert VB Database parameters to MySQL Set format {{{
+function! ConvertVBDBParamToMySQLFormat()
+    " VBのDB実行時のパラメータをMySQLで追加可能なフォーマットに整形する
+    " fairing format
+    execute ':%s/〔\([^〕]\+\)〕/=''\1'';/g'
+    " delete empty
+    execute ':v/\S/d'
+    " delete top spave
+    execute ':%s/^ \+//'
+    " insert top set=
+    execute ':%s/^/set /'
+endfunction
+" }}}
 
 
-" NeoBunle Settings -------------
+"}}}
+
+" Create Directory if it not exist
+augroup vimrc-auto-mkdir
+	autocmd!
+	autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+	function! s:auto_mkdir(dir, force)  " {{{
+		if !isdirectory(a:dir) && (a:force ||
+					\    input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+			call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+		endif
+	endfunction  " }}}
+augroup END
+
+" Reload Files
+augroup vimrc-checktime
+	autocmd!
+	autocmd WinEnter * checktime
+augroup END
+
+" Load current path .localvimrc
+augroup load-local-vimrc
+	autocmd!
+	autocmd BufNewFile,BufReadPost * call s:LoadLocalVimrc(expand('<afile>:p:h'))
+augroup END
+
+" call at load
+if has('vim_starting')
+    call s:LoadLocalVimrc(expand('<afile>:p:h'))
+endif
+
+
+
+" NeoBunle Settings ------------- {{{
 "filetype off
 "if has("win32") || has("win64")
 "	set rtp+=~/.vim/bundle/vundle/
@@ -372,7 +940,17 @@ call neobundle#end()
 filetype plugin indent on
 NeoBundleCheck
 
-" ----- Vundle Settings End -----
+" ----- Vundle Settings End ----- }}}
+
+" Plugin settings {{{
+
+" netrw.vim
+" always tree style
+let g:netrw_liststyle = 3
+" do not show .files
+"let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+" Set vertical window size to 75%
+let g:netrw_size=75
 
 " syntax highlite
 if !exists("g:syntax_on")
@@ -604,210 +1182,6 @@ function! s:Ehtml()
 	execute "colorscheme " . a:myscheme
 endfunction "Ehtml()
 
-" Insert Current Date to Last of line
-command! -nargs=0 InsertCurrentDate call <SID>InsertCurrentDate()
-function! s:InsertCurrentDate()
-	execute ":normal A" . strftime("%Y.%m.%d")
-endfunction "InsertCurrentDate
-
-" Update Current line date to current date
-command! -nargs=0 UpdateCurrentDate call <SID>UpdateCurrentDate()
-function! s:UpdateCurrentDate()
-	let s:line=getline('.')
-	if s:line =~ "[0-9][0-9][0-9][0-9]\\.[0-9][0-9]\\.[0-9][0-9]"
-		let newDate=strftime("%Y\\.%m\\.%d")
-		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]\\.[0-9][0-9]\\.[0-9][0-9]", newDate, "")
-		call setline('.', s:line)
-	elseif s:line =~ "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]"
-		let newDate=strftime("%Y-%m-%d")
-		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]", newDate, "")
-		call setline('.', s:line)
-	elseif s:line =~ "[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]"
-		let newDate=strftime("%Y/%m/%d")
-		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]", newDate, "")
-		call setline('.', s:line)
-	elseif s:line =~ "[0-9][0-9][0-9][0-9]年[0-9][0-9]月[0-9][0-9]日"
-		let newDate=strftime("%Y年%m月%d日")
-		let s:line = substitute(s:line, "[0-9][0-9][0-9][0-9]年[0-9][0-9]月[0-9][0-9]日", newDate, "")
-		call setline('.', s:line)
-	endif
-endfunction! "UpdateCurrentDate
-
-" Locad all current headers
-command! -nargs=0 LoadCurrentHeaders call <SID>LoadCurrentHeaders()
-function! s:LoadCurrentHeaders()
-	execute ":args ./**/*.h"
-endfunction "LoadCurrentHeaders
-
-" Search Current words
-command! -nargs=* SearchCurrentWord call <SID>SearchCurrentWord()
-function! s:SearchCurrentWord()
-	let wordUnderCursor = expand("<cword>")
-	if executable('ack')
-		execute ':Ack ''\b' . wordUnderCursor . '\b'''
-	elseif executable('grep')
-		execute ":grep -rI " . wordUnderCursor "./"
-	else
-		echo "command not support"
-	endif
-endfunction "SearchCurrentWord
-
-" Search current word caller
-command! -nargs=* SearchCurrentWordCaller call <SID>SearchCurrentWordCaller()
-function! s:SearchCurrentWordCaller()
-	let wordUnderCursor = expand("<cword>")
-	if executable('ack')
-		if &filetype == "objc" || &filetype == "objcpp"
-            let xcode_project_path = <SID>XCodeProjectDir()
-			execute ":Ack " . "'" . '^(?!.*-).*' . wordUnderCursor . ".*" ."'" . ' ' . xcode_project_path
-		elseif &filetype == "java"
-			execute ":Ack " . "'" . '^(?!.*(void|private|public|protected)).*' . wordUnderCursor . "\\s*\\(.*\\)'"
-		else
-			echo "Command not support for this filetype[" + &filetype + "]"
-		endif
-	elseif executable('grep')
-		echo "Command not support for vimgrep. Please insatall ack."
-	else
-		echo "Command not support. Please install ack."
-	endif
-endfunction "SearchCurrentWordCaller
-
-" Search current method
-command! -nargs=* SearchCurrentMethod call <SID>SearchCurrentWordMethod()
-function! s:SearchCurrentWordMethod()
-	let wordUnderCursor = expand("<cword>")
-	if executable('ack')
-		if &filetype == "objc"
-			execute ":Ack " . "'" . "^-\\s?\\(\\w+\\)\\s?" . wordUnderCursor . "'"
-		elseif &filetype == "java"
-			execute ":Ack " . "'" . '(private|public|protected)\s+(\w+)\s+' . wordUnderCursor . "\\s*\\(.*\\)'"
-		else
-			echo "Command not support for this filetype[" + &filetype + "]"
-		endif
-	elseif executable('grep')
-		echo "Command not support for vimgrep. Please insatall ack."
-	else
-		echo "Command not support. Please install ack."
-	endif
-endfunction "SearchCurrentMethod
-
-" Find current word header
-command! -nargs=* FindCurrentWordHeader call <SID>FindCurrentWordHeader()
-function! s:FindCurrentWordHeader()
-	let wordUnderCursor = expand("<cword>")
-	let wordUnderCursor = join([wordUnderCursor,".h"],'')
-	execute ":find " . wordUnderCursor
-endfunction "FindCurrentWordHeader
-
-command! -nargs=* OpenCurrentFileAsNewTabe call <SID>OpenCurrentFileAsNewTabe()
-function! s:OpenCurrentFileAsNewTabe()
-	let current_file_name = expand("%")
-	execute ":tabnew " . current_file_name
-endfunction
-
-" Return comment string this is not used.
-function! s:CommentStr()
-	" get the current file type
-
-	if &filetype == "vim"
-		return "\""
-	elseif &filetype == "perl"
-		return "#"
-	endif
-
-	return "\/\/"
-endfunction "CommentStr
-
-" Append Comment to current selected lines, this is not used.
-command! -nargs=* -range ToggleCommentToCurrentLines :<line1>,<line2>call <SID>ToggleCommentToCurrentLines()
-function! s:ToggleCommentToCurrentLines() range
-	let firstLine = getline(a:firstline)
-	let commentStr = s:CommentStr()
-	let commentMatche = "^" . commentStr
-	let retMatch = matchstr(firstLine, commentMatche)
-	if retMatch == ""
-		" Append comment to all line header
-		let index = a:firstline
-		while index <= a:lastline
-			let line = getline(index)
-			let newLine = commentStr . line
-			call setline(index, newLine)
-			let index=index+1
-		endwhile
-	else
-		" Remove all comment from all line header
-		let index = a:firstline
-		while index <= a:lastline
-			let line = getline(index)
-			let comment = matchstr(line, commentMatche)
-			if comment != ""
-				let newLine = substitute(line, commentMatche, "", "")
-				call setline(index, newLine)
-			endif
-			let index=index+1
-		endwhile
-	endif
-endfunction
-"nnoremap \c :<C-u>ToggleCommentToCurrentLines<Return>
-"vnoremap \c :ToggleCommentToCurrentLines<Return>
-
-" toggle @(number) to @"number" "{{{
-command! -nargs=* ToggleNSStringNSNumber call <SID>ToggleNSStringNSNumber()
-function! s:ToggleNSStringNSNumber()
-	let s:line = getline('.')
-	if s:line =~ '@"\s*-\=[0-9]*\s*"'
-		execute ':s/@"\s*\(-\=[0-9]*\)\s*"/@(\1)/g'
-	elseif s:line =~ '@(\s*-\=[0-9]*\s*)'
-		execute ':s/@(\s*\(-\=[0-9]*\)\s*)/@"\1"/g'
-	endif
-	unlet s:line
-endfunction "}}}
-
-" Create Directory if it not exist
-augroup vimrc-auto-mkdir  " {{{
-	autocmd!
-	autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
-	function! s:auto_mkdir(dir, force)  " {{{
-		if !isdirectory(a:dir) && (a:force ||
-					\    input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
-			call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-		endif
-	endfunction  " }}}
-augroup END  " }}}
-
-" Reload Files
-augroup vimrc-checktime
-	autocmd!
-	autocmd WinEnter * checktime
-augroup END
-
-" Scouter
-function! Scouter(file, ...)
-	let pat = '^\s*$\|^\s*"'
-	let lines = readfile(a:file)
-	if !a:0 || !a:1
-		let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
-	endif
-	return len(filter(lines,'v:val !~ pat'))
-endfunction
-command! -bar -bang -nargs=? -complete=file Scouter
-			\        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
-command! -bar -bang -nargs=? -complete=file GScouter
-			\        echo Scouter(empty(<q-args>) ? $MYGVIMRC : expand(<q-args>), <bang>0)
-
-" Load current path .localvimrc
-augroup load-local-vimrc
-	autocmd!
-	autocmd BufNewFile,BufReadPost * call s:LoadLocalVimrc(expand('<afile>:p:h'))
-augroup END
-
-function! s:LoadLocalVimrc(loc)
-	let s:local_vimrc_filename = '.localvimrc'
-    let files = findfile(s:local_vimrc_filename, escape(a:loc, '').';', -1)
-	for i in reverse(filter(files, 'filereadable(v:val)'))
-		source `=i`
-	endfor
-endfunction
 
 " Show all mapping in Unite.
 command! -nargs=* ShowAllMappingInUnite call <SID>ShowAllMappingInUnite()
@@ -815,224 +1189,9 @@ function! s:ShowAllMappingInUnite()
 	exec ":Unite output:map|map!|lmap"
 endfunction!
 
-" for vim script test " {{{
-command! -nargs=* -range Hogehoge :<line1>,<line2>call <SID>Hogehoge()
-function! s:Hogehoge() range
-	let funcname = ''
-	let func_name_pattern = '\C' . '\s*-\s*(\s*\w\+\s*)\s*\(\w\+\)\s*'
-	let pattern = '\C' . '\(\w\+\)\s*:\s*('
-
-	let index = a:firstline
-
-	let funcname = get(matchlist(getline(index), func_name_pattern), 1, '')
-	if funcname ==# ''
-		echo "not match"
-		return
-	else
-		echo "****" . funcname
-	endif
-
-	let match_count = match(getline(index), ':') + 1
-	echo "match_count is [" . match_count . "]"
-	while index <= a:lastline
-		let line = getline(index)
-		while 1
-			echo index . ":" . match_count
-			let match_name = get(matchlist(line, pattern, match_count), 1, '')
-			echo index . ": match name is [" . match_name . "]"
-			if match_name ==# ''
-				break
-			else
-				let funcname = funcname . ':' . match_name
-				let match_count = match(line, ':', match_count)
-				echo index . ": match count is [" . match_count . "]"
-				let match_count += 1
-			endif
-		endwhile
-		let index = index + 1
-		let match_count = 0
-	endwhile
-
-	echo funcname
-endfunction
 " }}}
 
-" Escape Selected to SyntaxHighlighter " {{{
-command! -nargs=* -range EscapeToSyntaxHighlighter :<line1>,<line2>call <SID>EscapeToSyntaxHighlighter()
-function! s:EscapeToSyntaxHighlighter() range
-	let s:firstLine = a:firstline
-	let s:lastLine = a:lastline
-	let brush = s:SyntaxHighlighterBrush()
-	let prefixLine = '<pre class="brush: ' . brush . '; first-line: 1; highlight: [,] title="">'
-
-	let index = s:firstLine
-	while index <= s:lastLine
-		let line = getline(index)
-		let line = substitute(line, '&', '\&amp;', "g")
-		let line = substitute(line, '>', '\&gt;', "g")
-		let line = substitute(line, '<', '\&lt;', "g")
-		let line = substitute(line, '"', '\&quot;', "g")
-
-		if index == s:firstLine
-			execute "normal " . s:firstLine . "Go\<Esc>"
-			let s:lastLine += 1
-			let newLine = [prefixLine, line]
-			call setline(index, newLine)
-		elseif index == s:lastLine
-			let newLine = [line, "</pre>"]
-			execute "normal " . s:lastLine . "Go\<Esc>"
-			call setline(index, newLine)
-		else
-			call setline(index, line)
-		endif
-
-		let index += 1
-	endwhile
-
-	if brush =~ 'unknown'
-		echo "Warnning!! Brush is unknown"
-	endif
-endfunction
-" }}}
-
-" return syntax highlighter brush " {{{
-function! s:SyntaxHighlighterBrush()
-	if &filetype == "objc"
-		return "cpp"
-	elseif &filetype == "perl"
-		return "perl"
-	elseif &filetype == "c"
-		return "c"
-	elseif &filetype == "java"
-		return "java"
-	elseif &filetype == "php"
-		return "php"
-	elseif &filetype == "text"
-		return "plain"
-	elseif &filetype == "shell"
-		return "bash"
-	else
-		return "unknown"
-	endif
-endfunction
-" }}}
-
-" call at load
-if has('vim_starting')
-	call s:LoadLocalVimrc(expand('<afile>:p:h'))
-endif
-
-" Open junk file." {{{
-command! -nargs=0 JunkFile call s:open_junk_file()
-function! s:open_junk_file()
-	let l:junk_dir = $HOME . '/.vim_junk' . strftime('/%Y/%m')
-	if !isdirectory(l:junk_dir)
-		call mkdir(l:junk_dir, 'p')
-	endif
-
-	let l:filename = input('Junk Code', l:junk_dir . strftime('/%Y-%m-%d-%H%M%S.'))
-	if l:filename != ""
-		execute 'edit' . l:filename
-	endif
-endfunction
-" }}}
-
-" Open daily report file." {{{
-command! -nargs=0 DailyReport call s:open_daily_report()
-function! s:open_daily_report()
-	let l:daily_dir = $HOME . '/.vim_daily' . strftime('/%Y/%m')
-
-	if !isdirectory(l:daily_dir)
-		call mkdir(l:daily_dir, 'p')
-	endif
-
-	let l:filename = l:daily_dir . strftime('/%Y-%m-%d.txt')
-	if l:filename != ""
-		execute 'edit' . l:filename
-	endif
-
-    if ( filereadable(l:filename) )
-        return
-    endif
-
-    let l:daily_templete_file = $HOME . "/.vim_daily/templete.txt"
-    if filereadable( l:daily_templete_file )
-        execute ':read ' l:daily_templete_file
-        execute ':%s/{{__date__}}/' . strftime('%Y-%m-%d') . '/g'
-    endif
-endfunction
-" }}}
-
-" Open Astronomical observation " {{{
-command! -nargs=0 AstronomicalObservationReport call s:open_astronomical_observation()
-function! s:open_astronomical_observation()
-	let l:astronomical_dir = $HOME . '/.vim_astronomical_observation' . strftime('/%Y/%m')
-	if !isdirectory(l:astronomical_dir)
-		call mkdir(l:astronomical_dir, 'p')
-	endif
-
-	let l:filename = input('Astronomical Obseb.', l:astronomical_dir . strftime('/%Y-%m-%d.txt'))
-	if l:filename != ""
-		execute 'edit' . l:filename
-	endif
-endfunction
-" }}}
-
-" Copy word to Clipboard. " {{{
-command! -nargs=0 CopyWord2Clipboad call s:copy_word_to_clipboard()
-function! s:copy_word_to_clipboard()
-	normal "*yiw
-endfunction
-" }}}
-
-" ChangeTabToPipeline. " {{{
-command! -nargs=* -range ChangeTabToPipeline :<line1>,<line2>call s:change_tab_to_pipeline()
-function! s:change_tab_to_pipeline() range
-	let index = a:firstline
-	while index <= a:lastline
-		let s:line = getline(index)
-		let s:line = substitute(s:line, "\t", "|", "g")
-		let s:newLine = "|" . s:line . "|"
-		call setline(index, s:newLine)
-		let index = index + 1
-	endwhile
-endfunction
-" }}}
-
-" ChangePipelineToTab. " {{{
-command! -nargs=* -range ChangePipelineToTab :<line1>,<line2>call s:change_pipeline_to_tab()
-function! s:change_pipeline_to_tab() range
-	let index = a:firstline
-	while index <= a:lastline
-		let s:line = getline(index)
-		let s:line = substitute(s:line, "^|", "", "")
-		let s:line = substitute(s:line, "|$", "", "")
-		let s:line = substitute(s:line, "|", "\t", "g")
-		call setline(index, s:line)
-		let index = index + 1
-	endwhile
-endfunction
-" }}}
-
-" ChangeCurrentDirectoryToOpenFile {{{
-command! -nargs=* CDCurrentFileDirectory call s:change_current_file_directory()
-function! s:change_current_file_directory()
-    execute 'lcd' fnameescape(expand('%:p:h'))
-endfunction!
-" }}}
-
-" GrepFromJunkFiles {{{
-command! -nargs=1 GrepFromJunkFiles call s:grep_from_junkfiles(<f-args>)
-function! s:grep_from_junkfiles(word)
-	if executable('ack')
-		execute ':Ack ''' . a:word . ''' ~/.vim_junk/'
-	elseif executable('grep')
-        execute ":grep -rI " . a:word . "~/.vim_junk/"
-	else
-		echo "command not support"
-	endif
-endfunction!
-" }}}
+" Unite Sources {{{
 
 " Unite Source iosframeworks {{{
 let g:unite_source_iosframeworks_frameworks_path =
@@ -1190,19 +1349,6 @@ call unite#custom#alias('source/change_link_directory/narrow', 'cdable', 'lcd')
 unlet s:unite_source
 "}}}
 
-function! s:load_file_firstline(filepath)
-    let filename = fnamemodify(a:filepath, ":t")
-
-    let list = readfile(a:filepath, '', 3)
-    for line in list
-        if  line != '[:graph:]' && strlen(line) > 0
-            return line . " :" . filename
-        endif
-    endfor
-
-    return filename
-endfunction
-
 " Unite Source Junkfile list "{{{
 let g:unite_source_junk_file_src_path = ""
 
@@ -1296,139 +1442,6 @@ call unite#define_source(s:unite_source)
 unlet s:unite_source
 "}}}
 
-" swift playground test {{{
-" copy MacOSX10.10 SDK from XCode6-Beta7
-" append swift command path to $PATH
-let g:swift_output_buffer_name="swift_result"
-let g:swift_target="x86_64-apple-macosx10.11"
-let g:swift_sdk_path="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs//MacOSX10.11.sdk"
-command! Swift :silent call Swift()
-function! Swift()
-    if &filetype != "swift"
-        echo "This does not support file other than Swift."
-        return
-    endif
-
-    if (!executable("swift"))
-        echo "error: swift command is not executable, please check $PATH"
-        return
-    endif
-
-    let s:current_file_path = shellescape(expand("%:p"))
-    if (exists("g:swift_output_buffer_name"))
-        if(bufexists(g:swift_output_buffer_name) > 0)
-            let a:bufexists_flag = 1
-        else
-            let a:bufexists_flag = 0
-        endif
-    else
-        let a:bufexists_flag = 0
-    endif
-
-    if (a:bufexists_flag)
-        call Swift_SingletonBuffer(g:swift_output_buffer_nr, 1)
-    else
-        " Crerate new Scratch buffer
-        vnew `=g:swift_output_buffer_name`
-        let g:swift_output_buffer_nr = bufnr("%")
-        setlocal nonumber
-        setlocal buftype=nowrite
-        setlocal noswapfile
-        setlocal bufhidden=wipe
-        setlocal nocursorline
-    endif
-
-    execute "%delete"
-    let a:position = getpos(".")
-    setlocal write
-    let s:swift_exec_command = Swift_SwiftExecuteCommand(s:current_file_path)
-    execute("r!" . s:swift_exec_command)
-    setlocal readonly
-
-endfunction
-
-" return swift execute command
-function! Swift_SwiftExecuteCommand(input_file_path)
-    return "swift -target " . g:swift_target . " -sdk " . g:swift_sdk_path . " < " . a:input_file_path
-endfunction
-
-function! Swift_SingletonBuffer(bufnur, split)
-    let winlist = Swift_FindWindowsByBufnur(a:bufnur)
-    if empty(winlist)
-        if a:split
-            split
-        endif
-        exe "b " . bufnur
-    else
-        exe winlist[0] . "wincmd w"
-    endif
-endfunction
-
-function! Swift_FindWindowsByBufnur(bufnur)
-    return filter(range(1, winnr("$")), 'winbufnr(v:val)==' . a:bufnur)
-endfunction
-
-" }}}
-
-" Search current file XCode project path {{{
-function! s:XCodeProjectDir()
-    let currentPath = fnamemodify(expand('%:p'), ":p:h")
-    while 1
-        let fileList = glob(currentPath . "/*\.xcodeproj")
-        if fileList != ''
-            break
-        endif
-        let currentPath = fnamemodify(currentPath, ":h")
-        if currentPath == '/'
-            break
-        endif
-    endwhile
-
-    if currentPath == '/'
-        let currentPath = fnamemodify(expand('%:p'), ":p:h")
-    endif
-
-    return currentPath
-endfunction
-"}}}
-
-" Insert Table Header Line {{{
-command! -nargs=* InsertTableHeaderLine call <SID>InsertTableHeaderLine()
-function! s:InsertTableHeaderLine()
-    let upper_line_str = getline(a:firstline - 1)
-    " change multi-byte string to "++"
-    let upper_line_str = substitute(upper_line_str, "[^[:alnum:] \|]", "++", "g")
-    " echo upper_line_str
-    let upper_line_num = strlen(upper_line_str)
-    
-    let index = 0
-    let new_line = ""
-    while index < upper_line_num
-        let index_str = upper_line_str[index]
-        if index_str == "|"
-            let new_line = new_line . "|"
-        else
-            let new_line = new_line . "-"
-        endif
-        let index += 1
-    endwhile
-    " echo new_line
-    call setline(a:firstline, new_line)
-endfunction
-" }}}
-
-" Convert VB Database parameters to MySQL Set format {{{
-function! ConvertVBDBParamToMySQLFormat()
-    " VBのDB実行時のパラメータをMySQLで追加可能なフォーマットに整形する
-    " fairing format
-    execute ':%s/〔\([^〕]\+\)〕/=''\1'';/g'
-    " delete empty
-    execute ':v/\S/d'
-    " delete top spave
-    execute ':%s/^ \+//'
-    " insert top set=
-    execute ':%s/^/set /'
-endfunction
 " }}}
 
 " 今後やりたい事
