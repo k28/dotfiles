@@ -93,6 +93,7 @@ augroup END
 "nnoremap <Space>m :<C-u>marks<CR>
 nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>m :<C-u>SearchCurrentWordCaller<CR>
+nnoremap <Space>f :<C-u>SearchCurrentWord<CR>
 
 " search
 set ignorecase
@@ -108,7 +109,6 @@ nnoremap <ESC><ESC> :nohlsearch<CR><C-w><C-z><ESC>
 
 " search visual mode words
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
-nnoremap <Space>f :SearchCurrentWord<CR>
 
 " close quickfix
 nnoremap <Space>c :<C-u>ccl<CR>
@@ -152,6 +152,10 @@ nnoremap <silent> ciy ciw<C-r>0<ESC>
 nnoremap <silent> cy   ce<C-r>0<ESC>
 vnoremap <silent> cy   c<C-r>0<ESC>
 
+" Search
+nnoremap / /\v
+nnoremap ? ?\v
+
 " exchange ; and :
 nnoremap ; :
 nnoremap : ;
@@ -168,8 +172,8 @@ nnoremap <C-]> g<C-]>
 " command line emacs key maps
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
-cnoremap <C-f> <Right>
-cnoremap <C-b> <Left>
+"cnoremap <C-f> <Right>
+"cnoremap <C-b> <Left>
 cnoremap <C-k> <Up>
 
 " visual mode
