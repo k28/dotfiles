@@ -85,7 +85,7 @@ scriptencoding utf-8
 
 augroup highlightIdegraphicSpace
 	autocmd!
-	autocmd Colorscheme * highlight IdeographicSpace cterm=underline ctermfg=red gui=underline guifg=red
+	highlight IdeographicSpace cterm=underline ctermfg=red gui=underline guifg=red
 	autocmd VimEnter,WinEnter,Syntax * match IdeographicSpace /　/
 augroup END
 
