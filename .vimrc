@@ -241,6 +241,10 @@ augroup END
 " reload this file
 command! ReloadVimrc source $MYVIMRC
 
+" rename current buffer file
+command! -nargs=1 -complete=file Rename f <args> | call delete(expand('#'))
+
+
 " Self defined functions {{{
 
 " Insert Current Date to Last of line
