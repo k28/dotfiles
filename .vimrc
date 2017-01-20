@@ -1,7 +1,8 @@
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 
-set nocompatible
+" Do not need
+" set nocompatible
 
 " <C-u> this delete all command mode input. eg.) :hogehoge<C-u> -> :
 
