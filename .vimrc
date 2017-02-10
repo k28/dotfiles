@@ -1016,6 +1016,25 @@ let Tlist_Use_Right_Window = 1
 let Tlist_Exit_OnlyWindow = 1
 nnoremap <silent> <leader>l :TlistToggle<CR>
 let tlist_objc_settings = 'objc;P:protocols;i:interfaces;I:implementations;M:instance methods;C:implementation methods;Z:protocol methods'
+
+" for vdebug
+    let g:vdebug_options= {
+    \    "port" : 9000,
+    \    "server" : '',
+    \    "timeout" : 30,
+    \    "on_close" : 'detach',
+    \    "break_on_open" : 0,
+    \    "continuous_mode" : 1,
+    \    "ide_key" : '',
+    \    "path_maps" : {},
+    \    "debug_window_level" : 0,
+    \    "debug_file_level" : 0,
+    \    "debug_file" : "",
+    \    "watch_window_style" : 'expanded',
+    \    "marker_default" : '⬦',
+    \    "marker_closed_tree" : '▸',
+    \    "marker_open_tree" : '▾'
+    \}
  
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=''
