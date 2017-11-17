@@ -1,0 +1,15 @@
+
+set smartcase
+set hlsearch
+
+" yunk replace word
+nnoremap <silent> ciy ciw<C-r>0<ESC>
+nnoremap <silent> cy   ce<C-r>0<ESC>
+vnoremap <silent> cy   c<C-r>0<ESC>
+
+" exchange ; and :
+nnoremap ; :
+nnoremap : ;
+vnoremap ; :
+vnoremap : ;
+
