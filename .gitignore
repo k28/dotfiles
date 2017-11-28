@@ -15,5 +15,6 @@
 !/Makefile
 
 /.vim/.netrwhist
+/.vim/.netrwbook
 /.vim/bundle
 

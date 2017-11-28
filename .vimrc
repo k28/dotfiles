@@ -1223,7 +1223,7 @@ endfunction!
 
 " Unite Source iosframeworks {{{
 let g:unite_source_iosframeworks_frameworks_path =
-			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks"
+			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks"
 
 let s:unite_source = {
 			\'name':'iosframeworks',
