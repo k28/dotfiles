@@ -193,6 +193,8 @@ inoremap [] []<Left>
 inoremap "" ""<Left>
 " inoremap <> <><Left> "使いづらいので無効にする
 "inoremap <C-c> /*  */<Left><Left><Left>
+" C-@で直前の入力を入力してinsertモードを抜けるが使いにくいのでEscに割り当てる
+inoremap <silent> <C-@> <ESC>
 
 
 " yank 1line without new line.
