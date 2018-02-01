@@ -1,7 +1,7 @@
 #DOT_FILES = .bash_profile .bashrc .gvimrc .vim .vimrc
-DOT_FILES = .bashrc .gvimrc .vim .vimrc .ackrc .vrapperrc .xvimrc .inputrc .ideavimrc
+DOT_FILES = .bashrc .gvimrc .vim .vimrc .ackrc .vrapperrc .xvimrc .inputrc .ideavimrc .tmux.conf
 
-all: bash vim gvim ack vrapperrc xvimrc inputrc ideavimrc
+all: bash vim gvim ack vrapperrc xvimrc inputrc ideavimrc tmux
 
 vimonly: vim gvim vrapperrc xvimrc ideavimrc
 
@@ -22,6 +22,8 @@ ideavimrc: $(foreach f, $(filter .ideavimrc, $(DOT_FILES)), link-dot-file-$(f))
 ack: $(foreach f, $(filter .ack%, $(DOT_FILES)), link-dot-file-$(f))
 
 inputrc: $(foreach f, $(filter .inputrc, $(DOT_FILES)), link-dot-file-$(f))
+
+tmux: $(foreach f, $(filter .tmux.conf, $(DOT_FILES)), link-dot-file-$(f))
 
 .PHONY: clean
 clean: $(foreach f, $(DOT_FILES), unlink-dot-file-$(f))
