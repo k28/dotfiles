@@ -431,6 +431,23 @@ function! s:LoadLocalVimrc(loc)
 	endfor
 endfunction
 
+" Escape Selected to MarkdownSyntaxHighlighter " {{{
+command! -nargs=* -range EscapeToMarkdownSyntaxHighlighter :<line1>,<line2>call <SID>EscapeToMarkdownSyntaxHighlighter()
+function! s:EscapeToMarkdownSyntaxHighlighter() range
+	let s:firstLine = a:firstline
+	let s:lastLine = a:lastline
+	let prefixLine = ''
+
+	let index = s:firstLine
+	while index <= s:lastLine
+		let line = getline(index)
+		let line = substitute(line, '<', '\&lt;', "g")
+        call setline(index, line)
+		let index += 1
+	endwhile
+endfunction
+" }}}
+
 " Escape Selected to SyntaxHighlighter " {{{
 command! -nargs=* -range EscapeToSyntaxHighlighter :<line1>,<line2>call <SID>EscapeToSyntaxHighlighter()
 function! s:EscapeToSyntaxHighlighter() range
@@ -947,6 +964,9 @@ if has("win32") || has("win64")
                 \   }
 endif
 
+" for Gauche
+NeoBundle 'aharisu/vim_goshrepl'
+
 call neobundle#end()
 filetype plugin indent on
 NeoBundleCheck
@@ -1054,6 +1074,8 @@ let g:neocomplcache_force_omni_patterns.objc =
 			\ '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplcache_force_omni_patterns.objcpp =
 			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplcache_keyword_patterns['gosh-repl'] =
+            \ "[[:alpha:]+*/@$_=.!?-][[:alnum:]+*/@$_:=.!?-]*"
 
 " ctrlp settings
 let g:ctrlp_use_migemo = 1
