@@ -65,6 +65,8 @@ set wildmenu wildmode=list:full
 " And keep going one directory up all the way to the root folder.
 set tags=./.tags;
 
+set path+=**/include
+
 " Auto reload settings
 set autoread
 augroup vimrc-checktime
@@ -143,9 +145,6 @@ inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 inoremap <C-b> <Esc><Esc>bi
-else
-" Leaderを "¥" に変更する
-let mapleader = "¥"
 endif
 
 " yunk replace word
@@ -946,6 +945,9 @@ NeoBundle 'tpope/vim-markdown'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kannokanno/previm'
 
+" for cpp
+NeoBundle 'kana/vim-altr'
+
 " for SQL
 NeoBundle 'vim-scripts/SQLUtilities'
 NeoBundle 'vim-scripts/Align'
@@ -1011,6 +1013,8 @@ function! s:OpenFileSearch()
         :Unite -start-insert eclipseSrcFiles
     elseif &filetype == "objc" || &filetype == "objcpp"
         :Unite -start-insert cocoaSrcFiles
+    elseif &filetype == "cpp" || &filetype == "c"
+        :Unite -start-insert cppSrcFiles
     else
         :Unite buffer
     endif
@@ -1074,8 +1078,9 @@ let g:neocomplcache_force_omni_patterns.objc =
 			\ '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplcache_force_omni_patterns.objcpp =
 			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:neocomplcache_keyword_patterns['gosh-repl'] =
-            \ "[[:alpha:]+*/@$_=.!?-][[:alnum:]+*/@$_:=.!?-]*"
+" let g:neocomplcache_keyword_patterns['gosh-repl'] =
+"             \ "[[:alpha:]+*/@$_=.!?-][[:alnum:]+*/@$_:=.!?-]*"
+" let g:neocomplcache_keyword_patterns['default'] = '\h\w'
 
 " ctrlp settings
 let g:ctrlp_use_migemo = 1
@@ -1144,6 +1149,9 @@ command! -nargs=* MemoListTitleSearch call <SID>MemoListTitleSearch()
 function! s:MemoListTitleSearch()
     execute ":CtrlP " . g:memolist_path
 endfunction
+
+" vim-altr
+nnoremap <Leader>a <Plug>(alter-forward)
 
 " php {{{
 let php_sql_query = 1
@@ -1313,6 +1321,7 @@ function! s:unite_source.hooks.on_init(args, context)
     " Search .project contain folder
     let src_folder = 'src'
     let srcdir = finddir(src_folder, './')
+    echo "srcdir [" +  &srcdir + "]"
     if srcdir == ''
         let srcdir = finddir(src_folder, './;')
     endif
@@ -1368,7 +1377,53 @@ call unite#define_source(s:unite_source)
 
 unlet s:unite_source
 "}}}
-"
+
+" Unite Source cppSrcFiles" {{{
+
+let g:unite_source_cppfiles_src_path = ""
+
+let s:unite_source = {
+            \ 'name' : 'cppSrcFiles',
+            \}
+let s:unite_source.hooks = {}
+
+function! s:unite_source.hooks.on_init(args, context)
+    " Search .project contain folder
+    let tags_file = '.tags'
+    let srcdir = findfile(tags_file, './')
+
+    let src_folder = 'src'
+    if srcdir == ''
+        let srcdir = finddir(src_folder, './')
+    endif
+    if srcdir == ''
+        let srcdir = finddir(src_folder, './;')
+    endif
+
+    echo "Hello this is hoge"
+    echo "kita [" + srcdir + "]"
+
+    " Search cpp sources
+    if srcdir != ''
+        let src_path = "\"`find \"" . srcdir . "\" -name \"*.cpp\" -o -name \"*.c\" -o -name \"*.hpp\" -o -name \"*.h\" -o -name \"*.cc\"`\""
+        let filelist = glob(src_path)
+        let a:context.source__lines = split(filelist, "\n")
+    endif
+endfunction
+
+function! s:unite_source.gather_candidates(args, context)
+    return map(a:context.source__lines, '{"word" : fnamemodify(v:val, ":t"),
+                                        \ "kind" : "jump_list",
+                                        \ "action__path" : v:val ,
+                                        \ "action__line" : 0 }')
+endfunction
+
+call unite#define_source(s:unite_source)
+
+unlet s:unite_source
+"}}}
+
+
 " Unite Source change_link_directory" {{{
 let g:unite_source_link_directory_path = "$HOME/link"
 

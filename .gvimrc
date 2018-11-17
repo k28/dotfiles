@@ -27,17 +27,21 @@ inoremap <Right> <Right>
 inoremap <Up> <Up>
 inoremap <Down> <Down>
 
+if has('gui_macvim')
+    "let mapleader = "¥"
+endif
+
 if has("win32") || has("win64")
     set guioptions+=a
 else
-    inoremap ¥ \
-    inoremap \ ¥
-    nnoremap ¥ \
-    nnoremap \ ¥
-    vnoremap ¥ \
-    vnoremap \ ¥
-    cnoremap ¥ \
-    cnoremap \ ¥
+    "inoremap ¥ \
+    "inoremap \ ¥
+    "nnoremap ¥ \
+    "nnoremap \ ¥
+    "vnoremap ¥ \
+    "vnoremap \ ¥
+    "cnoremap ¥ \
+    "cnoremap \ ¥
 endif
 
 nnoremap <silent> <Leader>g :OverCommandLine<CR>%s/¥<<C-r><C-w>¥>//g<Left><Left>
