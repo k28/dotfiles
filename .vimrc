@@ -998,6 +998,10 @@ let java_allow_cpp_keywords = 1
 let g:alternateExtensions_h = "c,cpp,cxx,cc,CC,m,mm"
 let g:alternateExtensions_m = "h"
 let g:alternateExtensions_mm = "h,hpp"
+let g:alternateExtensions_c = "h"
+let g:alternateExtensions_cc = "h,hpp"
+let g:alternateExtensions_cpp = "h,hpp"
+let g:alternateExtensions_cxx = "h,hpp"
 
 " vim-quickrun option
 let g:quickrun_config={'*': {'split': ''}}
