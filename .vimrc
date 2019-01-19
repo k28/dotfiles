@@ -22,6 +22,11 @@ set showcmd		    " display incomplete commands
 set incsearch		" do incremental searching
 set cursorline
 
+" set visualbell
+" set novisualbell
+" set vb t_vb=
+" set belloff=all
+
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set mouse=a
@@ -947,12 +952,17 @@ NeoBundle 'kannokanno/previm'
 
 " for cpp
 NeoBundle 'kana/vim-altr'
+" LSP For C++ 
+"NeoBundle 'prabirshrestha/async.vim'
+"NeoBundle 'prabirshrestha/vim-lsp'
+"NeoBundle 'prabirshrestha/asyncomplete.vim'
+"NeoBundle 'prabirshrestha/asyncomplete-lsp.vim'
 
 " for SQL
 NeoBundle 'vim-scripts/SQLUtilities'
 NeoBundle 'vim-scripts/Align'
 
-NeoBundle 'k28/evervim'
+" NeoBundle 'k28/evervim'
 NeoBundle 'glidenote/memolist.vim'
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
@@ -1137,6 +1147,18 @@ let g:clang_snippets_engine = 'ultisnips'
 let g:clang_jumpto_declaration_key = '<C-1>'
 let g:clang_jumpto_back_key = '<C-2>'
 
+" vim-lsp setting{{{
+" let g:lsp_log_verbose = 1
+" let g:lsp_log_file = expand('~/vim-lsp.log')
+" call lsp#register_server({
+"             \ 'name': 'clangd',
+"             \ 'cmd': {server_info->['clangd-6.0']},
+"             \ 'whitelist': ['c', 'cpp'],
+"             \ })
+" 
+" autocmd FileType cpp setlocal omnifunc=lsp#complete
+"}}}
+
 " SQLUTILITIES
 let g:sqlutil_load_default_maps = 0
 
@@ -1223,9 +1245,9 @@ augroup END
 "}}}
 
 " evervim {{{
-nnoremap <silent> <Space>el :<C-u>EvervimNotebookList<CR>
-nnoremap <silent> <Space>ecr :<C-u>EvervimCreateNote<CR>
-nnoremap <silent> <Space>es :EvervimSearchByQuery<Space>''<Left>
+" jnnoremap <silent> <Space>el :<C-u>EvervimNotebookList<CR>
+" jnnoremap <silent> <Space>ecr :<C-u>EvervimCreateNote<CR>
+" jnnoremap <silent> <Space>es :EvervimSearchByQuery<Space>''<Left>
 " }}}
 
 " load plugins
