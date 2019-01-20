@@ -1155,6 +1155,9 @@ let g:clang_jumpto_back_key = '<C-2>'
 "             \ 'cmd': {server_info->['clangd-6.0']},
 "             \ 'whitelist': ['c', 'cpp'],
 "             \ })
+" " clangdのコマンド名を入れつ必要がある
+" " 以下のコマンドでインストールされる??
+" " sudo apt install clang-tools
 " 
 " autocmd FileType cpp setlocal omnifunc=lsp#complete
 "}}}
