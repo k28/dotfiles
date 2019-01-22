@@ -1429,9 +1429,6 @@ function! s:unite_source.hooks.on_init(args, context)
         let srcdir = finddir(src_folder, './;')
     endif
 
-    echo "Hello this is hoge"
-    echo "kita [" + srcdir + "]"
-
     " Search cpp sources
     if srcdir != ''
         let src_path = "\"`find \"" . srcdir . "\" -name \"*.cpp\" -o -name \"*.c\" -o -name \"*.hpp\" -o -name \"*.h\" -o -name \"*.cc\"`\""
@@ -1590,6 +1587,10 @@ unlet s:unite_source
 " カーソル下の単語のヘッダーファイルを開きたい
 " SearchCurrentWordCallerでワンライナーでcallしている部分が引っかからない
 " daily_reportで次の日, 前の日を一発で開きたい
+
+
+" カーソル行にアンダーラインを表示しないようにする
+highlight CursorLine ctermbg=none ctermfg=none cterm=none
 
 " load local settings
 if filereadable(expand('~/.vimrc.local'))
