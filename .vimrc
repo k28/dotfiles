@@ -897,7 +897,8 @@ NeoBundle 'sudo.vim'
 NeoBundle 'EnhCommentify.vim'
 NeoBundle 'vim-scripts/camelcasemotion'
 if executable('lua')
-NeoBundle 'Shougo/neocomplete.git'
+"NeoBundle 'Shougo/neocomplete.git'
+NeoBundle 'Shougo/neocomplcache.git'
 else
 NeoBundle 'Shougo/neocomplcache.git'
 endif
@@ -906,7 +907,7 @@ NeoBundle 'osyo-manga/vim-over'
 if has("unix")
 	let s:uname = system("uname")
 	if s:uname == "Darwin\n"
-        NeoBundle 'Rip-Rip/clang_complete.git'
+        "NeoBundle 'Rip-Rip/clang_complete.git'
         "NeoBundle 'tokorom/clang_complete-getopts-ios.git'
 		NeoBundle 'SirVer/ultisnips'
 		"NeoBundle 'Shougo/neosnippet.vim'
@@ -953,10 +954,10 @@ NeoBundle 'kannokanno/previm'
 " for cpp
 NeoBundle 'kana/vim-altr'
 " LSP For C++ 
-"NeoBundle 'prabirshrestha/async.vim'
-"NeoBundle 'prabirshrestha/vim-lsp'
-"NeoBundle 'prabirshrestha/asyncomplete.vim'
-"NeoBundle 'prabirshrestha/asyncomplete-lsp.vim'
+NeoBundle 'prabirshrestha/async.vim'
+NeoBundle 'prabirshrestha/vim-lsp'
+" NeoBundle 'prabirshrestha/asyncomplete.vim'
+" NeoBundle 'prabirshrestha/asyncomplete-lsp.vim'
 
 " for SQL
 NeoBundle 'vim-scripts/SQLUtilities'
@@ -1110,6 +1111,7 @@ let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_camel_case_completion = 0
 let g:neocomplcache_enable_underbar_completion = 1
 let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_enable_auto_select = 0
 " for neocomplcache and clang_complete settings
 let g:neocomplcache_force_overwrite_completefunc = 1
 if !exists("g:neocomplcache_force_omni_patterns")
@@ -1148,17 +1150,20 @@ let g:clang_jumpto_declaration_key = '<C-1>'
 let g:clang_jumpto_back_key = '<C-2>'
 
 " vim-lsp setting{{{
-" let g:lsp_log_verbose = 1
-" let g:lsp_log_file = expand('~/vim-lsp.log')
-" call lsp#register_server({
-"             \ 'name': 'clangd',
-"             \ 'cmd': {server_info->['clangd-6.0']},
-"             \ 'whitelist': ['c', 'cpp'],
-"             \ })
-" " clangdのコマンド名を入れつ必要がある
-" " 以下のコマンドでインストールされる??
-" " sudo apt install clang-tools
-" 
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+call lsp#register_server({
+            \ 'name': 'clangd',
+            \ 'cmd': {server_info->['clangd-6.0']},
+            \ 'whitelist': ['c', 'cpp'],
+            \ })
+" clangdのコマンド名を入れつ必要がある
+" 以下のコマンドでインストールされる??
+" sudo apt install clang-tools
+
+let g:asyncomplete_auto_popup = 0
+"let g:asyncomplete_auto_completopt = 0
+
 " autocmd FileType cpp setlocal omnifunc=lsp#complete
 "}}}
 
@@ -1181,6 +1186,23 @@ endfunction
 
 " vim-altr
 nnoremap <Leader>a <Plug>(alter-forward)
+
+" termdebug{{{
+packadd termdebug
+let g:termdebug_wide = 200
+
+" augroup ujihisa-vimrc
+"   autocmd TerminalOpen * call s:terminalopen_termdebug()
+" augroup END
+" 
+" " Make `TermdebugCommand /home/ujihisa/git/vim/local/bin/vim -u NONE --noplugin` handy, even with the previous tnoremap
+" function! s:terminalopen_termdebug() abort
+"   if bufname('%') =~# '^debugged program'
+"     tnoremap <buffer> <Esc> <Esc>
+"   endif
+" endfunction
+
+"}}}
 
 " php {{{
 let php_sql_query = 1
@@ -1590,7 +1612,7 @@ unlet s:unite_source
 
 
 " カーソル行にアンダーラインを表示しないようにする
-highlight CursorLine ctermbg=none ctermfg=none cterm=none
+"highlight CursorLine ctermbg=none ctermfg=none cterm=none
 
 " load local settings
 if filereadable(expand('~/.vimrc.local'))
