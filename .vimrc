@@ -929,7 +929,7 @@ if has("unix")
 	if s:uname == "Darwin\n"
         "NeoBundle 'Rip-Rip/clang_complete.git'
         "NeoBundle 'tokorom/clang_complete-getopts-ios.git'
-		NeoBundle 'SirVer/ultisnips'
+		"NeoBundle 'SirVer/ultisnips'
 		"NeoBundle 'Shougo/neosnippet.vim'
 		NeoBundle 'thinca/vim-fontzoom'
 		NeoBundle 'vim-jp/vimdoc-ja'
@@ -1165,11 +1165,11 @@ let g:clang_complete_auto = 0
 let g:clang_complete_select = 0
 let g:clang_use_library = 1
 
-let g:clang_snippets = 1
-let g:clang_snippets_engine = 'ultisnips'
-" clang_completeで追加されたジャンプ機能が不完全なので,無効にするために,他のキーを割り当てる
-let g:clang_jumpto_declaration_key = '<C-1>'
-let g:clang_jumpto_back_key = '<C-2>'
+" let g:clang_snippets = 1
+" let g:clang_snippets_engine = 'ultisnips'
+" " clang_completeで追加されたジャンプ機能が不完全なので,無効にするために,他のキーを割り当てる
+" let g:clang_jumpto_declaration_key = '<C-1>'
+" let g:clang_jumpto_back_key = '<C-2>'
 
 
 if has("unix")
