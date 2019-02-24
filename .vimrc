@@ -880,7 +880,7 @@ NeoBundle 'Shougo/vimproc', {
       \    },
       \ }
 NeoBundle 'Shougo/vimfiler.vim'
-NeoBundle 'Shougo/neomru.vim'
+" NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'msanders/snipmate.vim'
