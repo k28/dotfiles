@@ -401,6 +401,25 @@ endfunction
 "nnoremap \c :<C-u>ToggleCommentToCurrentLines<Return>
 "vnoremap \c :ToggleCommentToCurrentLines<Return>
 
+"
+" Insert include guard to the current file.
+"
+command! -nargs=0 IncGuard call IncludeGuard()
+function! IncludeGuard()
+    " Get current file name
+    let file_name = fnamemodify(expand('%'), ':t')
+
+    " To Uppercase and append the GURD
+    let file_name = toupper(file_name)
+    let included = substitute(file_name, '\.', '_', 'g').'_INCLUDED_'
+
+    " Write to the file
+    let res_head = '#ifndef '.included."\n#define ".included."\n\n"
+    let res_foot = "\n".'#endif //'.included."\n"
+    silent! execute '1s/^/\=res_head'
+    silent! execute '$s/$/\=res_foot'
+endfunction
+
 " toggle @(number) to @"number" "{{{
 command! -nargs=* ToggleNSStringNSNumber call <SID>ToggleNSStringNSNumber()
 function! s:ToggleNSStringNSNumber()
