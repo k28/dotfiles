@@ -902,7 +902,7 @@ NeoBundle 'Shougo/vimfiler.vim'
 " NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'msanders/snipmate.vim'
+" NeoBundle 'msanders/snipmate.vim'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'tyru/DumbBuf.vim'
 NeoBundle 'vim-scripts/sh.vim'
@@ -936,6 +936,8 @@ if has("unix")
 		NeoBundle 'toyamarinyon/vim-swift'
         NeoBundle 'thinca/vim-ref'
     elseif s:uname == "Linux\n"
+		NeoBundle 'Shougo/neosnippet.vim'
+		NeoBundle 'Shougo/neosnippet-snippets'
 	endif
 " For JavaScript
 "NeoBundle 'marijnh/tern_for_vim'
@@ -1167,6 +1169,34 @@ let g:clang_snippets_engine = 'ultisnips'
 " clang_completeで追加されたジャンプ機能が不完全なので,無効にするために,他のキーを割り当てる
 let g:clang_jumpto_declaration_key = '<C-1>'
 let g:clang_jumpto_back_key = '<C-2>'
+
+
+if has("unix")
+	let s:uname = system("uname")
+    if s:uname == "Darwin\n"
+    elseif s:uname == "Linux\n"
+        " Plugin key-mappings.
+        " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+        imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+        smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+        xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+        " SuperTab like snippets behavior.
+        " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+        "imap <expr><TAB>
+        " \ pumvisible() ? "\<C-n>" :
+        " \ neosnippet#expandable_or_jumpable() ?
+        " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+        smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+                    \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+        " For conceal markers.
+        if has('conceal')
+            set conceallevel=2 concealcursor=niv
+        endif
+    endif
+endif
+
 
 " vim-lsp setting{{{
 let g:lsp_log_verbose = 1
