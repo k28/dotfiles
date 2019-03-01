@@ -13,6 +13,7 @@ set shiftwidth=4
 set textwidth=0
 set expandtab
 set foldmethod=marker
+set scrolloff=5
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -977,8 +978,8 @@ NeoBundle 'kana/vim-altr'
 " LSP For C++ 
 NeoBundle 'prabirshrestha/async.vim'
 NeoBundle 'prabirshrestha/vim-lsp'
-" NeoBundle 'prabirshrestha/asyncomplete.vim'
-" NeoBundle 'prabirshrestha/asyncomplete-lsp.vim'
+NeoBundle 'prabirshrestha/asyncomplete.vim'
+NeoBundle 'prabirshrestha/asyncomplete-lsp.vim'
 
 " for SQL
 NeoBundle 'vim-scripts/SQLUtilities'
@@ -1211,7 +1212,7 @@ call lsp#register_server({
 " sudo apt install clang-tools
 
 let g:asyncomplete_auto_popup = 0
-"let g:asyncomplete_auto_completopt = 0
+let g:asyncomplete_auto_completopt = 0
 
 " autocmd FileType cpp setlocal omnifunc=lsp#complete
 "}}}
