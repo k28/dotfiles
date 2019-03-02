@@ -1212,9 +1212,13 @@ call lsp#register_server({
 " sudo apt install clang-tools
 
 let g:asyncomplete_auto_popup = 0
-let g:asyncomplete_auto_completopt = 0
+let g:asyncomplete_auto_completeopt = 0
 
-" autocmd FileType cpp setlocal omnifunc=lsp#complete
+augroup cpp_lsp_omnifunc
+    autocmd!
+    autocmd FileType cpp setlocal omnifunc=lsp#complete
+augroup END
+
 "}}}
 
 " SQLUTILITIES
