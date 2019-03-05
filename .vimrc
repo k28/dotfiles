@@ -1673,4 +1673,9 @@ if filereadable(expand('~/.vimrc.local'))
 	source ~/.vimrc.local
 endif
 
+" folder specificc local settings
+if filereadable(expand('.vimrc.local'))
+	source .vimrc.local
+endif
+
 
