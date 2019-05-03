@@ -421,6 +421,11 @@ function! IncludeGuard()
     silent! execute '$s/$/\=res_foot'
 endfunction
 
+command! -nargs=* -range ReplaceMarkdownCodeNGWord :<line1>,<line2>call <SID>MMReplaceMarkdownCodeNGWord()
+function! s:MMReplaceMarkdownCodeNGWord() range
+    execute a:firstline ',' a:lastline ':s/\v\</\&lt;/g'
+endfunction
+
 " toggle @(number) to @"number" "{{{
 command! -nargs=* ToggleNSStringNSNumber call <SID>ToggleNSStringNSNumber()
 function! s:ToggleNSStringNSNumber()
