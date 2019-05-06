@@ -57,8 +57,8 @@ if [ -r /etc/debian_version ]; then
     shopt -s histappend
 
     # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-    HISTSIZE=1000
-    HISTFILESIZE=2000
+    HISTSIZE=99999
+    HISTFILESIZE=99999
 
     # check the window size after each command and, if necessary,
     # update the values of LINES and COLUMNS.
@@ -165,8 +165,8 @@ if [ -r /etc/debian_version ]; then
 
 else # not Debian
     HISTCONTROL=ignoreboth
-    HISTSIZE=1000
-    HISTFILESIZE=2000
+    HISTSIZE=99999
+    HISTFILESIZE=99999
     HISTIGNORE=ls:sl
 
     # Change man pager to vim
@@ -177,6 +177,14 @@ else # not Debian
     stty stop undef
 fi
 # -------------------
+
+function share_history {
+    history -a
+    history -c
+    history -r
+}
+PROMPT_COMMAND='share_history'
+shopt -u histappend
 
 # Java home path
 if [ -f /usr/libexec/java_home ]; then
