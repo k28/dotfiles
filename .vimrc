@@ -708,8 +708,8 @@ endfunction
 " copy MacOSX10.10 SDK from XCode6-Beta7
 " append swift command path to $PATH
 let g:swift_output_buffer_name="swift_result"
-let g:swift_target="x86_64-apple-macosx10.11"
-let g:swift_sdk_path="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs//MacOSX10.11.sdk"
+let g:swift_target="x86_64-apple-macosx10.14"
+let g:swift_sdk_path="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
 command! Swift :silent call Swift()
 function! Swift()
     if &filetype != "swift"
