@@ -900,7 +900,7 @@ NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
       \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
+      \     'mac' : 'make',
       \     'unix' : 'make -f make_unix.mak',
       \    },
       \ }
@@ -941,6 +941,7 @@ if has("unix")
 		NeoBundle 'keith/swift.vim'
 		NeoBundle 'toyamarinyon/vim-swift'
         NeoBundle 'thinca/vim-ref'
+        NeoBundle 'ryanolsonx/vim-lsp-swift'
     elseif s:uname == "Linux\n"
 		NeoBundle 'Shougo/neosnippet.vim'
 		NeoBundle 'Shougo/neosnippet-snippets'
@@ -1205,8 +1206,9 @@ endif
 
 
 " vim-lsp setting{{{
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
+" let g:lsp_log_verbose = 1
+" let g:lsp_log_file = expand('~/vim-lsp.log')
+let g:lsp_log_file = ''
 call lsp#register_server({
             \ 'name': 'clangd',
             \ 'cmd': {server_info->['clangd-6.0']},
@@ -1223,6 +1225,14 @@ augroup cpp_lsp_omnifunc
     autocmd!
     autocmd FileType cpp setlocal omnifunc=lsp#complete
 augroup END
+
+" vim-lsp-swift setting
+if executable('sourcekit-lsp')
+    augroup swift_lsp_omnifunc
+        autocmd!
+        autocmd FileType swift setlocal omnifunc=lsp#complete
+    augroup END
+endif
 
 "}}}
 
