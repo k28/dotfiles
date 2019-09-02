@@ -987,6 +987,9 @@ NeoBundle 'prabirshrestha/vim-lsp'
 NeoBundle 'prabirshrestha/asyncomplete.vim'
 NeoBundle 'prabirshrestha/asyncomplete-lsp.vim'
 
+" for kotlin
+NeoBundle 'udalov/kotlin-vim'
+
 " for SQL
 NeoBundle 'vim-scripts/SQLUtilities'
 NeoBundle 'vim-scripts/Align'
