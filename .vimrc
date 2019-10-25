@@ -33,7 +33,6 @@ set noundofile      " do not create *.un~
 set laststatus=2
 set wildmenu wildmode=list:full
 
-
 " Search settings
 set ignorecase
 set smartcase
@@ -220,7 +219,7 @@ function! s:UpdateCurrentDate()
 	endif
 endfunction! "UpdateCurrentDate
 
-" Locad all current headers
+" Load all current headers
 command! -nargs=0 LoadCurrentHeaders call <SID>LoadCurrentHeaders()
 function! s:LoadCurrentHeaders()
 	execute ":args ./**/*.h"
@@ -286,6 +285,7 @@ function! s:FindCurrentWordHeader()
 	execute ":find " . wordUnderCursor
 endfunction "FindCurrentWordHeader
 
+" Open current file as new tabe
 command! -nargs=* OpenCurrentFileAsNewTabe call <SID>OpenCurrentFileAsNewTabe()
 function! s:OpenCurrentFileAsNewTabe()
 	let current_file_name = expand("%")
@@ -305,42 +305,7 @@ function! s:CommentStr()
 	return "\/\/"
 endfunction "CommentStr
 
-" Append Comment to current selected lines, this is not used.
-command! -nargs=* -range ToggleCommentToCurrentLines :<line1>,<line2>call <SID>ToggleCommentToCurrentLines()
-function! s:ToggleCommentToCurrentLines() range
-	let firstLine = getline(a:firstline)
-	let commentStr = s:CommentStr()
-	let commentMatche = "^" . commentStr
-	let retMatch = matchstr(firstLine, commentMatche)
-	if retMatch == ""
-		" Append comment to all line header
-		let index = a:firstline
-		while index <= a:lastline
-			let line = getline(index)
-			let newLine = commentStr . line
-			call setline(index, newLine)
-			let index=index+1
-		endwhile
-	else
-		" Remove all comment from all line header
-		let index = a:firstline
-		while index <= a:lastline
-			let line = getline(index)
-			let comment = matchstr(line, commentMatche)
-			if comment != ""
-				let newLine = substitute(line, commentMatche, "", "")
-				call setline(index, newLine)
-			endif
-			let index=index+1
-		endwhile
-	endif
-endfunction
-"nnoremap \c :<C-u>ToggleCommentToCurrentLines<Return>
-"vnoremap \c :ToggleCommentToCurrentLines<Return>
-
-"
-" Insert include guard to the current file.
-"
+" Insert include guard to the current file. {{{
 command! -nargs=0 IncGuard call IncludeGuard()
 function! IncludeGuard()
     " Get current file name
@@ -355,12 +320,7 @@ function! IncludeGuard()
     let res_foot = "\n".'#endif //'.included."\n"
     silent! execute '1s/^/\=res_head'
     silent! execute '$s/$/\=res_foot'
-endfunction
-
-command! -nargs=* -range ReplaceMarkdownCodeNGWord :<line1>,<line2>call <SID>MMReplaceMarkdownCodeNGWord()
-function! s:MMReplaceMarkdownCodeNGWord() range
-    execute a:firstline ',' a:lastline ':s/\v\</\&lt;/g'
-endfunction
+endfunction "}}}
 
 " toggle @(number) to @"number" "{{{
 command! -nargs=* ToggleNSStringNSNumber call <SID>ToggleNSStringNSNumber()
@@ -388,14 +348,6 @@ command! -bar -bang -nargs=? -complete=file Scouter
 command! -bar -bang -nargs=? -complete=file GScouter
 			\        echo Scouter(empty(<q-args>) ? $MYGVIMRC : expand(<q-args>), <bang>0)
 
-function! s:LoadLocalVimrc(loc)
-	let s:local_vimrc_filename = '.localvimrc'
-    let files = findfile(s:local_vimrc_filename, escape(a:loc, '').';', -1)
-	for i in reverse(filter(files, 'filereadable(v:val)'))
-		source `=i`
-	endfor
-endfunction
-
 " Escape Selected to MarkdownSyntaxHighlighter " {{{
 command! -nargs=* -range EscapeToMarkdownSyntaxHighlighter :<line1>,<line2>call <SID>EscapeToMarkdownSyntaxHighlighter()
 function! s:EscapeToMarkdownSyntaxHighlighter() range
@@ -413,7 +365,10 @@ function! s:EscapeToMarkdownSyntaxHighlighter() range
 endfunction
 " }}}
 
-" Escape Selected to SyntaxHighlighter " {{{
+" Escape Selected to SyntaxHighlighter {{{
+"
+" Change selected range to Syntaxhighlighter
+"
 command! -nargs=* -range EscapeToSyntaxHighlighter :<line1>,<line2>call <SID>EscapeToSyntaxHighlighter()
 function! s:EscapeToSyntaxHighlighter() range
 	let s:firstLine = a:firstline
@@ -449,9 +404,8 @@ function! s:EscapeToSyntaxHighlighter() range
 		echo "Warnning!! Brush is unknown"
 	endif
 endfunction
-" }}}
 
-" return syntax highlighter brush " {{{
+" return syntax highlighter brush
 function! s:SyntaxHighlighterBrush()
 	if &filetype == "objc"
 		return "cpp"
@@ -775,8 +729,7 @@ function! ConvertVBDBParamToMySQLFormat()
 endfunction
 " }}}
 
-
-"}}}
+" ----- Selft defined function END ----- }}}
 
 " Reload Files
 augroup vimrc-checktime
@@ -799,7 +752,15 @@ if filereadable(expand('.vimrc.local'))
 	source .vimrc.local
 endif
 
-" Load current path .localvimrc
+" Load current path .localvimrc {{{
+function! s:LoadLocalVimrc(loc)
+	let s:local_vimrc_filename = '.localvimrc'
+    let files = findfile(s:local_vimrc_filename, escape(a:loc, '').';', -1)
+	for i in reverse(filter(files, 'filereadable(v:val)'))
+		source `=i`
+	endfor
+endfunction
+
 augroup load-local-vimrc
 	autocmd!
 	autocmd BufNewFile,BufReadPost * call s:LoadLocalVimrc(expand('<afile>:p:h'))
@@ -809,4 +770,5 @@ augroup END
 if has('vim_starting')
     call s:LoadLocalVimrc(expand('<afile>:p:h'))
 endif
+" load current path localvimrc }}}
 
