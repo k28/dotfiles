@@ -6,6 +6,7 @@ scriptencoding utf-8
 
 " color scheme
 colorscheme desert
+syntax on
 
 " exchange ; and :
 nnoremap ; :
