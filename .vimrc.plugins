@@ -31,12 +31,9 @@ NeoBundle 'Shougo/vimproc', {
       \    },
       \ }
 NeoBundle 'Shougo/vimfiler.vim'
-" NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'thinca/vim-quickrun'
-" NeoBundle 'msanders/snipmate.vim'
 NeoBundle 'mileszs/ack.vim'
-" NeoBundle 'tyru/DumbBuf.vim'
 NeoBundle 'vim-scripts/sh.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'thinca/vim-qfreplace'
@@ -47,21 +44,12 @@ NeoBundle 'taglist.vim'
 NeoBundle 'sudo.vim'
 NeoBundle 'EnhCommentify.vim'
 NeoBundle 'vim-scripts/camelcasemotion'
-if executable('lua')
-"NeoBundle 'Shougo/neocomplete.git'
-NeoBundle 'Shougo/neocomplcache.git'
-else
-NeoBundle 'Shougo/neocomplcache.git'
-endif
+" NeoBundle 'Shougo/neocomplcache.git'
 NeoBundle 'tanabe/ToggleCase-vim'
 NeoBundle 'osyo-manga/vim-over'
 if has("unix")
 	let s:uname = system("uname")
 	if s:uname == "Darwin\n"
-        "NeoBundle 'Rip-Rip/clang_complete.git'
-        "NeoBundle 'tokorom/clang_complete-getopts-ios.git'
-		"NeoBundle 'SirVer/ultisnips'
-		"NeoBundle 'Shougo/neosnippet.vim'
 		NeoBundle 'thinca/vim-fontzoom'
 		NeoBundle 'vim-jp/vimdoc-ja'
 		NeoBundle 'keith/swift.vim'
@@ -76,14 +64,12 @@ if has("unix")
 "NeoBundle 'marijnh/tern_for_vim'
 " Installした後に npm install する必要がある
 endif
+
 " for html
 NeoBundle 'mattn/emmet-vim'
-"NeoBundle 'open-browser.vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'hail2u/vim-css3-syntax'
-"NeoBundle 'othree/html5.vim' " https://github.com/vim-jp/issues/issues/584のためよばない
 NeoBundle 'pangloss/vim-javascript'
-"NeoBundle 'kchmck/vim-coffee-script'
 
 " For Java
 NeoBundle 'artur-shaik/vim-javacomplete2'
@@ -241,22 +227,6 @@ let tlist_objc_settings = 'objc;P:protocols;i:interfaces;I:implementations;M:ins
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=''
 
-" neocomplcache
-if !exists('g:neocomplcache_force_omni_patterns')
-	let g:neocomplcache_force_omni_patterns = {}
-endif
-let g:neocomplcache_force_overwrite_completefunc = 1
-let g:neocomplcache_force_omni_patterns.c =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_force_omni_patterns.cpp =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:neocomplcache_force_omni_patterns.objc =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_force_omni_patterns.objcpp =
-			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-" let g:neocomplcache_keyword_patterns['gosh-repl'] =
-"             \ "[[:alpha:]+*/@$_=.!?-][[:alnum:]+*/@$_:=.!?-]*"
-" let g:neocomplcache_keyword_patterns['default'] = '\h\w'
 
 " ctrlp settings
 let g:ctrlp_use_migemo = 1
@@ -267,49 +237,34 @@ let g:ctrlp_switch_buffer       = 0   " すでに開かれている時にもそ�
 let g:ctrlp_regexp = 1 " regexp mode
 
 " neocomplcache plugin
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_camel_case_completion = 0
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_enable_auto_select = 0
-" for neocomplcache and clang_complete settings
-let g:neocomplcache_force_overwrite_completefunc = 1
-if !exists("g:neocomplcache_force_omni_patterns")
-	let g:neocomplcache_force_omni_patterns = {}
-endif
-let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
+" if !exists('g:neocomplcache_force_omni_patterns')
+" 	let g:neocomplcache_force_omni_patterns = {}
+" endif
+" let g:neocomplcache_force_overwrite_completefunc = 1
+" let g:neocomplcache_force_omni_patterns.c =
+" 			\ '[^.[:digit:] *\t]\%(\.\|->\)'
+" let g:neocomplcache_force_omni_patterns.cpp =
+" 			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+" let g:neocomplcache_force_omni_patterns.objc =
+" 			\ '[^.[:digit:] *\t]\%(\.\|->\)'
+" let g:neocomplcache_force_omni_patterns.objcpp =
+" 			\ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+" let g:neocomplcache_enable_at_startup = 1
+" let g:neocomplcache_enable_smart_case = 1
+" let g:neocomplcache_enable_camel_case_completion = 0
+" let g:neocomplcache_enable_underbar_completion = 1
+" let g:neocomplcache_min_syntax_length = 3
+" let g:neocomplcache_enable_auto_select = 0
+" " for neocomplcache and clang_complete settings
+" let g:neocomplcache_force_overwrite_completefunc = 1
+" if !exists("g:neocomplcache_force_omni_patterns")
+" 	let g:neocomplcache_force_omni_patterns = {}
+" endif
+" let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
 
-" neocomplete
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#enable_camel_case_completion = 0
-let g:neocomplete#disable_auto_complete = 1
-let g:neocomplete#min_keyword_length = 3
-" for neocomplete and clang_complete settings
-let g:neocomplete#force_overwrite_completefunc = 1
-if !exists('g:neocomplete#force_omni_patterns')
-    let g:neocomplete#force_omni_patterns = {}
-endif
-let g:neocomplete#force_overwrite_completefunc = 1
-let g:neocomplete#force_omni_patterns.c =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#force_omni_patterns.cpp =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:neocomplete#force_omni_patterns.objc =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#force_omni_patterns.objcpp =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:clang_complete_auto = 0
 let g:clang_complete_select = 0
 let g:clang_use_library = 1
-
-" let g:clang_snippets = 1
-" let g:clang_snippets_engine = 'ultisnips'
-" " clang_completeで追加されたジャンプ機能が不完全なので,無効にするために,他のキーを割り当てる
-" let g:clang_jumpto_declaration_key = '<C-1>'
-" let g:clang_jumpto_back_key = '<C-2>'
-
 
 if has("unix")
 	let s:uname = system("uname")
