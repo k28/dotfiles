@@ -45,7 +45,6 @@ NeoBundle 'sudo.vim'
 NeoBundle 'EnhCommentify.vim'
 NeoBundle 'vim-scripts/camelcasemotion'
 " NeoBundle 'Shougo/neocomplcache.git'
-NeoBundle 'tanabe/ToggleCase-vim'
 NeoBundle 'osyo-manga/vim-over'
 if has("unix")
 	let s:uname = system("uname")
@@ -226,7 +225,6 @@ let tlist_objc_settings = 'objc;P:protocols;i:interfaces;I:implementations;M:ins
  
 " for Dumbbuf plugin
 let g:dumbbuf_hotkey=''
-
 
 " ctrlp settings
 let g:ctrlp_use_migemo = 1

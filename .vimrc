@@ -739,8 +739,8 @@ augroup vimrc-checktime
 augroup END
 
 " load vim plugins
-if filereadable(expand('~/.vimrc.plugins'))
-    source ~/.vimrc.plugins
+if filereadable(expand('~/dotfiles/.vimrc.plugins'))
+    source ~/dotfiles/.vimrc.plugins
 endif
 
 " load local settings
