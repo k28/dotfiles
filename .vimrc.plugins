@@ -90,6 +90,9 @@ NeoBundle 'tpope/vim-markdown'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kannokanno/previm'
 
+" for plantuml
+NeoBundle 'aklt/plantuml-syntax'
+
 " for cpp
 NeoBundle 'kana/vim-altr'
 " LSP For C++ 
