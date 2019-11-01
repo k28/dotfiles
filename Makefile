@@ -1,15 +1,19 @@
 #DOT_FILES = .bash_profile .bashrc .gvimrc .vim .vimrc
-DOT_FILES = .bashrc .gvimrc .vim .vimrc .ackrc .vrapperrc .xvimrc .inputrc .ideavimrc .tmux.conf .vimrc.plugins
+DOT_FILES = .bashrc .gvimrc .vim .vimrc .ackrc .vrapperrc .xvimrc .inputrc .ideavimrc .tmux.conf .vimrc.plugins .emacs
 
 all: bash vim gvim ack vrapperrc xvimrc inputrc ideavimrc tmux
 
 vimonly: vim gvim vrapperrc xvimrc ideavimrc
+
+emacsonly: emacs
 
 ackonly: ack
 
 bash: $(foreach f, $(filter .bash%, $(DOT_FILES)), link-dot-file-$(f))
 
 vim: $(foreach f, $(filter .vim%, $(DOT_FILES)), link-dot-file-$(f))
+
+emacs: $(foreach f, $(filter .emacs%, $(DOT_FILES)), link-dot-file-$(f))
 
 gvim: $(foreach f, $(filter .gvim%, $(DOT_FILES)), link-dot-file-$(f))
 
