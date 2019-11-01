@@ -39,6 +39,9 @@ set ignorecase
 set smartcase
 set hlsearch
 
+" yank word to * register
+set clipboard+=unnamed
+
 nnoremap / /\v
 nnoremap ? ?\v
 
