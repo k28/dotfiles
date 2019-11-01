@@ -1,3 +1,5 @@
+
+; Gosh setting
 (modify-coding-system-alist 'process "gosh" '(utf-8 . utf-8))
 
 (setq scheme-program-name "gosh -i")
