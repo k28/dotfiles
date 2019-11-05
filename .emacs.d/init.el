@@ -27,3 +27,11 @@
 
 (define-key global-map
   "\C-cs" 'scheme-other-window)
+
+; yank to clipboard
+(setq x-select-enable-clipboard t)
+
+; Scroll setting
+(setq scroll-conservarively 1)
+(setq scroll-mergine 5)
+(setq scroll-preserve-screen-position t)
