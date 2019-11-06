@@ -87,3 +87,8 @@
 ;; 履歴をたくさん保存する
 (setq history-length 1000)
 
+;; Auto Complete
+;;(require 'auto-complete-config)
+;;(ac-config-default)
+;;(ac-set-trigger-key "TAB")
+;;(global-auto-complete-mode t)
