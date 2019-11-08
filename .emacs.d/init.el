@@ -10,6 +10,25 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
+;; install packages
+(defvar my/favorite-packages
+  '(
+    ;;; for auto-complete
+    auto-complete
+		  ))
+;; my/favorite-packagesからインストールしていないパッケージをインストール
+(defvar my/package-is-update 0)
+(dolist (package my/favorite-packages)
+  (unless (package-installed-p package)
+    (unless my/package-is-update
+      ;; package がインストールされていなかったらpackageリストを更新する
+      (
+       (setq my/package-is-update 1)
+       (package-refresh-contents)
+      )
+    )
+    (package-install package)))
+
 ;; color theme
 (add-to-list 'custom-theme-load-path
   (file-name-as-directory "~/.emacs.d/themes/"))
@@ -88,7 +107,10 @@
 (setq history-length 1000)
 
 ;; Auto Complete
-;;(require 'auto-complete-config)
-;;(ac-config-default)
-;;(ac-set-trigger-key "TAB")
-;;(global-auto-complete-mode t)
+(require 'auto-complete)
+(require 'auto-complete-config)
+(ac-config-default)
+(ac-set-trigger-key "TAB")
+(global-auto-complete-mode t)
+
+;; EOF
