@@ -17,15 +17,15 @@
     auto-complete
 		  ))
 ;; my/favorite-packagesからインストールしていないパッケージをインストール
-(defvar my/package-is-update 0)
+(defvar my/package-is-update nil)
 (dolist (package my/favorite-packages)
   (unless (package-installed-p package)
     (unless my/package-is-update
       ;; package がインストールされていなかったらpackageリストを更新する
-      (
-       (setq my/package-is-update 1)
+      (progn
+       (setq my/package-is-update t)
        (package-refresh-contents)
-      )
+      :)
     )
     (package-install package)))
 
