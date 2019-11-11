@@ -15,6 +15,8 @@
   '(
     ;;; for auto-complete
     auto-complete
+    ;;; plantuml
+    plantuml-mode
 		  ))
 ;; my/favorite-packagesからインストールしていないパッケージをインストール
 (defvar my/package-is-update nil)
@@ -113,4 +115,20 @@
 (ac-set-trigger-key "TAB")
 (global-auto-complete-mode t)
 
+;; plantuml-mode
+(add-to-list 'auto-mode-alist '("\.pu$" . plantuml-mode))
+
+
 ;; EOF
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (plantuml-mode auto-complete))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
