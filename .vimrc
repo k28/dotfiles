@@ -95,7 +95,7 @@ inoremap <Up> <NOP>
 inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
-inoremap <C-b> <Esc><Esc>bi
+inoremap <C-b> <Esc><Esc>i
 endif
 
 " help settings
