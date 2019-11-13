@@ -585,19 +585,6 @@ function! s:grep_from_junkfiles(word)
 endfunction!
 " }}}
 
-function! s:load_file_firstline(filepath)
-    let filename = fnamemodify(a:filepath, ":t")
-
-    let list = readfile(a:filepath, '', 3)
-    for line in list
-        if  line != '[:graph:]' && strlen(line) > 0
-            return line . " :" . filename
-        endif
-    endfor
-
-    return filename
-endfunction
-
 " swift playground test {{{
 " copy MacOSX10.10 SDK from XCode6-Beta7
 " append swift command path to $PATH

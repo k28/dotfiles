@@ -508,6 +508,19 @@ endfunction!
 
 " Unite Sources {{{
 
+function! s:load_file_firstline(filepath)
+    let filename = fnamemodify(a:filepath, ":t")
+
+    let list = readfile(a:filepath, '', 3)
+    for line in list
+        if  line != '[:graph:]' && strlen(line) > 0
+            return line . " :" . filename
+        endif
+    endfor
+
+    return filename
+endfunction
+
 " Unite Source iosframeworks {{{
 let g:unite_source_iosframeworks_frameworks_path =
 			\"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks"
