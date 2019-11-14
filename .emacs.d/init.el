@@ -17,6 +17,8 @@
     auto-complete
     ;;; plantuml
     plantuml-mode
+    ;;; maekdown
+    markdown-mode
 		  ))
 ;; my/favorite-packagesからインストールしていないパッケージをインストール
 (defvar my/package-is-update nil)
@@ -118,6 +120,10 @@
 ;; plantuml-mode
 (add-to-list 'auto-mode-alist '("\.pu$" . plantuml-mode))
 
+;; maekdown-mode
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.md$" . gfm-mode))
 
 ;; EOF
 (custom-set-variables
