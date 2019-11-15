@@ -40,6 +40,10 @@
 (load-theme 'desert t t)
 (enable-theme 'desert)
 
+;; backup file setting
+(setq maek-backup-files nil)
+(setq auto-save-default nil)
+
 ;; Gosh setting
 (modify-coding-system-alist 'process "gosh" '(utf-8 . utf-8))
 
