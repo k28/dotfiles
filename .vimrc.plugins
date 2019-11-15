@@ -47,6 +47,7 @@ NeoBundle 'vim-scripts/camelcasemotion'
 " NeoBundle 'Shougo/neocomplcache.git'
 NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'k28/tasklog-vim'
 if has("unix")
 	let s:uname = system("uname")
 	if s:uname == "Darwin\n"
