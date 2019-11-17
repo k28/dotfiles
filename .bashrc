@@ -1,5 +1,21 @@
 # .bashrc
 
+function isbash() {
+    set | grep -ai bash_version
+    return $?
+}
+
+function iszsh() {
+    set | grep -ai zsh_version
+    return $?
+}
+
+is_bash=0
+set | grep -ai bash_version > /dev/null
+if [[ $? -eq 0 ]]; then
+    is_bash=1
+fi
+
 # User specific aliases and functions
 
 alias ls='ls -G'
@@ -14,7 +30,9 @@ alias cd.....="cd ../../../../"
 alias cd......="cd ../../../../../"
 
 # spell check for cd command.
-shopt -s cdspell
+if [[ $is_bash -eq 1 ]]; then
+    shopt -s cdspell
+fi
 
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -184,7 +202,9 @@ function share_history {
     history -r
 }
 PROMPT_COMMAND='share_history'
-shopt -u histappend
+if [[ $is_bash -eq 1 ]]; then
+    shopt -u histappend
+fi
 
 # Java home path
 if [ -f /usr/libexec/java_home ]; then
