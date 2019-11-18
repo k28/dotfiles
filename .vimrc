@@ -106,6 +106,7 @@ set helplang=en
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-k> <Up>
+cnoremap <C-b> <LEFT>
 
 " <, > indent
 vnoremap < <gv
