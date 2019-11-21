@@ -723,6 +723,14 @@ endfunction
 
 " ----- Selft defined function END ----- }}}
 
+" TODO
+"
+" Create "insert Markdown modeline" command
+" <!-- vim:set ft=markdown ts=2 sw=2 sts=2: -->
+"
+" Copy2Clipboard
+"
+
 " Reload Files
 augroup vimrc-checktime
 	autocmd!
