@@ -114,15 +114,16 @@ NeoBundle 'vim-scripts/Align'
 NeoBundle 'glidenote/memolist.vim'
 " github NeoBundle 'name/foo.vim'
 " www.vim.org NeoBundle 'bar.vim'
+
 " C# settings
-if has("win32") || has("win64")
-    NeoBundle 'nosami/Omnisharp', {
-                \       'autoload' : {'filetypes' : ['cs']},
-                \       'build' : {
-                \           'windows' : 'MSBuild.exe server/OmuniSharp.sln /p:Platform="Any CPU"',
-                \       }
-                \   }
-endif
+" if has("win32") || has("win64")
+"     NeoBundle 'nosami/Omnisharp', {
+"                 \       'autoload' : {'filetypes' : ['cs']},
+"                 \       'build' : {
+"                 \           'windows' : 'MSBuild.exe server/OmuniSharp.sln /p:Platform="Any CPU"',
+"                 \       }
+"                 \   }
+" endif
 
 " for Gauche
 NeoBundle 'aharisu/vim_goshrepl'
