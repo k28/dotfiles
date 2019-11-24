@@ -33,6 +33,7 @@ set cursorline
 set noundofile      " do not create *.un~
 set laststatus=2
 set wildmenu wildmode=list:full
+"set isfname+=32     " open filenames containing spaces with gf
 
 " Search settings
 set ignorecase
