@@ -303,7 +303,7 @@ endif
 let g:lsp_log_file = ''
 call lsp#register_server({
             \ 'name': 'clangd',
-            \ 'cmd': {server_info->['clangd-6.0']},
+            \ 'cmd': {server_info->['clangd']},
             \ 'whitelist': ['c', 'cpp'],
             \ })
 " clangdのコマンド名を入れつ必要がある
