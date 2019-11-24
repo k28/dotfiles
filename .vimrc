@@ -535,6 +535,13 @@ command! -nargs=0 CopyWord2Clipboad call s:copy_word_to_clipboard()
 function! s:copy_word_to_clipboard()
 	normal "*yiw
 endfunction
+
+command! -nargs=0 CopyFilePath2Clipboard call s:copy_file_path_to_clipbpard()
+function! s:copy_file_path_to_clipbpard()
+    let file_path = expand('%:p')
+    let @* = file_path
+endfunction
+
 " }}}
 
 " ChangeTabToPipeline. " {{{
