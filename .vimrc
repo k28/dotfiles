@@ -780,3 +780,7 @@ if has('vim_starting')
 endif
 " load current path localvimrc }}}
 
+
+" make vim configure
+" ./configure --enable-multibyte --enable-perlinterp --disable-selinux --enable-python3interp=yes --enable-luainterp=yes --enable-pythoninterp=yes
+
