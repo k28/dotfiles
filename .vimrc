@@ -117,6 +117,7 @@ vnoremap > >gv
 inoremap <silent> <C-a> <ESC>I
 inoremap <silent> <C-e> <ESC>$a
 inoremap <silent> <C-f> <ESC>la
+inoremap <silent> <C-b> <ESC>ha
 inoremap <silent> <C-j> <ESC>/([^()]*)<CR>v%g<C-h>
 inoremap {} {}<Left>
 inoremap [] []<Left>
