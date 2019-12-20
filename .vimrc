@@ -730,6 +730,16 @@ function! ConvertVBDBParamToMySQLFormat()
 endfunction
 " }}}
 
+command! -nargs=* InsertMarkdownModeline call <SID>InsertMarkdownModeline()
+function! s:InsertMarkdownModeline()
+    " markdownのモードラインを挿入する
+    " TODO ファイルの一番下に挿入する (できればあるかチェックしてなければ入れる)
+    let modeline_text = "<!-- vim:set ft=markdown ts=2 sw=2 sts=2: -->"
+    let pos = getpos(".")
+    execute ":normal a" . modeline_text
+    call setpos('.', pos)
+endfunction
+
 " ----- Selft defined function END ----- }}}
 
 " TODO
@@ -780,7 +790,6 @@ if has('vim_starting')
     call s:LoadLocalVimrc(expand('<afile>:p:h'))
 endif
 " load current path localvimrc }}}
-
 
 " make vim configure
 " ./configure --enable-multibyte --enable-perlinterp --disable-selinux --enable-python3interp=yes --enable-luainterp=yes --enable-pythoninterp=yes
