@@ -250,8 +250,8 @@ command! -nargs=* SearchCurrentWordCaller call <SID>SearchCurrentWordCaller()
 function! s:SearchCurrentWordCaller()
 	let wordUnderCursor = expand("<cword>")
 	if executable('ack')
-		if &filetype == "objc" || &filetype == "objcpp"
-            let xcode_project_path = <SID>XCodeProjectDir()
+		if &filetype == "objc" || &filetype == "objcpp" || &filetype == "swift"
+            let xcode_project_path = XCodeProjectDir()
 			execute ":Ack " . "'" . '^(?!.*-).*' . wordUnderCursor . ".*" ."'" . ' ' . xcode_project_path
 		elseif &filetype == "java"
 			execute ":Ack " . "'" . '^(?!.*(void|private|public|protected)).*' . wordUnderCursor . "\\s*\\(.*\\)'"
@@ -670,7 +670,7 @@ endfunction
 " }}}
 
 " Search current file XCode project path {{{
-function! s:XCodeProjectDir()
+function! XCodeProjectDir()
     let currentPath = fnamemodify(expand('%:p'), ":p:h")
     while 1
         let fileList = glob(currentPath . "/*\.xcodeproj")
