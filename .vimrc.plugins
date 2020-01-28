@@ -301,8 +301,8 @@ endif
 
 " vim-lsp setting{{{
 " let g:lsp_log_verbose = 1
-" let g:lsp_log_file = expand('~/vim-lsp.log')
-let g:lsp_log_file = ''
+let g:lsp_log_file = expand('~/vim-lsp.log')
+" let g:lsp_log_file = ''
 call lsp#register_server({
             \ 'name': 'clangd',
             \ 'cmd': {server_info->['clangd']},
@@ -327,6 +327,23 @@ if executable('sourcekit-lsp')
         autocmd FileType swift setlocal omnifunc=lsp#complete
     augroup END
 endif
+
+" ruby lsp-setting
+if executable('solargraph')
+    " gem install solargraph
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'solargraph',
+                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'solargraph stdio']},
+                \ 'initialization_options': {"diagnostics": "true"},
+                \ 'whitelist': ['ruby'],
+                \ })
+
+    augroup ruby_lsp_omnifunc
+        autocmd!
+        autocmd FileType ruby setlocal omnifunc=lsp#complete
+    augroup END
+endif
+
 
 "}}}
 
