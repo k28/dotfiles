@@ -11,3 +11,14 @@ RPROMPT=\$vcs_info_msg_0_
 # PROMPT=\$vcs_info_msg_0_'%# '
 zstyle ':vcs_info:git:*' formats '%b'
 
+bindkey '^]' peco-src
+function peco-src() {
+  local src=$(ghq list --full-path | peco --query "$LBUFFER")
+  if [ -n "$src" ]; then
+      BUFFER="cd $src"
+      zle accept-line
+  fi
+  zle -R -c
+}
+zle -N peco-src
+
