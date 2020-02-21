@@ -223,6 +223,11 @@ if [ -d ~/bin ]; then
     export PATH=~/bin:$PATH
 fi
 
+if [ -d /usr/local/go ]; then
+    export GOPATH=$(go env GOPATH)
+    export PATH=$PATH:$GOPATH/bin
+fi
+
 nXCodeToolChainsPath='/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin'
 if [ -d $nXCodeToolChainsPath ]; then
     export PATH=$PATH:"$nXCodeToolChainsPath"
