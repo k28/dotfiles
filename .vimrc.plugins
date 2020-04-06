@@ -324,7 +324,7 @@ let g:asyncomplete_auto_completeopt = 0
 
 augroup cpp_lsp_omnifunc
     autocmd!
-    autocmd FileType cpp setlocal omnifunc=lsp#complete
+    autocmd FileType c,cpp setlocal omnifunc=lsp#complete
 augroup END
 
 " vim-lsp-swift setting
