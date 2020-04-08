@@ -138,6 +138,8 @@ augroup vimrc
     au BufRead,BufNewFile *.md set filetype=markdown
 augroup END
 
+" tags setting
+set tags=.tags;$HOME
 
 " Backup mode. {{{
 if has("win32") || has("win64")
