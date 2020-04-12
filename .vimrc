@@ -131,7 +131,7 @@ inoremap <silent> <C-@> <ESC>
 augroup vimrc
     autocmd!
     " show QuickFix automatically
-    au QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
+    au QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen | redraw!
     au QuickfixCmdPost l* lopen
 
     " file types
