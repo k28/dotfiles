@@ -84,6 +84,7 @@ NeoBundle 'kamichidu/vim-unite-javaimport', {
 
 " for vimscript-help
 NeoBundle 'mattn/learn-vimscript.git'
+NeoBundle 'LeafCage/vimhelpgenerator'
 
 " for PHP
 " NeoBundle 'joonty/vdebug'
@@ -92,6 +93,7 @@ NeoBundle 'mattn/learn-vimscript.git'
 NeoBundle 'tpope/vim-markdown'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kannokanno/previm'
+NeoBundle 'k28/markdowncat-vim'
 
 " for plantuml
 NeoBundle 'aklt/plantuml-syntax'
