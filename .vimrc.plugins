@@ -42,7 +42,7 @@ NeoBundle 'a.vim'
 NeoBundle 'cocoa.vim'
 NeoBundle 'taglist.vim'
 NeoBundle 'sudo.vim'
-NeoBundle 'EnhCommentify.vim'
+" NeoBundle 'EnhCommentify.vim'
 NeoBundle 'vim-scripts/camelcasemotion'
 " NeoBundle 'Shougo/neocomplcache.git'
 NeoBundle 'osyo-manga/vim-over'
@@ -179,6 +179,20 @@ let g:alternateExtensions_cxx = "h,hpp"
 let g:quickrun_config={'*': {'split': ''}}
 set splitright
 
+"  STDIN からの入力を渡してQuickRunする設定
+let g:quickrun_stdin_file = '.stdin'
+command! -nargs=*  QuickRunWithSTDIN call <SID>QuickRunWithSTDIN()
+function! s:QuickRunWithSTDIN()
+    if !filereadable(g:quickrun_stdin_file)
+        execute "QuickRun"
+        return
+    endif
+
+    " <とstdinはスペースを開けずに指定する
+    execute "QuickRun <" . g:quickrun_stdin_file
+endfunction
+nnoremap <Leader>r :QuickRunWithSTDIN<CR>
+
 " unite.vim settings
 nnoremap <silent> ;; :OpenFileSearchCom<CR>
 "noremap ;; :Unite buffer<CR>
@@ -199,13 +213,13 @@ function! s:OpenFileSearch()
 endfunction
 
 " EnhCommentify settings
-function! EnhCommentifyCallback(ft)
-	if a:ft == 'objc'
-		let b:ECcommentOpen = '//'
-		let b:ECcommentClose = ''
-	endif
-endfunction
-let g:EnhCommentifyCallbackExists = 'Yes'
+"function! EnhCommentifyCallback(ft)
+"	if a:ft == 'objc'
+"		let b:ECcommentOpen = '//'
+"		let b:ECcommentClose = ''
+"	endif
+"endfunction
+"let g:EnhCommentifyCallbackExists = 'Yes'
 
 let g:clang_complete_getopts_ios_sdk_directory = '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.2.sdk/'
 let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib'
