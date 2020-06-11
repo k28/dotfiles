@@ -199,6 +199,17 @@ augroup BinaryXXD
 augroup END
 " }}}
 
+" format JavaScript{{{
+command! -nargs=0 FormatJS call <SID>FormatJS()
+function! s:FormatJS()
+    if executable('jq')
+        execute ":%!jq '.'"
+    else
+        echo "Please install jq."
+    end
+endfunction
+"}}}
+
 " Self defined functions {{{
 
 " Insert Current Date to Last of line
