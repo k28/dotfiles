@@ -321,6 +321,9 @@ if has("unix")
     endif
 endif
 
+" sonictemplate
+let g:sonictemplate_vim_template_dir = '$HOME/.vim/sonictemplate'
+
 
 " vim-lsp setting{{{
 " let g:lsp_log_verbose = 1
