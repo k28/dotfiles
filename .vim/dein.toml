@@ -1,0 +1,183 @@
+[[plugins]]
+repo = 'Shougo/unite.vim'
+
+[[plugins]]
+repo = 'Shougo/unite-outline'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+hook_post_update = '''
+  if has('win32')
+    let cmd = 'tools\\update-dll-mingw'
+  elseif has('win32unix') " for Cygwin
+    let cmd = 'make -f make_cygwin.mak'
+  elseif executable('gmake')
+    let cmd = 'gmake'
+  else
+    let cmd = 'make'
+  endif
+  let g:dein#plugin.build = cmd
+'''
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+
+[[plugins]]
+repo = 'mileszs/ack.vim'
+
+#[[plugins]]
+#repo = 'vim-scripts/sh.vim'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'thinca/vim-qfreplace'
+
+[[plugins]]
+repo = 'kien/ctrlp.vim'
+
+#repo = 'a.vim'
+#repo = 'cocoa.vim'
+
+[[plugins]]
+repo = 'vim-scripts/taglist.vim'
+
+[[plugins]]
+repo = 'vim-scripts/sudo.vim'
+##repo = 'vim-scripts/camelcasemotion'
+
+[[plugins]]
+repo = 'osyo-manga/vim-over'
+
+# Git plugin
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'k28/tasklog-vim'
+
+[[plugins]]
+repo = 'mattn/vim-sonictemplate'
+
+[[plugins]]
+repo = 'lambdalisue/fern.vim'
+
+[[plugins]]
+repo = 'thinca/vim-fontzoom'
+if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
+
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
+
+[[plugins]]
+repo = 'keith/swift.vim'
+if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
+
+[[plugins]]
+repo = 'toyamarinyon/vim-swift'
+if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
+
+[[plugins]]
+repo = 'thinca/vim-ref'
+if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
+
+[[plugins]]
+repo = 'ryanolsonx/vim-lsp-swift'
+
+## for html
+[[plugins]]
+repo = 'mattn/emmet-vim'
+
+[[plugins]]
+repo = 'mattn/webapi-vim'
+
+[[plugins]]
+repo = 'hail2u/vim-css3-syntax'
+
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+
+## For Java
+#repo = 'artur-shaik/vim-javacomplete2'
+#repo = 'vim-scripts/TagHighlight'
+
+## for vimscript-help
+[[plugins]]
+repo = 'mattn/learn-vimscript.git'
+
+[[plugins]]
+repo = 'LeafCage/vimhelpgenerator'
+
+## for PHP
+#[[plugins]]
+# repo = 'joonty/vdebug'
+
+## for Markdown
+[[plugins]]
+repo = 'tpope/vim-markdown'
+
+[[plugins]]
+repo = 'dhruvasagar/vim-table-mode'
+on_ft = 'markdown'
+
+[[plugins]]
+repo = 'kannokanno/previm'
+
+[[plugins]]
+repo = 'k28/markdowncat-vim'
+
+## for plantuml
+[[plugins]]
+repo = 'aklt/plantuml-syntax'
+
+## for cpp
+#repo = 'kana/vim-altr'
+
+## LSP Settings
+[[plugins]]
+repo = 'prabirshrestha/async.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'
+
+## for kotlin
+[[plugins]]
+repo = 'udalov/kotlin-vim'
+
+## for SQL
+#[[plugins]]
+#repo = 'vim-scripts/SQLUtilities'
+
+#[[plugins]]
+#repo = 'vim-scripts/Align'
+
+## for golang
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+
+[[plugins]]
+repo = 'mattn/vim-goimports'
+
+## NeoBundle 'k28/evervim'
+[[plugins]]
+repo = 'glidenote/memolist.vim'
+
+## for Gauche
+[[plugins]]
+repo = 'aharisu/vim_goshrepl'
+
+## for status line
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+

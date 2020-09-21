@@ -1,152 +1,54 @@
 
-" NeoBunle Settings ------------- {{{
-"filetype off
-"if has("win32") || has("win64")
-"	set rtp+=~/.vim/bundle/vundle/
-"	call vundle#rc('~/vimfiles/bundle')
-"else
-"	set rtp+=~/.vim/bundle/vundle
-"	call vundle#rc()
-"endif
+" dein.vim settings {{{
+" install dir{{{
+let s:dein_dir = expand('~/.cache/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+"}}}
 
-if has('vim_starting')
-    set nocompatible               " Be iMproved
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
+" dein installation check{{{
+if &runtimepath !~# '/dein.vim'
+    if !isdirectory(s:dein_repo_dir)
+        execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+    endif
+    execute 'set runtimepath^=' . s:dein_repo_dir
 endif
+"}}}
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+" begin settings{{{
+if dein#load_state(s:dein_dir)
+    call dein#begin(s:dein_dir)
 
-NeoBundleFetch 'Shougo/neobundle.vim'
+    let s:rc_dir = expand('~/.vim')
+    if !isdirectory(s:rc_dir)
+        echo ".vim directory not found! (E001)"
+        exit 1
+    endif
+    let s:toml = s:rc_dir . '/dein.toml'
 
-" Vundle managed plugins
-NeoBundle 'gmarik/vundle'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-outline'
-NeoBundle 'Shougo/vimproc', {
-      \ 'build' : {
-      \     'windows' : 'make -f make_mingw32.mak',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
-NeoBundle 'Shougo/vimfiler.vim'
-NeoBundle 'Shougo/vimshell.vim'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'mileszs/ack.vim'
-NeoBundle 'vim-scripts/sh.vim'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'thinca/vim-qfreplace'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'a.vim'
-NeoBundle 'cocoa.vim'
-NeoBundle 'taglist.vim'
-NeoBundle 'sudo.vim'
-" NeoBundle 'EnhCommentify.vim'
-NeoBundle 'vim-scripts/camelcasemotion'
-" NeoBundle 'Shougo/neocomplcache.git'
-NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'k28/tasklog-vim'
-NeoBundle 'mattn/vim-sonictemplate'
-NeoBundle 'lambdalisue/fern.vim'
-if has("unix")
-	let s:uname = system("uname")
-	if s:uname == "Darwin\n"
-		NeoBundle 'thinca/vim-fontzoom'
-		NeoBundle 'vim-jp/vimdoc-ja'
-		NeoBundle 'keith/swift.vim'
-		NeoBundle 'toyamarinyon/vim-swift'
-        NeoBundle 'thinca/vim-ref'
-        NeoBundle 'ryanolsonx/vim-lsp-swift'
-    elseif s:uname == "Linux\n"
-		NeoBundle 'Shougo/neosnippet.vim'
-		NeoBundle 'Shougo/neosnippet-snippets'
-	endif
-" For JavaScript
-"NeoBundle 'marijnh/tern_for_vim'
-" Installした後に npm install する必要がある
+    " read toml and cache
+    call dein#load_toml(s:toml, {'lazy': 0})
+
+    " end settings
+    call dein#end()
+    call dein#save_state()
 endif
+"}}}
 
-" for html
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'pangloss/vim-javascript'
+" plugin installation check{{{
+if dein#check_install()
+    call dein#install()
+endif
+"}}}
 
-" For Java
-NeoBundle 'artur-shaik/vim-javacomplete2'
-NeoBundle 'vim-scripts/TagHighlight'
-NeoBundle 'kamichidu/vim-unite-javaimport', {
-            \ 'depends' :[
-            \ 'kamichidu/vim-javaclasspath',
-            \],
-            \}
+" plugin remove check {{{
+let s:removed_plugins = dein#check_clean()
+if len(s:removed_plugins) > 0
+    call map(s:removed_plugins, "delete(v:val, 'rf')")
+    call dein#recache_runtimepath()
+endif
+"}}}
 
-" for vimscript-help
-NeoBundle 'mattn/learn-vimscript.git'
-NeoBundle 'LeafCage/vimhelpgenerator'
-
-" for PHP
-" NeoBundle 'joonty/vdebug'
-
-" for Markdown
-NeoBundle 'tpope/vim-markdown'
-NeoBundle 'h1mesuke/vim-alignta'
-NeoBundle 'kannokanno/previm'
-NeoBundle 'k28/markdowncat-vim'
-
-" for plantuml
-NeoBundle 'aklt/plantuml-syntax'
-
-" for cpp
-NeoBundle 'kana/vim-altr'
-
-" LSP Settings
-NeoBundle 'prabirshrestha/async.vim'
-NeoBundle 'prabirshrestha/vim-lsp'
-NeoBundle 'prabirshrestha/asyncomplete.vim'
-NeoBundle 'prabirshrestha/asyncomplete-lsp.vim'
-
-" for kotlin
-NeoBundle 'udalov/kotlin-vim'
-
-" for SQL
-NeoBundle 'vim-scripts/SQLUtilities'
-NeoBundle 'vim-scripts/Align'
-
-" for golang
-NeoBundle 'mattn/vim-lsp-settings'
-NeoBundle 'mattn/vim-goimports'
-
-
-" NeoBundle 'k28/evervim'
-NeoBundle 'glidenote/memolist.vim'
-" github NeoBundle 'name/foo.vim'
-" www.vim.org NeoBundle 'bar.vim'
-
-" C# settings
-" if has("win32") || has("win64")
-"     NeoBundle 'nosami/Omnisharp', {
-"                 \       'autoload' : {'filetypes' : ['cs']},
-"                 \       'build' : {
-"                 \           'windows' : 'MSBuild.exe server/OmuniSharp.sln /p:Platform="Any CPU"',
-"                 \       }
-"                 \   }
-" endif
-
-" for Gauche
-NeoBundle 'aharisu/vim_goshrepl'
-
-" for status line
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'vim-airline/vim-airline-themes'
-
-call neobundle#end()
-filetype plugin indent on
-NeoBundleCheck
-
-" ----- Vundle Settings End ----- }}}
+" }}}
 
 " Plugin settings {{{
 

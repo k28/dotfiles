@@ -4,10 +4,6 @@
 
 scriptencoding utf-8
 
-" color scheme
-colorscheme desert
-syntax on
-
 " exchange ; and :
 nnoremap ; :
 nnoremap : ;
@@ -805,6 +801,10 @@ if has('vim_starting')
     call s:LoadLocalVimrc(expand('<afile>:p:h'))
 endif
 " load current path localvimrc }}}
+
+" color scheme
+colorscheme desert
+syntax enable
 
 " make vim configure
 " ./configure --enable-multibyte --enable-perlinterp --disable-selinux --enable-python3interp=yes --enable-luainterp=yes --enable-pythoninterp=yes
