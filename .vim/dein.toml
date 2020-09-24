@@ -50,7 +50,7 @@ repo = 'vim-scripts/sudo.vim'
 [[plugins]]
 repo = 'osyo-manga/vim-over'
 
-# Git plugin
+# Git plgin
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 
@@ -65,23 +65,23 @@ repo = 'lambdalisue/fern.vim'
 
 [[plugins]]
 repo = 'thinca/vim-fontzoom'
-if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
+if = ''' has('unix') && (system('uname') == 'Darwin\n')'''
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
-if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
+if = ''' has('unix') && (system('uname') == 'Darwin\n')'''
 
 [[plugins]]
 repo = 'keith/swift.vim'
-if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
+if = ''' has('unix') && (system('uname') == 'Darwin\n')'''
 
 [[plugins]]
 repo = 'toyamarinyon/vim-swift'
-if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
+if = ''' has('unix') && (system('uname') == 'Darwin\n')'''
 
 [[plugins]]
 repo = 'thinca/vim-ref'
-if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
+if = ''' has('unix') && (system('uname') == 'Darwin\n')'''
 
 [[plugins]]
 repo = 'ryanolsonx/vim-lsp-swift'
