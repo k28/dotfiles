@@ -85,7 +85,7 @@ if = '''! has('unix') && (system('uname') == 'Darwin\n')'''
 
 [[plugins]]
 repo = 'ryanolsonx/vim-lsp-swift'
-if = '''! executable('sourcekit-lsp')'''
+if = ''' executable('sourcekit-lsp')'''
 
 ## for html
 [[plugins]]
