@@ -321,7 +321,7 @@ nnoremap <Leader>a <Plug>(alter-forward)
 
 " termdebug{{{
 packadd termdebug
-let g:termdebug_wide = 200
+let g:termdebug_wide = 1
 
 " augroup ujihisa-vimrc
 "   autocmd TerminalOpen * call s:terminalopen_termdebug()
