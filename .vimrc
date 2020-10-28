@@ -33,6 +33,9 @@ set laststatus=2
 set wildmenu wildmode=list:full
 "set isfname+=32     " open filenames containing spaces with gf
 
+" Enable filetype plugin
+filetype plugin on
+
 " Search settings
 set ignorecase
 set smartcase
