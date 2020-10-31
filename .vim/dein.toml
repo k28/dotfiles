@@ -167,7 +167,9 @@ repo = 'mattn/vim-lsp-settings'
 [[plugins]]
 repo = 'mattn/vim-goimports'
 
-## NeoBundle 'k28/evervim'
+#[[plugins]]
+#repo = 'k28/evervim'
+
 [[plugins]]
 repo = 'glidenote/memolist.vim'
 
