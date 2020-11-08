@@ -102,6 +102,10 @@ RPROMPT='`rprompt-git-current-branch`'
 
 # END prompt setting
 
+# history search
+bindkey -e
+bindkey '^R' history-incremental-search-backward
+
 bindkey '^]' peco-src
 function peco-src() {
   local src=$(ghq list --full-path | peco --query "$LBUFFER")
