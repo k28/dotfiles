@@ -1,5 +1,5 @@
 #DOT_FILES = .bash_profile .bashrc .gvimrc .vim .vimrc
-DOT_FILES = .bashrc .gvimrc .vim .vimrc .ackrc .vrapperrc .xvimrc .inputrc .ideavimrc .tmux.conf .vimrc.plugins .emacs.d .zshrc
+DOT_FILES = .bash_profile .bashrc .gvimrc .vim .vimrc .ackrc .vrapperrc .xvimrc .inputrc .ideavimrc .tmux.conf .vimrc.plugins .emacs.d .zshrc
 
 all: bash vim gvim ack vrapperrc xvimrc inputrc ideavimrc tmux zsh
 
