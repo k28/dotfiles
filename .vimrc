@@ -211,6 +211,17 @@ endfunction
 
 " Self defined functions {{{
 
+" run JQ command
+
+command! -nargs=0 TidyJson call <SID>TidyJson()
+function! s:TidyJson()
+  if executable('jq')
+    execute ":%!jq '.'"
+  else
+    echo "Please install jq 'brew install jq'"
+  endif
+endfunction
+
 " Insert Current Date to Last of line
 command! -nargs=0 InsertCurrentDate call <SID>InsertCurrentDate()
 function! s:InsertCurrentDate()
