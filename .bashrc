@@ -206,11 +206,6 @@ if [[ $is_bash -eq 1 ]]; then
     shopt -u histappend
 fi
 
-# Java home path
-if [ -f /usr/libexec/java_home ]; then
-    export JAVA_HOME=`/usr/libexec/java_home`
-fi
-
 if [ -f ~/.git-completion.bash ]; then
     source ~/.git-completion.bash
 fi
@@ -223,7 +218,7 @@ if [ -d ~/bin ]; then
     export PATH=~/bin:$PATH
 fi
 
-if [ -d /usr/local/go ]; then
+if type go > /dev/null 2>&1; then
     export GOPATH=$(go env GOPATH)
     export PATH=$PATH:$GOPATH/bin
 fi
