@@ -84,7 +84,7 @@ repo = 'thinca/vim-ref'
 if = ''' has('unix') && (system('uname') == 'Darwin\n')'''
 
 [[plugins]]
-repo = 'ryanolsonx/vim-lsp-swift'
+repo = 'k28/vim-lsp-swift'
 if = ''' executable('sourcekit-lsp')'''
 
 ## for html
