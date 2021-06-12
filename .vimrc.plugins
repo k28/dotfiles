@@ -299,6 +299,10 @@ endif
 
 "}}}
 
+" vim-goimports
+" enable auto format whrn write(default)
+let g:goimports = 1
+
 " SQLUTILITIES
 let g:sqlutil_load_default_maps = 0
 

@@ -198,3 +198,7 @@ repo = 'vim-airline/vim-airline'
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
 
+## for Dcoker
+[[plugins]]
+repo = 'skanehira/docker.vim'
+

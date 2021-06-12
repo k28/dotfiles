@@ -117,3 +117,4 @@ function peco-src() {
 }
 zle -N peco-src
 
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
