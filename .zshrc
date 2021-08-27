@@ -118,3 +118,14 @@ function peco-src() {
 zle -N peco-src
 
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+alias arm="exec arch -arch arm64e /bin/zsh --login"
+alias x64="exec arch -arch x86_64 /bin/zsh --login"
+
+# setup jump command
+if type "jump" > /dev/null 2>&1; then
+  eval "$(jump shell)"
+else
+  echo "jump command not found!"
+fi
+
