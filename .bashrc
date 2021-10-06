@@ -29,6 +29,9 @@ alias cd....="cd ../../../"
 alias cd.....="cd ../../../../"
 alias cd......="cd ../../../../../"
 
+# git alias
+alias g="git"
+
 # spell check for cd command.
 if [[ $is_bash -eq 1 ]]; then
     shopt -s cdspell
