@@ -31,6 +31,14 @@ inputrc: $(foreach f, $(filter .inputrc, $(DOT_FILES)), link-dot-file-$(f))
 
 tmux: $(foreach f, $(filter .tmux.conf, $(DOT_FILES)), link-dot-file-$(f))
 
+# this not work at 'all'.
+add-git-alias:
+	git config --global alias.tree 'log --graph --all --format="%x09%C(cyan bold)%an%Creset%x09%C(yellow)%h%Creset %C(magenta reverse)%d%Creset %s"'
+	git config --global alias.s  'status'
+	git config --global alias.dc 'diff --cached'
+	git config --global alias.au 'add -u'
+	git config --global alias.c  'commit -v'
+
 .PHONY: clean
 clean: $(foreach f, $(DOT_FILES), unlink-dot-file-$(f))
 
