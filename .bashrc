@@ -196,6 +196,14 @@ else # not Debian
 
     # stop Ctrl-S to stty stop
     stty stop undef
+
+    # 次の曜日を出力する (echo 2017-09-18 | nextwd Tue   => 2017-09-26)
+    if type "gdate" > /dev/null 2>&1; then
+        nextwd() {read d; gdate -d "$d $((7 - $(gdate -d $d +%w) + $(gdate -d $1 +%w))) day" +%F; }
+    else
+        echo 'gdate command not installed.'
+        echo 'Install: $ brew install coreutils'
+    if
 fi
 # -------------------
 
