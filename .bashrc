@@ -64,7 +64,6 @@ function date2ut {
 export PYTHONDONTWRITEBYTECODE=1
 
 # From Ubuntu
-
 if [ -r /etc/debian_version ]; then
 
     # If not running interactively, don't do anything
@@ -190,6 +189,12 @@ else # not Debian
     HISTFILESIZE=99999
     HISTIGNORE=ls:sl
 
+    # brew path
+    # arm64版 /opt/homebrew, x86_64版 /usr/local/bin の２つを設定する
+    if [ -d /opt/homebrew/bin ]; then
+        export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
+    fi
+
     # Change man pager to vim
     # Vim open the man page in No Name buffer. It is not possible to grep in the No Name buffer.
     # export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
@@ -198,12 +203,12 @@ else # not Debian
     stty stop undef
 
     # 次の曜日を出力する (echo 2017-09-18 | nextwd Tue   => 2017-09-26)
-    if type "gdate" > /dev/null 2>&1; then
-        nextwd() {read d; gdate -d "$d $((7 - $(gdate -d $d +%w) + $(gdate -d $1 +%w))) day" +%F; }
+    if type gdate > /dev/null 2>&1; then
+        nextwd() { read d; gdate -d "$d $((7 - $(gdate -d $d +%w) + $(gdate -d $1 +%w))) day" +%F; }
     else
         echo 'gdate command not installed.'
         echo 'Install: $ brew install coreutils'
-    if
+    fi
 fi
 # -------------------
 
