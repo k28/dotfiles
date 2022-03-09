@@ -32,6 +32,7 @@ set noundofile      " do not create *.un~
 set laststatus=2
 set wildmenu wildmode=list:full
 "set isfname+=32     " open filenames containing spaces with gf
+set belloff=all
 
 " Enable filetype plugin
 filetype plugin on
