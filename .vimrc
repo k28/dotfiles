@@ -133,11 +133,12 @@ inoremap <silent> <C-@> <ESC>
 augroup vimrc
     autocmd!
     " show QuickFix automatically
-    au QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen | redraw!
-    au QuickfixCmdPost l* lopen
+    autocmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen | redraw!
+    autocmd QuickfixCmdPost l* lopen
 
     " file types
-    au BufRead,BufNewFile *.md set filetype=markdown
+    autocmd BufRead,BufNewFile *.md set filetype=markdown
+    autocmd BufRead,BufNewFile *.slim set filetype=ruby
 augroup END
 
 " tags setting
