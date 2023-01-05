@@ -79,7 +79,15 @@ let g:alternateExtensions_cpp = "h,hpp"
 let g:alternateExtensions_cxx = "h,hpp"
 
 " vim-quickrun option
-let g:quickrun_config={'*': {'split': ''}}
+let g:quickrun_config={
+\   '_': {
+\       'split': ''
+\   }
+\ }
+let g:quickrun_config.cpp = {
+\    'command' : 'clang++',
+\    'cmdopt' : '-std=c++11'
+\}
 set splitright
 
 "  STDIN からの入力を渡してQuickRunする設定
