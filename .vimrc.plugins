@@ -169,12 +169,31 @@ let tlist_objc_settings = 'objc;P:protocols;i:interfaces;I:implementations;M:ins
 let g:dumbbuf_hotkey=''
 
 " ctrlp settings
-let g:ctrlp_use_migemo = 1
 let g:ctrlp_clear_cache_on_exit = 1   " 終了時キャッシュをクリアする
 let g:ctrlp_mruf_max            = 500 " MRUの最大記録数
 let g:ctrlp_open_new_file       = 1   " 新規ファイル作成時にタブで開く
 let g:ctrlp_switch_buffer       = 0   " すでに開かれている時にもその場所で開く
 let g:ctrlp_regexp = 1 " regexp mode
+
+function! MigemoMatch(items, str, limit, mmode, ispath, crfile, regex)
+  let tmp = tempname()
+  try
+    if a:str =~ '^\s*$'
+      return copy(a:items)
+    endif
+    call writefile(split(iconv(join(a:items, "\n"), &encoding, 'utf-8'), "\n"), tmp)
+    return split(iconv(system(
+    \  printf('migemogrep %s %s',
+    \    shellescape(a:str),
+    \    shellescape(tmp))), 'utf-8', &encoding), "\n")
+  catch
+    return []
+  finally
+    call delete(tmp)
+  endtry
+endfunction
+" 以下を有効にすると、CTRLPでmigemoを使って検索できる (でもモッサリする)
+" let g:ctrlp_match_func = {'match' : 'MigemoMatch' }
 
 " neocomplcache plugin
 " if !exists('g:neocomplcache_force_omni_patterns')
