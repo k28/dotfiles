@@ -351,7 +351,7 @@ endfunction
 nnoremap <Leader>a <Plug>(alter-forward)
 
 " termdebug{{{
-packadd termdebug
+packadd! termdebug
 let g:termdebug_wide = 1
 
 " augroup ujihisa-vimrc
