@@ -284,6 +284,12 @@ if executable('sourcekit-lsp')
     augroup END
 endif
 
+" swiftファイルを開いたときにエディタ上に警告が出ないようにします
+augroup LspSwiftNoDiagnostics
+  autocmd!
+  autocmd FileType swift call lsp#disable_diagnostics_for_buffer()
+augroup END
+
 " ruby lsp-setting
 if executable('solargraph')
     " gem install solargraph

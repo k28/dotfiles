@@ -767,6 +767,88 @@ function! s:InsertMarkdownModeline()
     call setpos('.', pos)
 endfunction
 
+
+" Convert to Swfit Localizable String {{{
+
+" 行内で「エスケープされていない」ダブルクォーテーションを探すヘルパー
+" 戻り値: 見つかった位置 (0-origin) / 見つからなければ -1
+function! s:FindUnescapedQuote(line_str, start, stop, step) abort
+  for i in range(a:start, a:stop, a:step)
+    if a:line_str[i] ==# '"'
+      " 直前のバックスラッシュ数を数える
+      let bs = 0
+      let j = i - 1
+      while j >= 0 && a:line_str[j] ==# '\'
+        let bs += 1
+        let j -= 1
+      endwhile
+      " バックスラッシュが偶数個なら「生」のダブルクォーテーション
+      if bs % 2 == 0
+        return i
+      endif
+    endif
+  endfor
+  return -1
+endfunction
+
+" ダブルクォーテーションで囲まれた Swift 文字列を
+" String(localized: "xxx", defaultValue: "…") に変換する
+function! ConvertSwiftLocalizable() abort
+  let lnum     = line('.')
+  let line_str = getline(lnum)
+
+  " col() は 1-origin のバイト位置
+  let col0     = col('.') - 1
+  let len_line = strlen(line_str)
+
+  " --- 開きダブルクォーテーションを後ろ向きに探す ---
+  let start = s:FindUnescapedQuote(line_str, col0, 0, -1)
+  if start == -1
+    echoerr 'ConvertSwiftLocalizable: starting quote not found on this line'
+    return
+  endif
+
+  " --- 閉じダブルクォーテーションを前向きに探す ---
+  let end = s:FindUnescapedQuote(line_str, start + 1, len_line - 1, 1)
+  if end == -1
+    echoerr 'ConvertSwiftLocalizable: ending quote not found on this line'
+    return
+  endif
+
+  " --- 中身の文字列を取得（"...." の .... 部分） ---
+  let inner = strpart(line_str, start + 1, end - start - 1)
+
+  " 先頭が # なら削除
+  if inner =~# '^#'
+    let inner = inner[1:]
+  endif
+
+  " 行の前後を分割
+  let before = strpart(line_str, 0, start)
+  let after  = strpart(line_str, end + 1)
+
+  " 新しいコードを組み立て
+  " inner には元のエスケープ（\" など）がそのまま入る
+  let new = before
+        \ . 'String(localized: "xxx", defaultValue: "'
+        \ . inner
+        \ . '")'
+        \ . after
+
+  call setline(lnum, new)
+
+  " --- カーソルを xxx の先頭に移動 ---
+  let prefix = before . 'String(localized: "'
+  let idx_x  = strlen(prefix) " 0-origin
+
+  call cursor(lnum, idx_x + 1) " col は 1-origin
+endfunction
+
+command! ConvertSwiftLocalizable call ConvertSwiftLocalizable()
+
+" }}}
+
+
 " ----- Selft defined function END ----- }}}
 
 " TODO
