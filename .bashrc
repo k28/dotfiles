@@ -60,6 +60,11 @@ function date2ut {
   /bin/date -j -f "%Y/%m/%d %H:%M:%S" "$1" +%s
 }
 
+# Finderからドラッグしたパスのファイル名を省いたフォルダに移動する
+function cdf {
+    cd "$(dirname "$1")"
+}
+
 # Disallow Python create .pyc file
 export PYTHONDONTWRITEBYTECODE=1
 
